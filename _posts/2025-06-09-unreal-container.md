@@ -2,7 +2,7 @@
 title: 언리얼 컨테이너 라이브러리
 description: 언리얼 컨테이너
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [container]
 math: true

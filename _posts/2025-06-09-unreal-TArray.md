@@ -2,7 +2,7 @@
 title: TArray
 description: TArray
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [TArray, container]
 math: true

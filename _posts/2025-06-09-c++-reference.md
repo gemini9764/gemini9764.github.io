@@ -2,7 +2,7 @@
 title: 레퍼런스
 description: C++ 레퍼런스에 대한 내용 정리
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-09 21:00:00 +09:00
 categories: [C++]
 tags: [reference]
 math: true

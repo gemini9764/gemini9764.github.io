@@ -2,7 +2,7 @@
 title: 가비지 컬렉션
 description: 가비지 컬렉션 시스템
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [garbage_collection]
 math: true

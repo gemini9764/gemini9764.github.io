@@ -2,7 +2,7 @@
 title: 언리얼 C++ 기본 타입과 문자열
 description: 자료형의 타입과 문자열
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [type]
 math: true

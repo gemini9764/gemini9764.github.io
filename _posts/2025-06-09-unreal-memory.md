@@ -2,7 +2,7 @@
 title: 언리얼 메모리 관리
 description: 메모리 관리
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [memory]
 math: true

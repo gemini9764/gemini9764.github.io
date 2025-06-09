@@ -2,7 +2,7 @@
 title: 에셋 정보의 저장과 로딩 전략
 description: 에셋 정보의 저장과 로딩 전략
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [asset]
 math: true

@@ -2,7 +2,7 @@
 title: 언리얼 모듈
 description: 모듈
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [module]
 math: true

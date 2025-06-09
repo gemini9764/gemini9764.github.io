@@ -2,7 +2,7 @@
 title: 언리얼 오브젝트
 description: 오브젝트
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [object]
 math: true

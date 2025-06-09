@@ -2,7 +2,7 @@
 title: FName 클래스
 description: FName 클래스
 author: gemini
-date: YYYY-MM-DD HH:MM:SS +09:00
+date: 2025-06-08 21:00:00 +09:00
 categories: [Unreal, part1]
 tags: [FName]
 math: true
