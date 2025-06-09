@@ -4,7 +4,7 @@ description: C++ 레퍼런스에 대한 내용 정리
 author: gemini
 date: YYYY-MM-DD HH:MM:SS +09:00
 categories: [C++]
-tags: [레퍼런스]
+tags: [reference]
 math: true
 mermaid: true
 ---

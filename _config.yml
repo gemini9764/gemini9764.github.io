@@ -16,7 +16,7 @@ timezone: Asia/Seoul
 
 title: Gemini's DevBlog # the main title
 
-tagline: GDB # it will display as the subtitle
+tagline: 취미와 개발공부를 위한 공간 # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   취미와 개발공부를 위한 공간
