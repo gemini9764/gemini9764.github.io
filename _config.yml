@@ -14,12 +14,12 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Gemini's Dev Lap # the main title
+title: Gemini's DevBlog # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: GDB # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  취미와 공부를 위한 공간
+  취미와 개발공부를 위한 공간
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -224,3 +224,7 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+jekyll_admin:
+  hidden_links:
+  hompage: ""

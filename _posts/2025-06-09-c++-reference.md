@@ -5,16 +5,14 @@ author: gemini
 date: YYYY-MM-DD HH:MM:SS +09:00
 categories: [C++]
 tags: [레퍼런스]
-pin: true
 math: true
 mermaid: true
 ---
 
-# 레퍼런스
-
 - 특정 변수에 대한 별명을 부여하는 것
 
-**`자료형& 변수명`**
+> 자료형& 변수명
+{: .prompt-tip}
 
 ```
 #include <iostream>
@@ -53,9 +51,8 @@ mermaid: true
     - 레퍼런스에 상수 제약을 걸어서 읽기 전용으로 사용 가능
     - 상수 레퍼런스를 사요하면 값을 복사하지 않고도 기존 변수를 보호할 수 있다
 
-```
-예를 들어, const int& cref = x; 하면 복사 과정 없이 x의 값을 읽을 수는 있지만 x값을 수정할 수는 없다
-```
+> 예를 들어, const int& cref = x; 하면 복사 과정 없이 x의 값을 읽을 수는 있지만 x값을 수정할 수는 없다
+{: .prompt-warning}
 
 #### 포인터 vs 레퍼런스
 - 선언과 초기화 시점이 다르다
