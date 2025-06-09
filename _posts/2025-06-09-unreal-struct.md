@@ -22,4 +22,4 @@ mermaid: true
 	- NewObject API를 사용할 수 없음
 - ![언리얼 리플렉션 관련 계층 구조.png](/assets/img/posts/file_photos/언리얼%20리플렉션%20관련%20계층%20구조.png)
 
-[TMap 포스트]((https://gemini9764.github.io/posts/unreal-TMap/))
+[TMap 포스트](https://gemini9764.github.io/posts/unreal-TMap/)
