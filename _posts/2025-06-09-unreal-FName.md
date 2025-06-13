@@ -35,4 +35,5 @@ mermaid: true
 - FName의 형성
 	- 생성자에 문자열 정보를 넣으면 풀을 조사해 적당한 키로 변환하는 작업이 수반됨
 	- Find or Add
+	
 - ![FName의 구조.png](/assets/img/posts/file_photos/FName의 구조.png)
