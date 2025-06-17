@@ -13,7 +13,7 @@ mermaid: true
 
 - 개발 시 반복적으로 등장하는 문제를 해결하기 위한 일반화 된 솔루션
 
-![[디자인 패턴.png]]
+![디자인 패턴.png](/assets/img/posts/file_photos/디자인%20패턴.png)
 
 #### 생성 패턴(Creational Patterns)
 
