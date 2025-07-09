@@ -4,7 +4,7 @@ description: 클린코드를 써야하는 이유와 클린코드와 그렇지 �
 author: gemini
 date: 2025-07-09 18:00:00 +09:00
 categories: [Unreal]
-tags: [객체지향]
+tags: [cleanCode]
 math: true
 mermaid: true
 ---
