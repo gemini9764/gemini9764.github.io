@@ -2,7 +2,7 @@
 title: 클린코드
 description: 클린코드를 써야하는 이유와 클린코드와 그렇지 못한 코드들의 예시
 author: gemini
-date: 2025-07-09 19:00:00 +09:00
+date: 2025-07-09 19:30:00 +09:00
 categories: [Unreal]
 tags: [cleanCode]
 math: true
