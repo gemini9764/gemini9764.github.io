@@ -4,7 +4,7 @@ description: Behavior Tree & Blackboard
 author: gemini
 date: 2025-07-29 19:30:00 +09:00
 categories: [Unreal]
-tags: [AI, Behavior Tree&Blackboard]
+tags: [AI, Behavior_Tree&Blackboard]
 math: true
 mermaid: true
 ---
