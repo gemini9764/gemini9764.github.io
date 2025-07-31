@@ -2,7 +2,7 @@
 title: Gameplay Framwork
 description: Unreal의 Gameplay Framework
 author: gemini
-date: 2025-07-30 16:00:00 +09:00
+date: 2025-07-30 17:00:00 +09:00
 categories: [Unreal]
 tags: [Framework]
 math: true
