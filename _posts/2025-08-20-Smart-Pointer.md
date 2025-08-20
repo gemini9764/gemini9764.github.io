@@ -1,5 +1,5 @@
 ---
-title: Non-UObject 스마트 포인터 & 소유권
+title: Non-Object 스마트 포인터와 소유권
 description: 스마트 포인터
 author: gemini
 date: 2025-08-20 19:00:00 +09:00
