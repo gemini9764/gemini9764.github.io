@@ -2,7 +2,7 @@
 title: 애니메이션 시스템의 기초 원리
 description: 애니메이션 시스템의 기초 원리와 최적화
 author: gemini
-date: 2025-08-22 19:00:00 +09:00
+date: 2025-08-22 18:00:00 +09:00
 categories: [Unreal]
 tags: [Animation]
 math: true
