@@ -254,7 +254,7 @@ title: 새 글 쓰기
 
   function slugify(text) {
     return text.toLowerCase().trim()
-      .replace(/[^\p{L}\p{N}\s-]/gu, '')
+      .replace(/[^\p{L}\p{N}\s+.-]/gu, '')
       .replace(/[\s-]+/g, '-')
       .replace(/^-+|-+$/g, '');
   }
