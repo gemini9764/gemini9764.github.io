@@ -1,0 +1,242 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+/* =========================================================================
+   Chirpy 밤하늘 테마 — assets/css/jekyll-theme-chirpy.scss 맨 아래에 붙여넣기
+   필요한 파일: assets/img/bg/sidebar-sky.svg
+                assets/img/bg/main-stars.svg
+                assets/img/bg/hill-scene.svg
+   ========================================================================= */
+
+/* ---------- 사이드바: 은하수가 흐르는 밤하늘 ---------- */
+#sidebar {
+  background-image: url('/assets/img/bg/sidebar-sky.svg');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+
+  box-shadow:
+    1px 0 0 rgba(150, 190, 255, 0.16),
+    10px 0 34px rgba(0, 0, 0, 0.5);
+
+  .site-title a,
+  .site-subtitle,
+  .nav-link,
+  .sidebar-bottom a,
+  .sidebar-bottom i {
+    color: #e6ecff !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .nav-item.active .nav-link {
+    color: #ffd9a6 !important;
+  }
+
+  #avatar {
+    box-shadow:
+      0 0 0 1px rgba(200, 220, 255, 0.32),
+      0 8px 24px rgba(0, 0, 0, 0.55);
+  }
+}
+
+#sidebar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 14% 6%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0)),
+    radial-gradient(1.5px 1.5px at 68% 11%, rgba(223, 231, 255, 0.9), rgba(255, 255, 255, 0)),
+    radial-gradient(2px 2px at 84% 23%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0)),
+    radial-gradient(1.5px 1.5px at 55% 35%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0)),
+    radial-gradient(2px 2px at 11% 47%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0)),
+    radial-gradient(1.5px 1.5px at 88% 59%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0)),
+    radial-gradient(2px 2px at 62% 71%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0)),
+    radial-gradient(1.5px 1.5px at 26% 83%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  animation: twinkle 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.35; }
+  to   { opacity: 1; }
+}
+
+/* ---------- 배경: 모든 페이지에 밤하늘 + 언덕 ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background-color: #070c1e;
+  background-image: url('/assets/img/bg/main-stars.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  animation: sky-breathe 14s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url('/assets/img/bg/hill-scene.svg');
+  background-size: 100% auto;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
+
+@keyframes sky-breathe {
+  from { filter: brightness(0.94); }
+  to   { filter: brightness(1.08); }
+}
+
+/* 테마 기본 배경을 걷어내 하늘이 보이게 */
+#main-wrapper,
+#tail-wrapper {
+  background: transparent;
+}
+
+#topbar-wrapper {
+  background: rgba(7, 12, 30, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---------- 홈: 글 목록 카드 ---------- */
+#post-list .card {
+  background: rgba(17, 23, 45, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(140, 175, 255, 0.1);
+}
+
+/* ---------- 글·탭 페이지: 본문 전체를 유리판으로 ---------- */
+body:not(:has(#post-list)) #main-wrapper main {
+  background: rgba(16, 22, 44, 0.78);
+  backdrop-filter: blur(14px) saturate(115%);
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  border: 1px solid rgba(150, 185, 255, 0.13);
+  border-radius: 16px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.38);
+  padding: 14px 28px 34px;
+  margin-bottom: 28px;
+}
+
+/* 유리판 안의 카드는 한 겹 더 얹히지 않도록 살짝만 */
+body:not(:has(#post-list)) #main-wrapper main .card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(150, 185, 255, 0.1);
+}
+
+/* ---------- 별 캔버스 레이어 (assets/js/starfield.js 가 생성) ---------- */
+#sky-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* ---------- 페이지 전환 (View Transitions) ---------- */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.32s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 사이드바는 페이드되지 않고 제자리에 머무르게 */
+#sidebar {
+  view-transition-name: sidebar;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* ---------- 스크롤 연동 애니메이션 ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    #post-list .card-wrapper {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 42%;
+    }
+
+    #main-wrapper main h2,
+    #main-wrapper main h3,
+    #main-wrapper main img,
+    #main-wrapper main .highlight {
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 34%;
+    }
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 접근성 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #sidebar::after,
+  body::before {
+    animation: none;
+  }
+  #sidebar::after { opacity: 0.75; }
+}
+
+/* ---------- 모바일 ---------- */
+@media (max-width: 850px) {
+  body::after {
+    background-size: 190% auto;
+    opacity: 0.6;
+  }
+  body:not(:has(#post-list)) #main-wrapper main {
+    padding: 12px 16px 24px;
+    border-radius: 12px;
+  }
+}
