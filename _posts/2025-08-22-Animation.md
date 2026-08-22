@@ -21,7 +21,7 @@ mermaid: true
 
 - Transform - 모든 움직임의 기본 단위
 
-```cpp
+```
 Transform = Location + Rotation + Scale
 
 • Location (위치): Vector3 (X, Y, Z)
@@ -55,7 +55,7 @@ Transform = Location + Rotation + Scale
 
 - Animation Blueprint 구조
 
-```py
+```
 Animation Blueprint
 ├── Event Graph (상황 판단)
 └── Anim Graph (애니메이션 선택 및 블렌딩)
@@ -85,7 +85,7 @@ Animation Blueprint
 
 - 구성 요소
 
-```py
+```
 State Machine
 ├── State (상태) - 특징: 한 번에 하나의 상태만 활성화
 │   ├── 단일 애니메이션
@@ -97,7 +97,7 @@ State Machine
 
 - 전환 조건 예시
 
-```py
+```
 Idle/Walk/Run → Jump Start
 조건: Is In Air == True
 

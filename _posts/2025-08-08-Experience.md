@@ -29,8 +29,7 @@ class AMyCharacter : public ACharacter
 
 - 동작 방식
 
-```json
-graph LR
+```graph LR
     A[MyCharacter 로드] --> B[CharacterMesh 자동 로드<br/>50MB]
     A --> C[CharacterIcon 자동 로드<br/>4MB]
     A --> D[연결된 모든 에셋 로드]
@@ -265,7 +264,7 @@ else
 - 프로젝트 설정
 	- Project Settings -> Game -> Asset Manager
 
-```json
+```
 Primary Asset Types:
 ├── "Weapon"
 │   ├── Base Class: UWeaponDataAsset
@@ -306,7 +305,7 @@ struct FWeaponStats : public FTableRowBase  // 중요! FTableRowBase 상속
 
 - Step 2: CSV 파일 생성
 
-```json
+```
 Name,Damage,FireRate,Range
 Pistol,25,0.3,800
 Rifle,40,0.1,1500
@@ -505,7 +504,7 @@ void ACharacter::EquipWeapon(UWeaponDataAsset* WeaponData)
 
 - 계층 구조
 
-```py
+```
 Experience (게임 모드)
     ├── PawnData (캐릭터 정의)
     │   ├── Abilities
@@ -596,7 +595,7 @@ public:
 - 실제 적용 예시
 	- 같은 맵, 다른 게임
 	- 월요일 : 팀 데스매치
-	```py
+	```
 	Experience: EXP_TeamDeathmatch
 	├── PawnData:
 	│   ├── DA_Assault (돌격병)
@@ -607,7 +606,7 @@ public:
 	```
 	
 	- 화요일 : 배틀로얄
-	```py
+	```
 	Experience: EXP_BattleRoyale
 	├── PawnData:
 	│   └── DA_Default (기본 캐릭터)
@@ -807,7 +806,7 @@ public:
 - Lyra 방식 (데이터 중심 개발)
 - 작업 프로세스
 
-```py
+```
 Step 1: WeaponDataAsset 생성 (5분)
 ├── Content Browser 우클릭
 ├── Miscellaneous > Data Asset
@@ -828,7 +827,7 @@ Step 3: 에디터에서 설정 (5분)
 
 - Data Asset 설정
 
-```py
+```
 // DA_Weapon_SnowflakeLauncher 에디터 설정
 WeaponName: "Snowflake Launcher"
 Description: "Spreads holiday cheer!"

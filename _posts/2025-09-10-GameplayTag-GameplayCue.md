@@ -78,14 +78,14 @@ enum class ECharacterState
 
 - GameplayTag는 **문자열 기반의 계층적 라벨 시스템**
 
-```sh
+```
 Ability.Fire.Bolt         // 파이어볼트 능력
 Status.Debuff.Frozen      // 얼음 디버프 상태
 Cooldown.Ultimate         // 궁극기 쿨다운
 GameplayCue.Explosion     // 폭발 연출 신호
 ```
 
-```py
+```
 Status                    // 최상위 (모든 상태의 부모)
 ├── Status.Buff          // 버프 (긍정적 효과)
 ├── Status.Debuff        // 디버프 (부정적 효과)
@@ -109,7 +109,7 @@ Status                    // 최상위 (모든 상태의 부모)
 
 ##### 계층 구조 - 실제 예시로 이해하기
 
-```cpp
+```
 Status
 ├── Status.Buff
 │   ├── Status.Buff.Temporary.Haste
@@ -260,7 +260,7 @@ UFireBoltAbility::UFireBoltAbility()
 
 - 추천구조
 
-```sh
+```
 Ability
 ├── Ability.Active.Fire.Bolt
 ├── Ability.Passive.FireResist
@@ -420,13 +420,13 @@ public:
 
 - Execute Cue 생명주기
 
-```py
+```
 ExecuteGameplayCue 호출 -> Cue 클래스 찾기 -> OnExecute 실행 -> 자동 정리
 ```
 
 -  Add/Remove Cue 생명주기
 
-```py
+```
 AddGameplayCue -> 인스턴스 생성 -> OnActive 실행 -> WhileActive 반복
 -> RemoveGameplayCue -> OnRemove 실행 -> 정리
 ```

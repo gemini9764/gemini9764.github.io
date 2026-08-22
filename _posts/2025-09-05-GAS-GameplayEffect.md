@@ -47,16 +47,16 @@ BaseValue: 100
 장비 보너스: +30
 근력 훈련: +20
 독 디버프: -10
-→ 결과: 100 + 30 + 20 - 10 = 140
+-> 결과: 100 + 30 + 20 - 10 = 140
 
 2️ MULTIPLY 단계
 거인화 물약: ×1.5
 약화 저주: ×0.8
-→ 결과: 140 × 1.5 × 0.8 = 168
+-> 결과: 140 × 1.5 × 0.8 = 168
 
 3️ OVERRIDE 단계
 신의 축복: = 999
-→ 최종 결과: 999
+-> 최종 결과: 999
 ```
 
 ##### 각 단계별 특징
@@ -138,11 +138,11 @@ BaseValue: 100
 - GAS의 해결법
 	- 두 개의 GameplayEffect로 모든 것 해결
 
-```py
+```
 GAS Cost & Cooldown 시스템
 
 스킬 사용 요청
-    ↓
+    
 ASC 자동 체크:
 "Cost 감당 가능?"
 "Cooldown 끝남?"
@@ -837,7 +837,7 @@ float RemainingTime = AbilitySystemComponent->GetGameplayEffectDuration(ActiveHa
 
 1. 플레이어 입력 -> ASC 요청
 
-```py
+```
 플레이어: H키 누름 (힐링 스킬)
          ↓
 InputComponent: "Heal" 액션 감지
@@ -850,7 +850,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 2. ASC의 조건 검사
 	- ASC 내부 검사 과정
 
-```py
+```
 1. CanActivateAbility 체크
    - HealAbility가 등록되어 있나? ✓
    - 현재 상태가 정상인가? (스턴, 침묵 등) ✓
@@ -871,7 +871,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 ```py
 1. Cost Effect 적용
    - HealCostEffect 생성
-   - 마나 70 → 30 (즉시 차감)
+   - 마나 70 -> 30 (즉시 차감)
    - Instant Effect이므로 바로 소멸
 
 2. Cooldown Effect 적용
@@ -890,7 +890,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 1. HealEffect 생성 및 적용
    - 체력 +80 회복 Effect 생성
    - ASC를 통해 AttributeSet에 적용
-   - Health: 40 → 120 (즉시 회복)
+   - Health: 40 -> 120 (즉시 회복)
    - Instant Effect이므로 바로 소멸
 
 2. 시각/청각 피드백
@@ -907,16 +907,16 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 
 ```py
 1. Health 값 변경 감지
-   - 서버: Health 40 → 120
+   - 서버: Health 40 -> 120
    - OnRep_Health 함수 준비
 
 2. 네트워크 동기화
-   - 서버 → 모든 클라이언트에 새로운 Health 값 전송
+   - 서버 -> 모든 클라이언트에 새로운 Health 값 전송
    - 클라이언트에서 OnRep_Health 자동 실행
 
 3. UI 자동 업데이트
    - GAMEPLAYATTRIBUTE_REPNOTIFY 매크로 실행
-   - 체력바 UI가 자동으로 40 → 120으로 업데이트
+   - 체력바 UI가 자동으로 40 -> 120으로 업데이트
    - 관련 이벤트들 브로드캐스트
 ```
 

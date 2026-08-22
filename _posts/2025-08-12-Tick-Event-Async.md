@@ -53,7 +53,7 @@ void AMyActor::Tick(float DeltaTime)
 
 - Tick 비용 계산
 
-```json
+```
 액터 1개      = 0.05ms
 액터 100개    = 5ms 
 액터 1000개   = 50ms
@@ -62,7 +62,7 @@ void AMyActor::Tick(float DeltaTime)
 
 - 프레임 예산 (60FPS = 16.67ms)
 
-```json
+```
 입력 처리       : 1ms
 게임 로직(Tick) : 10ms ← 문제!
 물리            : 3ms
@@ -112,7 +112,7 @@ void AMonster::Tick(float DeltaTime)
 
 - 방법 1: stat game
 
-```json
+```
 ` 키 → stat game 입력
 
 Frame: 16.67ms (전체)
@@ -343,7 +343,7 @@ void AEnemyManager::ReclassifyEnemies()
 
 - Tick 실행 순서
 
-```json
+```
 [프레임 시작]
 ↓
 TG_PrePhysics (물리 전) - 입력, 이동 명령
@@ -401,7 +401,7 @@ AFollowCamera::AFollowCamera()
 
 - 최종 성과
 
-```json
+```
 최적화 전: 몬스터 200마리 → 25 FPS, Tick 10ms
 최적화 후: 몬스터 200마리 → 60 FPS, Tick 1.2ms
 성능 8배 향상!
@@ -672,7 +672,7 @@ void AEnemy::Attack()
 
 - 성능 개선
 
-```json
+```
 Tick 방식: 60회/초 → Timer 방식: 10회/초
 CPU 부하 약 6배 감소
 Enemy 200마리 기준: 12,000회/초 → 2,000회/초
@@ -990,7 +990,7 @@ void AEnemy::OnPlayerWeakened()
 
 - 싱글 스레드의 한계
 
-```json
+```
 [싱글 스레드 = 요리사 1명]
 손님1: "파스타" (3분)
 손님2: "피자" (5분)
@@ -1036,7 +1036,7 @@ void AEnemy::OnPlayerWeakened()
 
 - 주요 스레드 소개
 
-```json
+```
 [Game Thread] - "감독"
 ├─ 게임 로직 처리
 ├─ 입력 처리
@@ -1486,7 +1486,7 @@ Async(EAsyncExecution::ThreadPool, []()
 
 - 결정 가이드
 
-```py
+```
 Q: 작업이 0.1초 이상 걸리나?
 ├─ NO -> 그냥 메인 스레드에서 처리
 └─ YES ↓
