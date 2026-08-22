@@ -187,7 +187,7 @@ Movement Processor 활성화
 - Sync란?
 	- Mass Entity(데이터)와 Visual Actor(3D 캐릭터) 사이의 정보 동기화
 
-```py
+```
 Mass Entity (두뇌)
    ↕ Sync
 Visual Actor (몸)
@@ -277,7 +277,7 @@ Visual Actor (몸)
 - 해결 : Navigation Obstacle
 	- 플레이어를 Mass 시스템에 등록
 
-	```py
+	```
 	Player Config Asset 생성
 		↓
 	Traits 추가

@@ -74,7 +74,7 @@ void FireSkill_WithPrediction()
 ```cpp
 // 롤백 과정
 ClientState = {
-    Mana: 100 → 50      // 예측: 마나 감소
+    Mana: 100 -> 50      // 예측: 마나 감소
     Animation: "Casting" // 애니메이션 시작
     Effect: "Fire"       // 이펙트 표시
     Cooldown: 5.0s       // 쿨다운 시작
@@ -91,7 +91,7 @@ ServerResponse = {
 RollbackProcess = {
     RemoveEffect("Fire");
     StopAnimation();
-    Mana: 50 → 30;
+    Mana: 50 -> 30;
     Cooldown: Cancel();
     ShowMessage("마나가 부족합니다!");
 }
@@ -387,7 +387,7 @@ stateDiagram
 
 - 태그 계층 구조
 
-```py
+```
 Ability.
 ├── Melee.
 │   ├── Light      (약공격)
@@ -475,6 +475,7 @@ namespace L18Tags
 
 - 네이티브 태그의 장점
 	1. 컴파일 타임 체크
+
 	```cpp
 	// 오타를 컴파일 타임에 잡음
 	if (AbilityTags.HasTag(L18Tags::Ability_Melee))
@@ -484,6 +485,7 @@ namespace L18Tags
 	```
 
 	2. 태그 계층 활용
+    
 	```cpp
 	// 상위 태그로 하위 태그들 체크
 	if (AbilityTags.HasTag(L18Tags::Ability_Melee))

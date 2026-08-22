@@ -151,7 +151,7 @@ public:
 
 - GameplayTag
 
-```py
+```
 // 태그 계층 구조
 Status
 ├── Status.Buff
@@ -171,7 +171,7 @@ Status
 
 - 캐릭터의 스킬, 스탯, 효과, 태그 - 이 모든 것을 ASC가 관리
 
-```py
+```
 // ASC는 이런 것들을 관리
 - 어떤 스킬을 가지고 있나? (Abilities)
 - 현재 스탯이 얼마나? (Attributes)
@@ -1007,7 +1007,7 @@ ASC->ApplyGameplayEffectSpecToTarget(*DamageSpec.Data.Get(), Target->GetAbilityS
 
 ##### Modifier - 어떻게 바꿀 것인가
 
-```sh
+```cpp
 // Additive / Multiplicative / Division / Override
 ```
 
@@ -1363,7 +1363,7 @@ DashAbility {
 
 - 태그 계층 구조 활용
 
-```cpp
+```
 Status
 ├── Status.Buff
 │   ├── Status.Buff.Attack
@@ -1386,7 +1386,7 @@ ASC->RemoveActiveEffectsWithGrantedTags(
 // 1. 기름 웅덩이 밟음 → "Status.Oiled"
 
 // 2. 화염 공격 받음
-FireballAbility 실행 {
+FireballAbility excution {
     if (Target->ASC->HasMatchingGameplayTag(
         FGameplayTag::RequestGameplayTag(TEXT("Status.Oiled")))) {
         ApplyEffect(ExplosionEffect);
