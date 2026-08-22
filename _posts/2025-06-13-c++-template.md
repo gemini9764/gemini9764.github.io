@@ -16,7 +16,7 @@ mermaid: true
 - 함수 이름 구분을 위해 내부적으로 고유한 이름을 부여하는 것을 **`네임 맹글링(Name Mangling)`** 이라고 한다
 
 - 매개변수 타입이 다른 함수 오버로딩
-```
+```cpp
 // 목적: 함수 오버로딩의 개념을 매개변수 타입이 다른 경우로 이해하기  
 #include <iostream>  
 using namespace std;  
@@ -37,7 +37,7 @@ using namespace std;
 ```
 
 - 매개변수 개수 다른 함수 오버로딩
-```
+```cpp
 // 목적: 매개변수의 개수가 달라서 함수 오버로딩이 유효한 경우를 확인하기  
 #include <iostream>  
 using namespace std;  
@@ -61,7 +61,7 @@ using namespace std;
 #### 오버로딩이 되지 않는 경우
 
 - 타입 변환이 가능한 매개변수로 인해 두 개 이상의 오버로딩된 함수가 호출 후보가 되는 경우
-```
+```cpp
 // 목적: 타입 변환 가능한 매개변수로 인해 애매모호성이 발생하는 예시  
 #include <iostream>  
 using namespace std;  
@@ -82,7 +82,7 @@ error: call of overloaded 'print(int)' is ambiguous
 ```
 
 - 디폴트 매개변수로 인해 함수 호출 형태가 중복되는 경우
-```
+```cpp
 // 목적: 디폴트 매개변수로 인해 호출 형태가 중복되는 경우  
 #include <iostream>  
 using namespace std;  
@@ -103,7 +103,7 @@ error: call of overloaded 'display(int)' is ambiguous
 ```
 
 - 매개변수의 타입만 포인터와 배열로 다른 경우 매개변수의 타입만 포인터와 배열로 다른 경우
-```
+```cpp
 // 목적: 매개변수의 타입이 포인터와 배열일 때 애매모호성 발생 예시  
 #include <iostream>  
 using namespace std;  
@@ -126,7 +126,7 @@ error: redefinition of 'void print(int*)'
 ```
 
 - 함수의 반환 타입만 다른 경우
-```
+```cpp
 // 목적: 반환 타입만 다른 함수 오버로딩으로 애매모호성 발생  
 #include <iostream>  
 using namespace std;  
@@ -158,7 +158,7 @@ stateDiagram
 
 - 정확한 매개변수 타입 일치
     - 호출 인자 타입과 매개변수 타입이 정확히 일치하는 경우
-```
+```cpp
 // 목적: 정확한 매개변수 타입이 우선적으로 선택됨을 학습  
 #include <iostream>  
 using namespace std;  
@@ -181,7 +181,7 @@ int main() {
         - `char` or `short` -> `int`
         - `float` -> `double`
         - `bool` -> `int`
-```
+```cpp
 // 목적: 정확한 타입이 없으면 타입 승격 변환이 우선적으로 선택됨을 학습  
 #include <iostream>  
 using namespace std;  
@@ -206,7 +206,7 @@ int main() {
         - `int` -> `double`
         - `double` -> `int`
         - `double` -> `float`
-```
+```cpp
 // 목적: double 값을 오버로딩된 int 또는 string 함수에 전달할 때, 변환 우선순위 확인  
 #include <iostream>  
 #include <string>  
@@ -228,7 +228,7 @@ int main() {
 
 - 사용자 정의 타입 변환
     - 클래스 타입의 변환 함수나 생성자 등을 통해 이뤄지는 변환
-```
+```cpp
 // 목적: 표준 변환이 불가능하면 사용자 정의 변환이 호출됨을 학습  
 #include <iostream>  
 using namespace std;  
@@ -261,7 +261,7 @@ int main() {
 #### 템플릿 클래스
 
 - 함수뿐만 아니라, 클래스도 템플릿으로 사용해 일반화할 수 있다
-```
+```cpp
 // 목적: 클래스 템플릿으로 배열을 일반화하여 원소 추가 및 삭제 기능 구현하기  
 #include <iostream>  
 using namespace std;

@@ -18,7 +18,7 @@ mermaid: true
 			- 12 fps : 8.33ms (고주사율 모니터, VR)
 			- **일관된 프레임 타임** : 끊김 없는 부드러운 경험
 
-```
+```cpp
 // 게임 루프의 기본 구조
 void GameLoop() {
     while (isRunning) {
@@ -44,7 +44,7 @@ void GameLoop() {
 
 - CPU 병목
 
-```
+```cpp
 // 잘못된 예시: 매 프레임마다 복잡한 연산
 void Update() {
     for (auto& enemy : enemies) {
@@ -85,7 +85,7 @@ void Update() {
 	2. 핫스팟 집중 : 전체 시간의 80%를 차지하는 20% 코드를 찾아라
 	3. 개선 후 재측정 : 최적화가 실제로 효과가 있는지 확인하라
 
-```
+```cpp
 // 간단한 성능 측정 도구
 class SimpleProfiler {
 public:
@@ -117,7 +117,7 @@ void GameLoop() {
 - 메모리 계측구조와 접근 비용
 	- 계층적으로 구성된 현대 컴퓨터의 메모리
 
-```
+```json
 CPU Register:    0 cycles    (4 bytes)
 L1 Cache:        1 cycle     (32KB)
 L2 Cache:        3 cycles    (256KB)
@@ -136,7 +136,7 @@ HDD:             10,000,000 cycles
 
 #### 캐시 미스가 성능에 미치는 영향
 
-```
+```cpp
 // 캐시 미스가 많이 발생하는 코드
 struct Player {
     int id;
@@ -158,7 +158,7 @@ for (auto& player : players) {
 }
 ```
 
-```
+```cpp
 // 캐시 친화적인 개선된 코드
 struct PlayerSoA {
     std::vector<int> ids;
@@ -184,7 +184,7 @@ for (size_t i = 0; i < players.isAlives.size(); ++i) {
 
 - 공간적 지역성 (Spatial Locality) : 연속된 메모리 위치의 데이터에 접근할 가능성이 높음
 
-```
+```cpp
 // 좋은 예시: 연속된 메모리 접근
 int sum = 0;
 for (int i = 0; i < 1000; ++i) {
@@ -201,7 +201,7 @@ for (int i = 0; i < 1000; i += 7) {  // 7 간격으로 점프
 
 - 시간적 지역성 (Temporal Locality) : 최근에 접근한 데이터에 다시 접근할 가능성이 높음
 
-```
+```cpp
 // 시간적 지역성 활용
 Vector3 playerPos = player.GetPosition();  // 한 번만 호출
 float distanceSq = (playerPos - targetPos).LengthSquared();
@@ -217,7 +217,7 @@ if (distanceSq < attackRangeSq) {
 - 객체 지향의 한계와 성능 문제
 	- 객체지향 설계는 코드의 가독성과 유지보수성에는 뛰어나지만, 성능 측면에서는 한계가 있음
 
-```
+```cpp
 // 전형적인 객체 지향 설계
 class GameObject {
 public:
@@ -267,7 +267,7 @@ for (auto& obj : gameObjects) {
 	3. 캐시 친화성 : 함께 사용되는 데이터는 함께 배치
 	4. 배치 처리 : 같은 연산을 여러 데이터에 일괄 적용
 
-```
+```cpp
 // 데이터 지향 설계 예시
 struct TransformData {
     std::vector<Vector3> positions;
@@ -305,7 +305,7 @@ void PrepareRenderData(const TransformData& transforms, RenderData& renderData) 
 - 데이터 지향 설계의 핵심 개념 중 하나
 - **AoS (Array of Structures) - 구조체 배열**
 
-```
+```cpp
 struct Particle {
     Vector3 position;    // 12 bytes
     Vector3 velocity;    // 12 bytes
@@ -324,7 +324,7 @@ for (auto& particle : particles) {
 
 - **SoA (Structure of Arrays) - 배열 구조체**
 
-```
+```cpp
 struct ParticleSystem {
     std::vector<Vector3> positions;   // 연속된 위치 데이터
     std::vector<Vector3> velocities;  // 연속된 속도 데이터
@@ -346,7 +346,7 @@ for (size_t i = 0; i < particles.count; ++i) {
 
 - 성능 비교 실험
 
-```
+```cpp
 // 벤치마크 코드
 void BenchmarkAoS() {
     std::vector<Particle> particles(100000);
@@ -388,7 +388,7 @@ void BenchmarkSoA() {
 - ECS는 데이터 지향 설계의 대표적인 아키텍처 패턴
 - 전통적인 상속 vs ECS
 
-```
+```cpp
 // 전통적인 상속 기반
 class GameObject { ... };
 class Character : public GameObject { ... };
@@ -441,7 +441,7 @@ void MovementSystem(World& world) {
 - 핫스팟 식별과 병목 해결
 	- 80-20 법칙 : 전체 실행 시간의 80%는 코드의 20%에서 소모된다
 
-```
+```cpp
 // 프로파일링으로 발견한 핫스팟 예시
 void GameUpdate() {
     profiler.Start("AI");
@@ -474,7 +474,7 @@ void GameUpdate() {
 
 - 배치 처리의 힘
 
-```
+```cpp
 // 개별 처리 - 비효율적
 for (auto& enemy : enemies) {
     enemy.Update();
@@ -490,7 +490,7 @@ UpdateAllAnimations(enemies);        // 모든 애니메이션을 한 번에
 
 - SIMD (Single Instruction, Multiple Data) 예시
 
-```
+```cpp
 // 일반적인 벡터 덧셈
 for (int i = 0; i < count; ++i) {
     result[i] = a[i] + b[i];
@@ -511,7 +511,7 @@ for (int i = 0; i < count; i += 4) {
 
 - 동적 메모리 할당은 성능의 적
 
-```
+```cpp
 class Bullet {
 public:
     Vector3 position;
@@ -553,7 +553,7 @@ void UpdateBullets(float deltaTime) {
 
 - 오브젝트 풀링 적용
 
-```
+```cpp
 class BulletPool {
 private:
     std::vector<Bullet> bullets;      // 미리 할당된 총알들
@@ -607,7 +607,7 @@ public:
 };
 ```
 
-```
+```cpp
 // 전역 풀
 BulletPool bulletPool(1000);  // 최대 1000발
 

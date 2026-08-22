@@ -41,7 +41,7 @@ mermaid: true
 
 - SpartaAIController 클래스에 Blackboard 연결
 
-```
+```cpp
 protected:
     // [Blackboard Component] : 실제 실행 중 데이터를 저장하는 "기억장치"
     // 실제 값들을 들고 있음 (Key에 해당하는 실시간 값 저장소)
@@ -58,7 +58,7 @@ public:
 
 *SpartaAIController.h*
 
-```
+```cpp
 ASpartaAIController::ASpartaAIController()
 {
     // 기존 Perception 설정 등...
@@ -71,7 +71,7 @@ ASpartaAIController::ASpartaAIController()
 
 *SpartaAIController.cpp*
 
-```
+```cpp
 void ASpartaAIController::BeginPlay()
 {
     Super::BeginPlay();
@@ -97,7 +97,7 @@ void ASpartaAIController::BeginPlay()
 
 - Perception 이벤트를 Blackboard 업데이트로 변경
 
-```
+```cpp
 void ASpartaAIController::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
     // 플레이어인지 확인
@@ -132,7 +132,7 @@ void ASpartaAIController::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulu
 
 - 커스텀 Task 생성 - 랜덤 위치를 찾는 Task
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -165,7 +165,7 @@ protected:
 
 *BTTask_FindRandomLocation.h*
 
-```
+```cpp
 #include "BTTask_FindRandomLocation.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -222,7 +222,7 @@ EBTNodeResult::Type UBTTask_FindRandomLocation::ExecuteTask(UBehaviorTreeCompone
 
 - 최종 Behavior Tree 모습
 
-```
+```py
 Main Decision (Selector)
 ├─ Chase Player (Sequence)          ← 1순위: 플레이어 보이면 추격
 │   ├─ Can See Player? (Decorator)
@@ -240,7 +240,7 @@ Main Decision (Selector)
 
 - SpartaAIController 클래스 수정
 
-```
+```cpp
 #include "BehaviorTree/BehaviorTree.h"
 
 protected:
@@ -255,7 +255,7 @@ public:
 
 *SpartaAIController.h*
 
-```
+```cpp
 #include "BehaviorTree/BehaviorTreeComponent.h"
 
 void ASpartaAIController::BeginPlay()

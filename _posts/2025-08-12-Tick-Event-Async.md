@@ -18,7 +18,7 @@ mermaid: true
 
 - 기본 Tick 구조
 
-```
+```cpp
 void AMyActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);  // 부모 Tick 먼저 호출
@@ -32,7 +32,7 @@ void AMyActor::Tick(float DeltaTime)
 
 - Delta Time 활용 - 프레임 독립적 이동
 
-```
+```cpp
 void AMyActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -53,7 +53,7 @@ void AMyActor::Tick(float DeltaTime)
 
 - Tick 비용 계산
 
-```
+```json
 액터 1개      = 0.05ms
 액터 100개    = 5ms 
 액터 1000개   = 50ms
@@ -62,7 +62,7 @@ void AMyActor::Tick(float DeltaTime)
 
 - 프레임 예산 (60FPS = 16.67ms)
 
-```
+```json
 입력 처리       : 1ms
 게임 로직(Tick) : 10ms ← 문제!
 물리            : 3ms
@@ -75,7 +75,7 @@ AI              : 2ms
 
 - 실제 사례 - AAA 프로젝트의 문제 코드
 
-```
+```cpp
 // 각 몬스터의 Tick
 void AMonster::Tick(float DeltaTime)
 {
@@ -112,7 +112,7 @@ void AMonster::Tick(float DeltaTime)
 
 - 방법 1: stat game
 
-```
+```json
 ` 키 → stat game 입력
 
 Frame: 16.67ms (전체)
@@ -123,7 +123,7 @@ Frame: 16.67ms (전체)
 
 - 방법 2: 직접 측정
 
-```
+```cpp
 void AMyActor::Tick(float DeltaTime)
 {
     double StartTime = FPlatformTime::Seconds();
@@ -145,7 +145,7 @@ void AMyActor::Tick(float DeltaTime)
 
 - 해결책 1: 실행 간격 조절
 
-```
+```cpp
 // Before: 매 프레임 실행
 void AEnemy::Tick(float DeltaTime)
 {
@@ -181,7 +181,7 @@ void AEnemy::Tick(float DeltaTime)
 
 - 해결책 2 : 중복 계산 제거
 
-```
+```cpp
 // Before: 각자 계산 (200번)
 void AEnemy::Tick(float DeltaTime)
 {
@@ -208,7 +208,7 @@ void AEnemyManager::Tick(float DeltaTime)
 
 - 해결책 3 : 연산 최적화
 
-```
+```cpp
 // sqrt 제거 (30% 성능 향상)
 // Before
 float Distance = FVector::Dist(EnemyLoc, PlayerLoc);
@@ -222,7 +222,7 @@ if (DistanceSquared < AttackRange * AttackRange)  // 250000
 
 ```
 
-```
+```cpp
 // 캐스팅 캐싱
 // Before: 매번 캐스팅
 void AEnemy::Tick(float DeltaTime)
@@ -242,7 +242,7 @@ void AEnemy::BeginPlay()
 
 - 해결책 4 : 거리별 차등 업데이트
 
-```
+```cpp
 void AEnemyManager::UpdateEnemies()
 {
     for (AEnemy* Enemy : AllEnemies)
@@ -264,7 +264,7 @@ void AEnemyManager::UpdateEnemies()
 
 - 해결책 5 : 매니저 패턴
 
-```
+```cpp
 class AEnemyManager : public AActor
 {
 private:
@@ -343,7 +343,7 @@ void AEnemyManager::ReclassifyEnemies()
 
 - Tick 실행 순서
 
-```
+```json
 [프레임 시작]
 ↓
 TG_PrePhysics (물리 전) - 입력, 이동 명령
@@ -360,7 +360,7 @@ TG_PostUpdateWork (마지막) - UI, 카메라
 
 - 설정 방법
 
-```
+```cpp
 // 플레이어 입력 - 물리 전
 AMyPlayerController::AMyPlayerController()
 {
@@ -401,7 +401,7 @@ AFollowCamera::AFollowCamera()
 
 - 최종 성과
 
-```
+```json
 최적화 전: 몬스터 200마리 → 25 FPS, Tick 10ms
 최적화 후: 몬스터 200마리 → 60 FPS, Tick 1.2ms
 성능 8배 향상!
@@ -432,7 +432,7 @@ AFollowCamera::AFollowCamera()
 
 - SetTimer 기본 사용법
 
-```
+```cpp
 // Enemy.h
 UCLASS()
 class AEnemy : public ACharacter
@@ -475,7 +475,7 @@ void AEnemy::CheckDistanceToPlayer()
 
 - 스파이크 방지
 
-```
+```cpp
 void AEnemy::BeginPlay()
 {
     Super::BeginPlay();
@@ -496,7 +496,7 @@ void AEnemy::BeginPlay()
 
 - SetTimer vs SetTimerForNextTick
 
-```
+```cpp
 // SetTimer: 지정 시간 후 실행
 GetWorld()->GetTimerManager().SetTimer(
     AttackDelayTimer, this, &AEnemy::PerformAttack, 0.5f, false
@@ -510,7 +510,7 @@ GetWorld()->GetTimerManager().SetTimerForNextTick(
 
 - Timer Handle 안전하게 관리하기
 
-```
+```cpp
 // 잘못된 예시
 void AEnemy::StopDistanceCheck()
 {
@@ -531,7 +531,7 @@ void AEnemy::StopDistanceCheck()
 
 - 더 안전한 패턴
 
-```
+```cpp
 void AEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
@@ -544,7 +544,7 @@ void AEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 - Lambda 방식 - 짧고 간단한 작업에 적합
 
-```
+```cpp
 void AEnemy::StartAttackSequence()
 {
     GetWorld()->GetTimerManager().SetTimer(
@@ -566,7 +566,7 @@ void AEnemy::StartAttackSequence()
 
 - Delegate 방식 - 명확하고 유지보수에 유리
 
-```
+```cpp
 // Enemy.h
 UFUNCTION()
 void OnDistanceCheckTimer();
@@ -597,7 +597,7 @@ void AEnemy::OnDistanceCheckTimer()
 
 - Before (Tick 방식)
 
-```
+```cpp
 void AEnemy::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -617,7 +617,7 @@ void AEnemy::Tick(float DeltaTime)
 
 - After (Timer 방식)
 
-```
+```cpp
 void AEnemy::BeginPlay()
 {
     Super::BeginPlay();
@@ -672,7 +672,7 @@ void AEnemy::Attack()
 
 - 성능 개선
 
-```
+```json
 Tick 방식: 60회/초 → Timer 방식: 10회/초
 CPU 부하 약 6배 감소
 Enemy 200마리 기준: 12,000회/초 → 2,000회/초
@@ -692,7 +692,7 @@ Enemy 200마리 기준: 12,000회/초 → 2,000회/초
 
 - 폴링 (Polling)
 
-```
+```cpp
 // 나쁜 예시 - 폴링 방식
 void AEnemy::Tick(float DeltaTime)
 {
@@ -707,7 +707,7 @@ void AEnemy::Tick(float DeltaTime)
 
 - 이벤트 (Event)
 
-```
+```cpp
 // 좋은 예시 - 이벤트 방식
 void APlayer::TakeDamage(float Damage)
 {
@@ -738,7 +738,7 @@ void AEnemy::OnPlayerDeath()
 
 ##### Delegate - 언리얼식 함수 포인터
 
-```
+```cpp
 // 1. Delegate 선언
 DECLARE_DELEGATE_OneParam(FOnPlayerHealthChanged, float);
 
@@ -789,7 +789,7 @@ void AEnemy::OnPlayerHealthChanged(float NewHealth)
 
 ##### Multicast Delegate - 여러 구독자 호출
 
-```
+```cpp
 // 선언
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnEnemyKilled, AEnemy*);
 
@@ -825,7 +825,7 @@ void AEnemy::Die()
 
 ##### Dynamic Multicast Delegate - 블루프린트 호환
 
-```
+```cpp
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemySpotted, AEnemy*, Enemy);
 
 UCLASS()
@@ -850,7 +850,7 @@ public:
 
 ##### Event Bus 패턴 - 중앙 집중형 이벤트 관리
 
-```
+```cpp
 UCLASS()
 class UGameEventBus : public UObject
 {
@@ -873,7 +873,7 @@ private:
 };
 ```
 
-```
+```cpp
 // Enemy 죽음 발행(?)
 void AEnemy::Die()
 {
@@ -882,7 +882,7 @@ void AEnemy::Die()
 }
 ```
 
-```
+```cpp
 // 다른 Enemy들이 구독
 void AEnemy::BeginPlay()
 {
@@ -901,7 +901,7 @@ void AEnemy::OnOtherEnemyKilled(AEnemy* DeadEnemy)
 
 - 주의 사항
 	1.  **메모리 누수** : Enemy가 죽을 때 이벤트 구독 해체 필수
-	```
+	```cpp
 	void AEnemy::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	{
 	    UGameEventBus::GetInstance()->OnEnemyKilled.RemoveAll(this);
@@ -915,7 +915,7 @@ void AEnemy::OnOtherEnemyKilled(AEnemy* DeadEnemy)
 
 - Before (폴링)
 
-```
+```cpp
 void AEnemy::Tick(float DeltaTime)
 {
     // Enemy 200마리가 매 프레임 Player 체력 체크
@@ -936,7 +936,7 @@ void AEnemy::Tick(float DeltaTime)
 
 - After (이벤트)
 
-```
+```cpp
 // Player에서 이벤트 발생
 void APlayer::TakeDamage(float Damage)
 {
@@ -990,7 +990,7 @@ void AEnemy::OnPlayerWeakened()
 
 - 싱글 스레드의 한계
 
-```
+```json
 [싱글 스레드 = 요리사 1명]
 손님1: "파스타" (3분)
 손님2: "피자" (5분)
@@ -1003,7 +1003,7 @@ void AEnemy::OnPlayerWeakened()
 - 동기 vs 비동기
 	- 동기
 
-	```
+	```cpp
 	void LoadDataSync()
 	{
 	    LoadFile();      // 5초 걸림 → 게임 정지
@@ -1015,7 +1015,7 @@ void AEnemy::OnPlayerWeakened()
 	
 	- 비동기
 
-	```
+	```cpp
 	void LoadDataAsync()
 	{
 	    AsyncLoadFile([this]()
@@ -1036,7 +1036,7 @@ void AEnemy::OnPlayerWeakened()
 
 - 주요 스레드 소개
 
-```
+```json
 [Game Thread] - "감독"
 ├─ 게임 로직 처리
 ├─ 입력 처리
@@ -1065,7 +1065,7 @@ void AEnemy::OnPlayerWeakened()
 
 - 현재 스레드 확인하기
 
-```
+```cpp
 void CheckCurrentThread()
 {
     if (IsInGameThread())
@@ -1089,7 +1089,7 @@ void CheckCurrentThread()
 
 - Game Thread에서만 가능한 작업
 
-```
+```cpp
 // Game Thread에서만 가능한 것들
 void GameThreadOnly()
 {
@@ -1109,7 +1109,7 @@ void GameThreadOnly()
 
 - 모든 스레드에서 가능한 작업
 
-```
+```cpp
 // 모든 스레드에서 가능
 void AnyThreadSafe()
 {
@@ -1131,7 +1131,7 @@ void AnyThreadSafe()
 
 - 절대 하면 안되는 것
 
-```
+```cpp
 // 다른 스레드에서 이러면 크래시!
 void WillCrashInWorkerThread()
 {
@@ -1153,7 +1153,7 @@ void WillCrashInWorkerThread()
 
 - 나쁜 예 (메인 스레드)
 
-```
+```cpp
 void AEnemyManager::UpdateAllEnemyPaths()
 {
     // 이 순간 게임이 멈춤!
@@ -1172,7 +1172,7 @@ void AEnemyManager::UpdateAllEnemyPaths()
 
 - 좋은 예 (백그라운드)
 
-```
+```cpp
 void AEnemyManager::UpdateAllEnemyPathsAsync()
 {
     // 1. Enemy 데이터 복사 (스레드 안전)
@@ -1223,7 +1223,7 @@ void AEnemyManager::UpdateAllEnemyPathsAsync()
 
 - Async() -> 간단한 백그라운드 작업
 
-```
+```cpp
 // Enemy 거리 정렬
 Async(EAsyncExecution::ThreadPool, [this]()
 {
@@ -1241,7 +1241,7 @@ EAsyncExecution::TaskGraphMainThread // 게임 스레드로 예약
 
 - AsyncTask() - 특정 스레드 지정
 
-```
+```cpp
 // Enemy 처치 후 UI 업데이트
 AsyncTask(ENamedThreads::GameThread, [this]()
 {
@@ -1259,7 +1259,7 @@ AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask, [this]()
 
 - UE::Tasks - 차세대 태스크 시스템 (UE5)
 
-```
+```cpp
 #include "Tasks/Task.h"
 
 // Enemy 스폰 → 초기화 → AI 설정 체이닝
@@ -1301,7 +1301,7 @@ UE::Tasks::WaitAll(EnemyTasks);  // 모든 Enemy AI 완료 대기
 
 - 동기 방식 (게임 정지)
 
-```
+```cpp
 void AEnemySpawner::SpawnEnemyWave()
 {
     // 이 순간 3~5초 동안 게임 정지!
@@ -1317,7 +1317,7 @@ void AEnemySpawner::SpawnEnemyWave()
 
 - 비동기 방식 (부드러운 로딩)
 
-```
+```cpp
 void AEnemySpawner::SpawnEnemyWaveAsync()
 {
     // 1. 스폰 준비 알림
@@ -1402,7 +1402,7 @@ void AEnemySpawner::InitializeEnemyAsync(AEnemy* Enemy)
 
 1. Enemy를 다른 스레드에서 접근
 
-```
+```cpp
 // 절대 금지!
 Async(EAsyncExecution::ThreadPool, [this]()
 {
@@ -1424,7 +1424,7 @@ Async(EAsyncExecution::ThreadPool, [this]()
 
 2. Enemy 배열 동시 접근
 
-```
+```cpp
 // 위험한 코드
 TArray<AEnemy*> AllEnemies;
 
@@ -1459,7 +1459,7 @@ Async(EAsyncExecution::ThreadPool, [&AllEnemies, &EnemyLock]()
 
 3. Enemy AI 결과 동기화 실패
 
-```
+```cpp
 // 잘못된 코드
 TArray<FVector> EnemyPaths;
 Async(EAsyncExecution::ThreadPool, [&EnemyPaths]()
@@ -1486,21 +1486,21 @@ Async(EAsyncExecution::ThreadPool, []()
 
 - 결정 가이드
 
-```
+```py
 Q: 작업이 0.1초 이상 걸리나?
-├─ NO → 그냥 메인 스레드에서 처리
+├─ NO -> 그냥 메인 스레드에서 처리
 └─ YES ↓
 
 Q: UObject/UI를 다루나?
-├─ YES → Timer나 Tick 사용 (비동기 불가)
+├─ YES -> Timer나 Tick 사용 (비동기 불가)
 └─ NO ↓
 
 Q: 단순한 일회성 작업인가?
-├─ YES → Async() 사용
+├─ YES -> Async() 사용
 └─ NO ↓
 
 Q: 여러 단계가 연결되나?
-├─ YES → UE::Tasks 사용
+├─ YES -> UE::Tasks 사용
 └─ NO → AsyncTask() 사용
 ```
 

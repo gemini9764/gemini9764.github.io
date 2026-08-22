@@ -40,7 +40,7 @@ mermaid: true
 - 계산 순서 : Add -> Multiply -> Override
 - 예시 : 기본 체력 100인 캐릭터
 
-```
+```py
 BaseValue: 100
 
 1️ ADD 단계
@@ -63,7 +63,7 @@ BaseValue: 100
 
 - Add (더하기 / 빼기)
 
-	```
+	```cpp
 	Modifier.ModifierOp = EGameplayModOp::Additive;
 	Modifier.ModifierMagnitude.SetValue(30.0f);  // +30
 	```
@@ -74,7 +74,7 @@ BaseValue: 100
 
 - Multiply (곱하기)
 
-	```
+	```cpp
 	Modifier.ModifierOp = EGameplayModOp::Multiplicative;
 	Modifier.ModifierMagnitude.SetValue(1.5f);  // 150% (50% 증가)
 	```
@@ -84,7 +84,7 @@ BaseValue: 100
 
 - Override (덮어쓰기)
 
-	```
+	```cpp
 	Modifier.ModifierOp = EGameplayModOp::Override;
 	Modifier.ModifierMagnitude.SetValue(999.0f);  // 강제로 999
 	```
@@ -97,7 +97,7 @@ BaseValue: 100
 
 - 전통적인 방식의 문제점
 
-	```
+	```cpp
 	// 전통적인 방식 - 개발자가 직접 다 관리 ㅋ
 	class AMyCharacter
 	{
@@ -138,7 +138,7 @@ BaseValue: 100
 - GAS의 해결법
 	- 두 개의 GameplayEffect로 모든 것 해결
 
-```
+```py
 GAS Cost & Cooldown 시스템
 
 스킬 사용 요청
@@ -155,7 +155,7 @@ ASC 자동 체크:
 
 - Cost Effect 구현
 
-```
+```cpp
 // CostEffect_Dash.cpp
 UCostEffect_Dash::UCostEffect_Dash()
 {
@@ -172,7 +172,7 @@ UCostEffect_Dash::UCostEffect_Dash()
 }
 ```
 
-```
+```cpp
 // CostEffect_Dash.cpp
 UCostEffect_Dash::UCostEffect_Dash()
 {
@@ -191,7 +191,7 @@ UCostEffect_Dash::UCostEffect_Dash()
 
 - Cooldown Effect 구현
 
-```
+```cpp
 // CooldownEffect_Dash.cpp
 UCooldownEffect_Dash::UCooldownEffect_Dash()
 {
@@ -206,7 +206,7 @@ UCooldownEffect_Dash::UCooldownEffect_Dash()
 }
 ```
 
-```
+```cpp
 // DashAbility.cpp 생성자
 UDashAbility::UDashAbility()
 {
@@ -230,7 +230,7 @@ UDashAbility::UDashAbility()
 
 ***HealEffect.h***
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -249,7 +249,7 @@ public:
 
 ***HealEffect.cpp***
 
-```
+```cpp
 #include "HealEffect.h"
 #include "MyAttributeSet.h"
 
@@ -274,7 +274,7 @@ UHealEffect::UHealEffect()
 
 ***HealCostEffect.h***
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -293,7 +293,7 @@ public:
 
 ***HealCostEffect.cpp***
 
-```
+```cpp
 #include "HealCostEffect.h"
 #include "MyAttributeSet.h"
 
@@ -318,7 +318,7 @@ UHealCostEffect::UHealCostEffect()
 
 ***HealCooldownEffect.h***
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -338,7 +338,7 @@ public:
 
 ***HealCooldownEffect.cpp***
 
-```
+```cpp
 #include "HealCooldownEffect.h"
 
 UHealCooldownEffect::UHealCooldownEffect()
@@ -359,7 +359,7 @@ UHealCooldownEffect::UHealCooldownEffect()
 
 ***HealAbility.h***
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -399,7 +399,7 @@ protected:
 
 ***HealAbility.cpp***
 
-```
+```cpp
 #include "HealAbility.h"
 #include "HealEffect.h"
 #include "HealCostEffect.h"
@@ -477,7 +477,7 @@ void UHealAbility::EndAbility(
 
 ***GASCharacter.h***에 추가
 
-```
+```cpp
 // 힐링 스킬
 UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS")
 TSubclassOf<UGameplayAbility> HealAbilityClass;
@@ -485,7 +485,7 @@ TSubclassOf<UGameplayAbility> HealAbilityClass;
 
 ***GASCharacter.cpp***에 추가
 
-```
+```cpp
 // 생성자에서 힐링 스킬 설정
 AGASCharacter::AGASCharacter()
 {
@@ -546,7 +546,7 @@ void AGASCharacter::InputHeal()
 
 ***StrengthBuffEffect.h***
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -566,7 +566,7 @@ public:
 
 ***StrengthBuffEffect.cpp***
 
-```
+```cpp
 #include "StrengthBuffEffect.h"
 #include "MyAttributeSet.h"
 
@@ -604,7 +604,7 @@ UStrengthBuffEffect::UStrengthBuffEffect()
 
 ***BuffCostEffect.h***
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -624,7 +624,7 @@ public:
 
 ***BuffCostEffect.cpp***
 
-```
+```cpp
 #include "BuffCostEffect.h"
 #include "MyAttributeSet.h"
 
@@ -649,7 +649,7 @@ UBuffCostEffect::UBuffCostEffect()
 
 ***BuffAbility.h***
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -689,7 +689,7 @@ protected:
 
 ***BuffAbility.cpp***
 
-```
+```cpp
 #include "BuffAbility.h"
 #include "StrengthBuffEffect.h"
 #include "BuffCostEffect.h"
@@ -770,7 +770,7 @@ void UBuffAbility::EndAbility(
 
 ***GASCahracter.h***에 추가
 
-```
+```cpp
 // 버프 스킬
 UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS")
 TSubclassOf<UGameplayAbility> BuffAbilityClass;
@@ -778,7 +778,7 @@ TSubclassOf<UGameplayAbility> BuffAbilityClass;
 
 ***GASCharacter.cpp***에 추가
 
-```
+```cpp
 // 생성자에서 버프 스킬 설정
 AGASCharacter::AGASCharacter()
 {
@@ -817,7 +817,7 @@ void AGASCharacter::InputBuff()
 
 - UI에 연결하고 싶을때는?
 
-```
+```cpp
 // 버프 상태 확인 - 태그 기반
 bool bHasStrengthBuff = AbilitySystemComponent->HasMatchingGameplayTag(
     FGameplayTag::RequestGameplayTag("Buff.Strength")
@@ -837,7 +837,7 @@ float RemainingTime = AbilitySystemComponent->GetGameplayEffectDuration(ActiveHa
 
 1. 플레이어 입력 -> ASC 요청
 
-```
+```py
 플레이어: H키 누름 (힐링 스킬)
          ↓
 InputComponent: "Heal" 액션 감지
@@ -850,7 +850,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 2. ASC의 조건 검사
 	- ASC 내부 검사 과정
 
-```
+```py
 1. CanActivateAbility 체크
    - HealAbility가 등록되어 있나? ✓
    - 현재 상태가 정상인가? (스턴, 침묵 등) ✓
@@ -868,7 +868,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 3. CommitAbility - 자원 차감 및 쿨다운 시작
 	- CommitAbility 실행
 
-```
+```py
 1. Cost Effect 적용
    - HealCostEffect 생성
    - 마나 70 → 30 (즉시 차감)
@@ -886,7 +886,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 4. Ability 실제 실행
 	- HealAbility::ActivateAbility 실행
 
-```
+```py
 1. HealEffect 생성 및 적용
    - 체력 +80 회복 Effect 생성
    - ASC를 통해 AttributeSet에 적용
@@ -905,7 +905,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 5. AttributeSet 자동 처리
 	- AttributeSet 내부 동작
 
-```
+```py
 1. Health 값 변경 감지
    - 서버: Health 40 → 120
    - OnRep_Health 함수 준비
@@ -923,7 +923,7 @@ ASC: "HealAbility 실행 가능한지 확인ㄱㄱ"
 6. Effect 생명주기 관리
 	- 시간이 지나면서 자동 관리
 
-```
+```py
 5초 후:
 - HealCooldownEffect 자동 소멸
 - "Cooldown.Heal" 태그 제거

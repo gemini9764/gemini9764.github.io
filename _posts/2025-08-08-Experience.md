@@ -15,7 +15,7 @@ mermaid: true
 
 - 정의 : "내가 이거 쓸 거니까 미리 다 준비해놔"
 
-```
+```cpp
 UCLASS()
 class AMyCharacter : public ACharacter
 {
@@ -29,7 +29,7 @@ class AMyCharacter : public ACharacter
 
 - 동작 방식
 
-```
+```json
 graph LR
     A[MyCharacter 로드] --> B[CharacterMesh 자동 로드<br/>50MB]
     A --> C[CharacterIcon 자동 로드<br/>4MB]
@@ -39,7 +39,7 @@ graph LR
 
 - 실제 문제 예시
 
-```
+```cpp
 // 이렇게 하면 큰일납니다
 class AWarriorCharacter : public ACharacter
 {
@@ -75,7 +75,7 @@ class AWarriorCharacter : public ACharacter
 
 - 정의 : "일단 어디 있는지만 기억해두고, 필요할 때 가져올게"
 
-```
+```cpp
 // Lyra 방식 - 똑똑한 방법
 class ALyraCharacter : public ACharacter
 {
@@ -99,7 +99,7 @@ class ALyraCharacter : public ACharacter
 
 - 방법 1 : 동기 로드 (Synchronous)
 
-```
+```cpp
 void ALyraCharacter::EquipCharacterMesh()
 {
     // 경로 정보가 있는지 먼저 확인
@@ -119,7 +119,7 @@ void ALyraCharacter::EquipCharacterMesh()
 
 - 방법 2: 비동기 로드 (Asynchronous)
 
-```
+```cpp
 void ALyraCharacter::EquipCharacterMeshAsync()
 {
     if (!CharacterMesh.IsNull())
@@ -152,7 +152,7 @@ void ALyraCharacter::EquipCharacterMeshAsync()
 
 ##### 레퍼런스 타입 비교
 
-```
+```cpp
 // 오브젝트(에셋)용
 TSoftObjectPtr<USkeletalMesh> MeshPath;        // 메시 파일 경로
 TSoftObjectPtr<UTexture2D> TexturePath;        // 텍스처 파일 경로
@@ -174,7 +174,7 @@ TSoftClassPtr<UGameplayAbility> AbilityPath;   // 능력 클래스 경로
 
 - 정의 : Asset Manager가 특별 관리하는 중요 에셋
 
-```
+```cpp
 // Primary Asset으로 승격시키는 방법
 class UWeaponDataAsset : public UPrimaryDataAsset  // 이 한 줄이 핵심!
 {
@@ -201,7 +201,7 @@ public:
 
 - Bundle 정의
 
-```
+```cpp
 namespace EAssetBundle
 {
     const FName Menu("Menu");          // UI용 최소 데이터
@@ -213,7 +213,7 @@ namespace EAssetBundle
 
 - 상황 1: 캐릭터 선택 화면
 
-```
+```cpp
 // 메뉴 번들만 로드 (가볍고 빠르게)
 UAssetManager::Get().LoadPrimaryAsset(
     CharacterId, 
@@ -223,7 +223,7 @@ UAssetManager::Get().LoadPrimaryAsset(
 
 - 상황 2: 게임 시작 준비
 
-```
+```cpp
 // 메뉴 + 게임플레이 번들 로드
 UAssetManager::Get().LoadPrimaryAsset(
     CharacterId, 
@@ -233,7 +233,7 @@ UAssetManager::Get().LoadPrimaryAsset(
 
 - 상황 3: 실제 월드에 스폰
 
-```
+```cpp
 // 전체 번들 로드 (풀 세트!)
 UAssetManager::Get().LoadPrimaryAsset(
     CharacterId, 
@@ -243,7 +243,7 @@ UAssetManager::Get().LoadPrimaryAsset(
 
 - 상황 4: 거리별 최적화
 
-```
+```cpp
 // 거리에 따른 적응적 로딩
 if (Distance > 1000.0f)
 {
@@ -265,7 +265,7 @@ else
 - 프로젝트 설정
 	- Project Settings -> Game -> Asset Manager
 
-```
+```json
 Primary Asset Types:
 ├── "Weapon"
 │   ├── Base Class: UWeaponDataAsset
@@ -287,7 +287,7 @@ Primary Asset Types:
 
 - Step 1: 구조체 정의
 
-```
+```cpp
 USTRUCT(BlueprintType)
 struct FWeaponStats : public FTableRowBase  // 중요! FTableRowBase 상속
 {
@@ -306,7 +306,7 @@ struct FWeaponStats : public FTableRowBase  // 중요! FTableRowBase 상속
 
 - Step 2: CSV 파일 생성
 
-```
+```json
 Name,Damage,FireRate,Range
 Pistol,25,0.3,800
 Rifle,40,0.1,1500
@@ -321,7 +321,7 @@ Shotgun,100,1.0,300
 
 - Step 4: 코드에서 사용
 
-```
+```cpp
 class AWeapon : public AActor
 {
     // 에디터에서 DataTable 연결
@@ -371,7 +371,7 @@ class AWeapon : public AActor
 
 - WeaponDataAsset 정의
 
-```
+```cpp
 UCLASS(BlueprintType)
 class UWeaponDataAsset : public UPrimaryDataAsset  // Primary Asset!
 {
@@ -415,7 +415,7 @@ public:
 
 - 다양한 발사 Ability 만들기
 
-```
+```cpp
 // GA_Fire_Single.cpp - 단발 사격
 UCLASS()
 class UGA_Fire_Single : public UGameplayAbility
@@ -447,7 +447,7 @@ class UGA_Fire_Burst : public UGameplayAbility
 
 - 무기 장착 시 사용
 
-```
+```cpp
 void ACharacter::EquipWeapon(UWeaponDataAsset* WeaponData)
 {
     if (!WeaponData) return;
@@ -505,7 +505,7 @@ void ACharacter::EquipWeapon(UWeaponDataAsset* WeaponData)
 
 - 계층 구조
 
-```
+```py
 Experience (게임 모드)
     ├── PawnData (캐릭터 정의)
     │   ├── Abilities
@@ -516,7 +516,7 @@ Experience (게임 모드)
 
 - Experience 정의
 
-```
+```cpp
 UCLASS()
 class ULyraExperienceDefinition : public UPrimaryDataAsset
 {
@@ -556,7 +556,7 @@ public:
 
 - Pawn Data 정의
 
-```
+```cpp
 UCLASS()
 class UPawnDataAsset : public UPrimaryDataAsset
 {
@@ -596,7 +596,7 @@ public:
 - 실제 적용 예시
 	- 같은 맵, 다른 게임
 	- 월요일 : 팀 데스매치
-	```
+	```py
 	Experience: EXP_TeamDeathmatch
 	├── PawnData:
 	│   ├── DA_Assault (돌격병)
@@ -607,7 +607,7 @@ public:
 	```
 	
 	- 화요일 : 배틀로얄
-	```
+	```py
 	Experience: EXP_BattleRoyale
 	├── PawnData:
 	│   └── DA_Default (기본 캐릭터)
@@ -618,7 +618,7 @@ public:
 - 적용 코드
 - Experience 로드 - 플레이어가 게임 모드를 선택하고 로드
 
-```
+```cpp
 void LoadExperience(FString ExperienceName)
 {
     // Primary Asset ID로 찾기
@@ -642,7 +642,7 @@ void LoadExperience(FString ExperienceName)
 
 - Experience 적용 - 로드된 Experience 적용
 
-```
+```cpp
 void OnExperienceLoaded(FPrimaryAssetId ExpId)
 {
     // 로드된 Experience 가져오기
@@ -684,7 +684,7 @@ void OnExperienceLoaded(FPrimaryAssetId ExpId)
 
 - Pawn Data 적용 - 플레이어가 캐릭터 선택
 
-```
+```cpp
 void ApplyPawnData(ALyraCharacter* Character, UPawnDataAsset* PawnData)
 {
     UE_LOG(LogTemp, Warning, TEXT("Applying PawnData: %s"),
@@ -757,7 +757,7 @@ void ApplyPawnData(ALyraCharacter* Character, UPawnDataAsset* PawnData)
 - 기존의 코드 중심 개발
 - 작업 프로세스
 
-```
+```cpp
 // Step 1: C++ 클래스 생성 (30분)
 class ASnowflakeLauncher : public AWeapon
 {
@@ -807,7 +807,7 @@ public:
 - Lyra 방식 (데이터 중심 개발)
 - 작업 프로세스
 
-```
+```py
 Step 1: WeaponDataAsset 생성 (5분)
 ├── Content Browser 우클릭
 ├── Miscellaneous > Data Asset
@@ -828,7 +828,7 @@ Step 3: 에디터에서 설정 (5분)
 
 - Data Asset 설정
 
-```
+```py
 // DA_Weapon_SnowflakeLauncher 에디터 설정
 WeaponName: "Snowflake Launcher"
 Description: "Spreads holiday cheer!"
@@ -850,7 +850,7 @@ FireSound: SFX_SnowflakeLaunch (Soft Reference)
 - 기존 방식
 - 코드 수정 과정
 
-```
+```cpp
 // Shotgun.cpp 파일 열기
 class AShotgun : public AWeapon
 {
@@ -890,7 +890,7 @@ graph LR
 - Lyra 방식
 - DataTable 수정 과정
 
-```
+```json
 // WeaponStats.csv 수정
 Name,Damage,FireRate,Range,PelletCount,SpreadAngle
 Pistol,25,0.3,800,1,0
@@ -916,7 +916,7 @@ graph LR
 - 밸런싱 반복 작업 비교
 - 기존 방식 - 밸런스 조정 지옥
 
-```
+```sh
 09:00 - "데미지 90 → 80으로"
 09:10 - 코드 수정 시작
 10:00 - 빌드 완료, 테스트
@@ -929,7 +929,7 @@ graph LR
 
 - Lyra 방식 - 실시간 밸런싱
 
-```
+```sh
 09:00:00 - "데미지 90 → 80으로"
 09:00:10 - CSV 수정, 저장
 09:00:20 - 테스트 "아직 강해요"
@@ -947,7 +947,7 @@ graph LR
 - 기존 방식
 - 필요한 새 클래스들
 
-```
+```cpp
 // 1. GameMode 클래스 (750줄)
 class AHalloweenZombieMode : public AGameMode
 {
@@ -1009,7 +1009,7 @@ class AWaveManager : public UObject { /* 300줄 */ };
 - Lyra 방식
 - Experience 생성 과정
 
-```
+```sh
 # EXP_HalloweenZombie.yaml (개념적 표현)
 ExperienceName: "Halloween Zombie Survival"
 GameMode: GM_Survival  # 기존 서바이벌 모드 재사용!
@@ -1034,7 +1034,7 @@ EnvironmentSettings:
 
 - Pawn Data 설정
 
-```
+```sh
 # DA_Pawn_Zombie
 CharacterName: "Zombie"
 Components:
@@ -1047,7 +1047,7 @@ Abilities:
 MoveSpeed: 300
 ```
 
-```
+```sh
 # DA_Pawn_Survivor
 CharacterName: "Survivor"
 Components:

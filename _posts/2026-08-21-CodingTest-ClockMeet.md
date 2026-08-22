@@ -105,7 +105,7 @@ $$\frac {719 \times t_1} {43200} \le k \le \frac {719 \times t_2} {43200}$$
 
 ## 💻 최종 코드
 
-```
+```cpp
 #include <algorithm>
 
 using namespace std;

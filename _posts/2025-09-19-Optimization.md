@@ -24,7 +24,7 @@ mermaid: true
 
 - 언리얼의 프레임 처리 과정
 
-```
+```cpp
 // 언리얼 엔진 내부 프레임 처리 (단순화)
 void UWorld::Tick(float DeltaTime)
 {
@@ -56,7 +56,7 @@ void UWorld::Tick(float DeltaTime)
 
 1. 무조건 Tick 켜기
 
-```
+```cpp
 // 잘못된 예시
 AMyActor::AMyActor()
 {
@@ -75,7 +75,7 @@ void AMyActor::Tick(float DeltaTime)
 
 2. 매 프레임 동적 할당
 
-```
+```cpp
 // 끔찍한 예시
 void AWeapon::Tick(float DeltaTime)
 {
@@ -87,7 +87,7 @@ void AWeapon::Tick(float DeltaTime)
 
 3. 편하니까 맵 쓰자
 
-```
+```cpp
 // 맵 중독자
 class AGameManager : public AActor
 {
@@ -111,7 +111,7 @@ public:
 
 4. 매 프레임 거리 체크
 
-```
+```cpp
 // 거리 체크 중독자
 void AEnemy::Tick(float DeltaTime)
 {
@@ -132,7 +132,7 @@ void AEnemy::Tick(float DeltaTime)
 
 ##### 원칙 1: 비활성화가 기본값
 
-```
+```cpp
 // 올바른 기본 설정
 AMyActor::AMyActor()
 {
@@ -147,7 +147,7 @@ AMyActor::AMyActor()
 
 - 상황에 따른 Tick 제어
 
-```
+```cpp
 // 스마트한 Tick 관리
 class ASmartEnemy : public ACharacter
 {
@@ -227,7 +227,7 @@ public:
 
 ##### 원칙 2: 업데이트 빈도 조절하기 (LOD of Logic)
 
-```
+```cpp
 // 스마트한 LOD 시스템
 class ASmartNPC : public ACharacter
 {
@@ -388,7 +388,7 @@ public:
 
 - 폴링 방식과 이벤트 방식 비교
 
-```
+```cpp
 // 폴링 방식 - 매 프레임 체크 (X)
 class AEnemyPolling : public ACharacter
 {
@@ -418,7 +418,7 @@ public:
 };
 ```
 
-```
+```cpp
 // 이벤트 방식 - 필요할 때만 실행 (O)
 class AEnemyEvent : public ACharacter
 {
@@ -532,7 +532,7 @@ public:
 
 - 델리게이트와 이벤트 디스패처
 
-```
+```cpp
 // 게임 모드에서 글로벌 이벤트 관리
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveStarted, int32, WaveNumber);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerHealthChanged, float, NewHealth);
@@ -608,7 +608,7 @@ public:
 
 ##### 원칙 4: 오브젝트 풀링
 
-```
+```cpp
 // 효율적인 오브젝트 풀
 UCLASS()
 class MYGAME_API AProjectilePool : public AActor
@@ -793,7 +793,7 @@ public:
 
 - 발사체 클래스도 풀링에 맞게 수정
 
-```
+```cpp
 // 풀링을 고려한 발사체 클래스
 class AProjectile : public AActor
 {
@@ -856,7 +856,7 @@ private:
 
 - 사용법
 
-```
+```cpp
 // 무기에서 총알 발사
 void AWeapon::Fire()
 {
@@ -884,7 +884,7 @@ void AWeapon::Fire()
 
 ##### 개별 액터 방식의 문제점
 
-```
+```cpp
 // 개별 액터 방식 (X)
 void AEnemy::Tick(float DeltaTime)
 {
@@ -902,7 +902,7 @@ void AEnemy::Tick(float DeltaTime)
 	- 실제 함수 실행
 	- 리턴값 처리
 
-```
+```cpp
 void TestPerformance()
 {
     const int32 EntityCount = 1000;  // 1000개의 엔티티
@@ -1014,7 +1014,7 @@ void UpdateEntitiesBatch(TArray<FVector>& Locations, const TArray<FVector>& Velo
 
 - 전통적인 AoS (Array of Structures) 방식
 
-```
+```cpp
 // 이렇게 하나의 구조체에 모든 데이터를 넣는 방식
 struct FProjectile
 {
@@ -1033,7 +1033,7 @@ TArray<FProjectile> Projectiles;  // 이렇게 저장
 
 - 혁신적인 SoA (Structure of Arrays) 방식
 
-```
+```cpp
 // 같은 종류의 데이터끼리 따로 저장하는 방식
 class UProjectileManager
 {
@@ -1050,7 +1050,7 @@ private:
 
 - 완전한 발사체 매니저 구현
 
-```
+```cpp
 // 고성능 발사체 매니저 (SoA 구조 + 메모리 재사용)
 UCLASS()
 class MYGAME_API UProjectileManagerSubsystem : public UWorldSubsystem
@@ -1297,7 +1297,7 @@ public:
 
 - 언리얼의 TickGroup 시스템
 
-```
+```cpp
 // TickGroup 종류 (실행 순서대로)
 enum ETickingGroup : uint8
 {
@@ -1314,7 +1314,7 @@ enum ETickingGroup : uint8
 
 - 매니저에 적절한 TickGroup 설정하기
 
-```
+```cpp
 // 매니저에 적절한 TickGroup 설정
 class AProjectileManager : public AActor
 {
@@ -1351,7 +1351,7 @@ public:
 
 - Tick 의존성 직접 설정하기
 
-```
+```cpp
 // 특정 액터가 끝난 후에 실행되도록 설정
 void AMyActor::BeginPlay()
 {
@@ -1388,7 +1388,7 @@ AProjectileManager* AMyActor::FindProjectileManager()
 
 - 가장 흔한 실수
 
-```
+```cpp
 // 성능 킬러 - 계속 재할당이 일어나는 코드
 void BadExample()
 {
@@ -1403,7 +1403,7 @@ void BadExample()
 }
 ```
 
-```
+```cpp
 // 성능 최적화 - 미리 공간을 확보하는 올바른 방법
 void GoodExample()
 {
@@ -1423,7 +1423,7 @@ void GoodExample()
 
 - 성능 차이 측정을 위한 예제
 
-```
+```cpp
 void CompareArrayPerformance()
 {
     const int32 ElementCount = 50000;  // 5만개로 테스트
@@ -1472,7 +1472,7 @@ void CompareArrayPerformance()
 
 - 다양한 TArray 최적화 기법
 
-```
+```cpp
 class FArrayOptimizationTips
 {
 public:
@@ -1601,7 +1601,7 @@ public:
 
 - 사용 가이드라인
 
-```
+```cpp
 // TMap을 써야 하는 경우
 class FPlayerDatabase
 {
@@ -1686,7 +1686,7 @@ public:
 
 - 하이브리드 접근법 - 정렬된 배열
 
-```
+```cpp
 // 검색도 필요하고 메모리도 절약하고 싶을 때
 class FSortedDatabase
 {
@@ -1770,7 +1770,7 @@ private:
 
 ##### 초기 상황 - 성능 재앙
 
-```
+```cpp
 // 초기 버전 - 성능 재앙
 class AZombie : public ACharacter
 {
@@ -1813,7 +1813,7 @@ private:
 
 ##### 1단계 최적화 - 매니저 패턴 도입
 
-```
+```cpp
 // 1단계 - 매니저로 일괄 처리
 UCLASS()
 class AZombieManager : public AActor
@@ -2060,7 +2060,7 @@ private:
 
 ##### 2단계 최적화 - LOD 시스템 도입
 
-```
+```cpp
 // 2단계 - 거리 기반 LOD 시스템
 void AZombieManager::UpdateAI_WithLOD(float DeltaTime)
 {
@@ -2161,7 +2161,7 @@ void AZombieManager::UpdateZombieAI_Minimal(int32 Index, float DeltaTime)
 
 ##### 3단계 최적화 - 고급 공간 분할
 
-```
+```cpp
 // 3단계 - QuadTree를 이용한 공간 분할
 class FZombieQuadTree
 {

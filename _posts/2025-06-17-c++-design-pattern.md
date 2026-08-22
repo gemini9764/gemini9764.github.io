@@ -52,7 +52,7 @@ positionY: int
 ```
 
 
-```
+```cpp
     #include <iostream>
     using namespace std;
     
@@ -172,7 +172,7 @@ getPrice(): double
 }
 ```
 
-```
+```cpp
     #include <iostream>
     #include <string>
     
@@ -339,7 +339,7 @@ update(data: int): void
 - **연결 구조**
     - `Observer`들은 `Subject`에 등록하고 변경이 발생하면 알람을 받음
 
-```
+```cpp
     #include <iostream>
     #include <vector>
     #include <string>

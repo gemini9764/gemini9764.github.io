@@ -13,7 +13,7 @@ mermaid: true
 
 - 기존 입력 시스템의 문제점
 
-```
+```cpp
 // 하드코딩된 입력 처리
 void OnKeyE_Pressed()
 {
@@ -37,7 +37,7 @@ void OnKeyE_Pressed()
 	- 실제 키와 분리된 추상 레이어
 	- 재매핑과 확장이 용이
 
-```
+```cpp
 UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 class UInputAction* InteractAction;
 
@@ -52,14 +52,14 @@ class UInputAction* PrimaryAction;
 
 - ContextMangerComponent 로 상황을 관리
 
-```
+```cpp
 UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 TMap<EGameplayContext, UInputMappingContext*> ContextMappings;
 ```
 
 - Context Stack - 우선순위 관리
 
-```
+```py
 [Context Stack 구조]
 ┌────────────────────┐ ← Top (최우선)
 │ WindowCleaning     │
@@ -96,7 +96,7 @@ TMap<EGameplayContext, UInputMappingContext*> ContextMappings;
 
 - Montage 재생 흐름
 
-```
+```cpp
 PlayAnimMontage() 호출
          ↓
 Duration 반환 (실제 재생 시간)
@@ -111,7 +111,7 @@ State Machine에 시간 전달
 
 - 상태 (State)의 필요성
 
-```
+```py
 문제 상황
 - 청소 중 → 또 청소 시작?
 - 청소 중 → 이동/점프?
@@ -120,7 +120,7 @@ State Machine에 시간 전달
 
 - 상태 정의
 
-```
+```cpp
 enum class ECleaningState
 {
     Idle,      // 모든 행동 가능
@@ -137,7 +137,7 @@ enum class ECleaningState
 
 - 상태 전환 흐름
 
-```
+```py
 [Idle] --E키 입력--> [Cleaning] --시간 경과--> [Idle]
    ↑                                             ↓
    └───────────── 이동/점프 시 중단 ──────────────┘
@@ -145,7 +145,7 @@ enum class ECleaningState
 
 - 핵심 함수 요약
 
-```
+```cpp
 void UCleaningStateMachine::StartCleaning(float Duration)
 {
     if (!CanStartCleaning()) return;
@@ -157,7 +157,7 @@ void UCleaningStateMachine::StartCleaning(float Duration)
 }
 ```
 
-```
+```cpp
 void UCleaningStateMachine::TickComponent(...)
 {
     if (CurrentState == ECleaningState::Cleaning)
@@ -175,7 +175,7 @@ void UCleaningStateMachine::TickComponent(...)
 
 - 전체 처리 흐름
 
-```
+```py
 플레이어 입력 (E키)
       ↓
 InputAction 생성 (InteractAction)
@@ -242,7 +242,7 @@ StateMachine 확인 (지금 가능한가?)
 	- 중복 청소 방지
 	- 모드 전환 시 진행 중인 청소 자동 중단
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -316,7 +316,7 @@ private:
 
 *EnhancedChallengeCharacter.h*
 
-```
+```cpp
 #include "EnhancedChallengeCharacter.h"
 #include "ContextManagerComponent.h"
 #include "CleaningStateMachine.h"
@@ -500,7 +500,7 @@ void AEnhancedChallengeCharacter::ShowActionText(const FString& Text)
 
 *EnhancedChallengeCharacter.cpp*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -565,7 +565,7 @@ private:
 
 *ContextManagerComponent.h*
 
-```
+```cpp
 #include "ContextManagerComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/LocalPlayer.h"
@@ -654,7 +654,7 @@ void UContextManagerComponent::ClearAllContexts()
 
 *ContextManagerComponent.cpp*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -728,7 +728,7 @@ private:
 
 *CleaningStateMachine.h*
 
-```
+```cpp
 #include "CleaningStateMachine.h"
 #include "EnhancedChallengeCharacter.h"
 #include "Engine/World.h"

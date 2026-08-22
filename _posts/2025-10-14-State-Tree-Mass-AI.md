@@ -44,13 +44,13 @@ mermaid: true
 
 - 기본 공식
 
-```
+```py
 최종 점수 = Score x Weight
 ```
 
 - 예시 1: HP 기반 선택
 
-```
+```py
 공격 State : Score = HP% x Weight(1.5)
 도망 State : Score = (1 - HP%) x Weight(2.0)
 
@@ -60,7 +60,7 @@ HP 20% : 공격 0.3, 도망 1.6 -> 도망 선택
 
 - 예시 2: 거리 기반 선택
 
-```
+```py
 근접 공격 : Score = (1000 - Distance) / 1000
 원거리 공격 : Score = Distance / 1000
 
@@ -128,7 +128,7 @@ Distance 800 : 근접 0.2, 원거리 0.8 -> 원거리 선택
 - 태그 시스템 활용
 	- 계층화된 세계 구축
 
-```
+```py
 일반 농민 -> Pedestrian 태그만 -> 공공 도로만 접근
 상인 -> Pedestrian + Merchant 태그 -> 상점 내부도 접근
 귀족 -> All 태그 -> 성과 정원까지 접근
@@ -187,7 +187,7 @@ Movement Processor 활성화
 - Sync란?
 	- Mass Entity(데이터)와 Visual Actor(3D 캐릭터) 사이의 정보 동기화
 
-```
+```py
 Mass Entity (두뇌)
    ↕ Sync
 Visual Actor (몸)
@@ -201,13 +201,13 @@ Visual Actor (몸)
 - 예시
 	- Agent Movement Sync (Mass to Actor)
 
-	```
+	```py
 	Mass가 새 위치 계산 -> Visual Actor를 그 위치로 이동
 	```
 
 	- Player Navigation Obstacle (Actor to Mass)
 
-	```
+	```py
 	플레이어 이동 -> Mass 시스템에 위치 알림 -> NPC가 회피
 	```
 
@@ -244,7 +244,7 @@ Visual Actor (몸)
 - Transition 설정
 	- On State Completed -> Transition to Root
 
-	```
+	```py
 	Wander 완료 -> Root로 돌아가기 -> Wander 재시작 -> 무한 반복
 	```
 
@@ -277,7 +277,7 @@ Visual Actor (몸)
 - 해결 : Navigation Obstacle
 	- 플레이어를 Mass 시스템에 등록
 
-	```
+	```py
 	Player Config Asset 생성
 		↓
 	Traits 추가

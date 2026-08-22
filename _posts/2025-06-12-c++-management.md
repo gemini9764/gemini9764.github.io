@@ -27,7 +27,7 @@ mermaid: true
     - 메모리 할당된 변수가 해제되었는데, 해제된 메모리 공간에 접근하려고 했을 때의 현상
     - Dangling Pointer 예시
 
-```
+```cpp
 #include <iostream>
 using namespace std;
     
@@ -63,7 +63,7 @@ int main() {
     - 두 개의 포인터가 동시에 하나의 메모리 공간을 소유할 순 없다
     - 소유권의 개념만 있기 때문에 `복사` 혹은 `대입`이 불가능
 
-```
+```cpp
 #include <iostream>
 #include <memory>
 using namespace std;
@@ -113,7 +113,7 @@ int main() {
     - `reset()` 메소드로 소유 중인 객체를 해제하거나 다른 객체로 변경할 수 있다
 
 
-```
+```cpp
 #include <iostream>
 #include <memory>
 using namespace std;
@@ -163,7 +163,7 @@ int main() {
 
 - 순환참조가 발생하는 예시
 
-```
+```cpp
 #include <iostream>
 #include <memory>
 using namespace std;
@@ -209,7 +209,7 @@ int main() {
 
 - `weak_ptr`로 순환참조를 해결하는 예시
 
-```
+```cpp
 #include <iostream>
 #include <memory>
 using namespace std;
@@ -250,7 +250,7 @@ int main()
 
 ![얕은 복사.png](/assets/img/posts/file_photos/얕은%20복사.png)
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -281,7 +281,7 @@ int main() {
 
 ![깊은 복사.png](/assets/img/posts/file_photos/깊은%20복사.png)
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 

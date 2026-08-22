@@ -46,7 +46,7 @@ mermaid: true
 
 - 기본 구조
 
-```
+```cpp
 class AMyGameMode : public AGameModeBase
 {
 public:
@@ -72,7 +72,7 @@ private:
 
 - 핵심 구현 패턴
 
-```
+```cpp
 // GameMode의 가장 중요한 패턴
 void AMyGameMode::StartMatch()
 {
@@ -107,7 +107,7 @@ void AMyGameMode::StartMatch()
 
 - 기본 구조
 
-```
+```cpp
 class AMyGameState : public AGameStateBase
 {
 public:
@@ -128,7 +128,7 @@ public:
 
 - 핵심 구현 패턴
 
-```
+```cpp
 // UI 친화적 시간 포맷팅
 FString AMyGameState::GetFormattedTime() const
 {
@@ -163,7 +163,7 @@ FLinearColor AMyGameState::GetTimeColor() const
 
 - 올바른 접근 방법
 
-```
+```cpp
 잘못된 접근
     - ❌ AMyPlayerState* PS = GetWorld()->GetGameState()->PlayerArrya[0];
 올바른 접근
@@ -176,7 +176,7 @@ GameMode (서버)
 
 - 기본 구조
 
-```
+```cpp
 class AMyPlayerState : public APlayerState
 {
 public:
@@ -208,7 +208,7 @@ private:
 
 - 핵심 구현 패턴
 
-```
+```cpp
 // 데이터 무결성 보장 패턴
 void AMyPlayerState::AddScore(int32 Points)
 {
@@ -245,7 +245,7 @@ void AMyPlayerState::AddScore(int32 Points)
 
 - 기본 구조
 
-```
+```cpp
 UCLASS()
 class UMyGameInstance : public UGameInstance
 {
@@ -281,7 +281,7 @@ private:
 
 - GameInstance의 스마트한 레벨 전환
 
-```
+```cpp
 // MyGameInstance.cpp - 레벨 전환의 핵심
 void UMyGameInstance::LoadGameLevel(int32 LevelIndex)
 {
@@ -376,7 +376,7 @@ void UMyGameInstance::LoadNextLevel()
 
 - 생명주기 함수 안전성
 
-```
+```py
 //위험도 순서(높음 -> 낮음)
 생성자          // 의존성 객체 없음
 PostInitComp   // 일부 객체 준비됨
@@ -387,7 +387,7 @@ StartPlay      // ✅ 완전 준비 완료
 
 - 초기화 문제 해결 패턴
 
-```
+```cpp
 // ❌ 위험한 코드 - BeginPlay에서 PlayerState 접근
 void AMyGameMode::BeginPlay()
 {
@@ -455,7 +455,7 @@ void AMyGameMode::SomeFunction()
 
 - 완전한 게임 시나리오
 
-```
+```cpp
 // 1. 플레이어가 아이템 수집
 void AMyPlayer::OnCollectItem(int32 Value)
 {
@@ -513,7 +513,7 @@ void UMyGameInstance::ReportLevelCompleted(int32 Level, int32 Score)
 
 - 생명주기 무시 - 초기화 타이밍 실수
 
-```
+```cpp
 // ❌ 위험: 너무 이른 접근
 void AMyGameMode::BeginPlay()
 {
@@ -532,7 +532,7 @@ void AMyGameMode::PostLogin(APlayerController* PC)
 
 - GameMode/GameState 조합 오류
 
-```
+```cpp
 // ❌ 컴파일 에러 또는 기능 누락
 AGameModeBase + AGameState       // 컴파일 에러!
 AGameMode + AGameStateBase       // 기능 누락!
@@ -544,7 +544,7 @@ AGameMode + AGameState           // 완전한 기능
 
 - 레벨 전환 시 데이터 손실
 
-```
+```cpp
 // ❌ 위험: PlayerState가 이주 중일 때 접근
 void SomeFunction()
 {
@@ -563,7 +563,7 @@ void UMyGameInstance::GetSafePlayerScore()
 
 - 싱글플레이어 나쁜 습관
 
-```
+```cpp
 // ❌ 나쁜 예: 모든 걸 한 곳에
 class AMyPlayer : public APawn
 {
@@ -575,7 +575,7 @@ class AMyPlayer : public APawn
 
 - 싱글 -> 멀티 전환의 마법 (올바른 구조의 힘)
 
-```
+```cpp
 // 기존 싱글플레이어 코드
 void AMyPlayerState::AddScore(int32 Points)
 {

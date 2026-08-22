@@ -15,7 +15,7 @@ mermaid: true
 
 - 서버 권위 방식의 한계
 
-```
+```cpp
 // 나쁜 예시 - 전통적 서버 권위 방식
 void FireSkill()
 {
@@ -40,7 +40,7 @@ void FireSkill()
 
 - 핵심 아이디어 : "서버 응답 기다리지 말고 일단 보여주자"
 
-```
+```cpp
 // GAS의 예측 방식
 void FireSkill_WithPrediction()
 {
@@ -71,7 +71,7 @@ void FireSkill_WithPrediction()
 
 - 예측이 틀렸을 때의 처리
 
-```
+```cpp
 // 롤백 과정
 ClientState = {
     Mana: 100 → 50      // 예측: 마나 감소
@@ -102,7 +102,7 @@ RollbackProcess = {
 
 - FPredictionKey의 실제 구조
 
-```
+```cpp
 struct FPredictionKey
 {
     int16 Current;    // 현재 예측 번호 (0~65535)
@@ -134,7 +134,7 @@ void ActivateFireballAbility()
 	- 네트워크 최적화 (작은 패킷)
 	- 롤오버 안전성
 
-```
+```cpp
 void ServerRPC_ActivateAbility(FPredictionKey PredictionKey)
 {
     if (PlayerHasEnoughMana() && 
@@ -152,7 +152,7 @@ void ServerRPC_ActivateAbility(FPredictionKey PredictionKey)
 }
 ```
 
-```
+```cpp
 void ComboExample()
 {
     UseSkill_Dash();        // → Prediction Key #40
@@ -166,7 +166,7 @@ void ComboExample()
 
 ##### NetExecutionPolicy
 
-```
+```cpp
 enum class EGameplayAbilityNetExecutionPolicy : uint8
 {
     LocalOnly,          // 로컬 전용
@@ -187,7 +187,7 @@ enum class EGameplayAbilityNetExecutionPolicy : uint8
 
 - LocalOnly - 나만 아는 액션
 
-```
+```cpp
 UInventoryAbility::UInventoryAbility()
 {
     NetExecutionPolicy = LocalOnly;
@@ -201,7 +201,7 @@ void UInventoryAbility::ActivateAbility(...)
 
 - LocalPredicted - 대부분의 전투 액션
 
-```
+```cpp
 UDashAbility::UDashAbility()
 {
     NetExecutionPolicy = LocalPredicted;
@@ -231,7 +231,7 @@ void UDashAbility::ActivateAbility(...)
 
 - ServerOnly - 중요한 결정
 
-```
+```cpp
 UPurchaseItemAbility::UPurchaseItemAbility()
 {
     NetExecutionPolicy = ServerOnly;
@@ -256,7 +256,7 @@ void UPurchaseItemAbility::ActivateAbility(...)
 
 - ServerInitiated - 서버 이벤트
 
-```
+```cpp
 UBossAreaAttack::UBossAreaAttack()
 {
     NetExecutionPolicy = ServerInitiated;
@@ -277,7 +277,7 @@ void UBossAreaAttack::ActivateAbility(...)
 
 - 실제 구현 패턴
 
-```
+```cpp
 void UMyMeleeAbility::ActivateAbility(...)
 {
     // 예측 윈도우 열기
@@ -304,7 +304,7 @@ void UMyMeleeAbility::ActivateAbility(...)
 
 ##### 서버 권위와 클라이언트 자유의 균형
 
-```
+```cpp
 // 경쟁 게임 (서버 권위 90%)
 UMyCompetitiveAbility::UMyCompetitiveAbility()
 {
@@ -387,7 +387,7 @@ stateDiagram
 
 - 태그 계층 구조
 
-```
+```py
 Ability.
 ├── Melee.
 │   ├── Light      (약공격)
@@ -415,7 +415,7 @@ SetByCaller.
 
 - 코드 구현
 
-```
+```cpp
 // L18GameplayTags.h
 namespace L18Tags
 {
@@ -441,7 +441,7 @@ namespace L18Tags
 }
 ```
 
-```
+```cpp
 // L18GameplayTags.cpp
 namespace L18Tags
 {
@@ -475,7 +475,7 @@ namespace L18Tags
 
 - 네이티브 태그의 장점
 	1. 컴파일 타임 체크
-	```
+	```cpp
 	// 오타를 컴파일 타임에 잡음
 	if (AbilityTags.HasTag(L18Tags::Ability_Melee))
 
@@ -484,7 +484,7 @@ namespace L18Tags
 	```
 
 	2. 태그 계층 활용
-	```
+	```cpp
 	// 상위 태그로 하위 태그들 체크
 	if (AbilityTags.HasTag(L18Tags::Ability_Melee))
 	{
@@ -503,7 +503,7 @@ namespace L18Tags
 
 - 클래스 구조
 
-```
+```cpp
 // L18Ability_Melee.h
 UCLASS()
 class UL18Ability_Melee : public UGameplayAbility
@@ -568,7 +568,7 @@ protected:
 
 - 생성자 구현
 
-```
+```cpp
 UL18Ability_Melee::UL18Ability_Melee()
 {
     // 실행마다 새 인스턴스 (콤보 가능)
@@ -590,7 +590,7 @@ UL18Ability_Melee::UL18Ability_Melee()
 
 - ActivateAbility 구현
 
-```
+```cpp
 void UL18Ability_Melee::ActivateAbility(
     const FGameplayAbilitySpecHandle Handle,
     const FGameplayAbilityActorInfo* ActorInfo,
@@ -673,7 +673,7 @@ void UL18Ability_Melee::ActivateAbility(
 
 - 근접 공격 수행
 
-```
+```cpp
 void UL18Ability_Melee::PerformMeleeAttack()
 {
     const FGameplayAbilityActorInfo* Info = GetCurrentActorInfo();
@@ -725,7 +725,7 @@ void UL18Ability_Melee::PerformMeleeAttack()
 
 - 히트 감지
 
-```
+```cpp
 TArray<AActor*> UL18Ability_Melee::PerformHitDetection(const FVector& HitLocation)
 {
     TArray<AActor*> HitActors;
@@ -769,7 +769,7 @@ TArray<AActor*> UL18Ability_Melee::PerformHitDetection(const FVector& HitLocatio
 
 - 데미지 적용
 
-```
+```cpp
 void UL18Ability_Melee::ApplyDamageToTarget(AActor* Target)
 {
     if (!Target || !DamageEffectClass) return;
@@ -823,7 +823,7 @@ void UL18Ability_Melee::ApplyDamageToTarget(AActor* Target)
 
 - Ability 종료
 
-```
+```cpp
 void UL18Ability_Melee::EndAbility(
     const FGameplayAbilitySpecHandle Handle,
     const FGameplayAbilityActorInfo* ActorInfo,

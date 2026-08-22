@@ -54,7 +54,7 @@ mermaid: true
 
 - CPU Bound (CPU 병목)
 
-```
+```py
 증상: GPU 여유 있는데 FPS 낮음
 원인:
 - 과도한 Actor Tick
@@ -65,7 +65,7 @@ mermaid: true
 
 - GPU Bound (GPU 병목)
 
-```
+```py
 증상: CPU 여유 있는데 FPS 낮음
 원인:
 - 높은 해상도 (4K = 1080p의 4배)
@@ -76,7 +76,7 @@ mermaid: true
 
 - 메모리 병목
 
-```
+```py
 증상: 간헐적 심각한 프레임 드랍
 원인:
 - 가비지 컬렉션 (100ms+ 정지)
@@ -89,7 +89,7 @@ mermaid: true
 
 - 프레임 처리 과정
 
-```
+```py
 Frame N:   GameThread 처리 중
 Frame N-1: RenderThread 준비 중
 Frame N-2: RHIThread 전송 중

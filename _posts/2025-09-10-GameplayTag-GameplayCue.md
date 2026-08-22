@@ -15,7 +15,7 @@ mermaid: true
 
 - 전통적 방식의 문제점
 
-```
+```cpp
 class AMyCharacter
 {
 private:
@@ -33,7 +33,7 @@ private:
 
 1. 확장성 제로
 
-```
+```cpp
 void RemoveAllDebuffs()
 {
     bIsBurning = false;
@@ -45,7 +45,7 @@ void RemoveAllDebuffs()
 
 2. 조건 검사의 복잡성
 
-```
+```cpp
 bool CanUseFireSpell()
 {
     if (bIsFrozen) return false;
@@ -59,7 +59,7 @@ bool CanUseFireSpell()
 
 ##### Enum의 한계
 
-```
+```cpp
 enum class ECharacterState
 {
     Normal,
@@ -78,14 +78,14 @@ enum class ECharacterState
 
 - GameplayTag는 **문자열 기반의 계층적 라벨 시스템**
 
-```
+```sh
 Ability.Fire.Bolt         // 파이어볼트 능력
 Status.Debuff.Frozen      // 얼음 디버프 상태
 Cooldown.Ultimate         // 궁극기 쿨다운
 GameplayCue.Explosion     // 폭발 연출 신호
 ```
 
-```
+```py
 Status                    // 최상위 (모든 상태의 부모)
 ├── Status.Buff          // 버프 (긍정적 효과)
 ├── Status.Debuff        // 디버프 (부정적 효과)
@@ -97,7 +97,7 @@ Status                    // 최상위 (모든 상태의 부모)
 	2. **상속 검색** : 상위 태그로 하위 모든 태그 검색 가능
 	3. **컨테이너 기반** : 여러 태그를 동시에 보유 가능
 
-	```
+	```cpp
 	FGameplayTagContainer PlayerTags;  // 태그를 담는 컨테이너
 	PlayerTags.AddTag("Status.Buff.Haste");       // 가속 버프
 	PlayerTags.AddTag("Status.Debuff.Poisoned");  // 중독 디버프
@@ -109,7 +109,7 @@ Status                    // 최상위 (모든 상태의 부모)
 
 ##### 계층 구조 - 실제 예시로 이해하기
 
-```
+```cpp
 Status
 ├── Status.Buff
 │   ├── Status.Buff.Temporary.Haste
@@ -125,7 +125,7 @@ Status
 
 - 가능한 검색들
 
-```
+```cpp
 // 모든 디버프 체크
 if (ASC->HasMatchingGameplayTag("Status.Debuff"))
 {
@@ -145,7 +145,7 @@ if (ASC->HasMatchingGameplayTag("Status.Debuff.MovementImpaired.Stun"))
 }
 ```
 
-```
+```cpp
 // 기존 방식 - 하드코딩 지옥
 bool HasAnyDebuff()
 {
@@ -163,20 +163,20 @@ bool HasAnyDebuff()
 
 1. Exact Match (정확 일치)
 
-```
+```cpp
 HasMatchingGameplayTag("Status.Debuff.Frozen")
 ```
 
 2. Partial Match (부분 일치)
 
-```
+```cpp
 HasMatchingGameplayTag("Status.Debuff")
 // Status.Debuff로 시작하는 모든 태그 매치
 ```
 
 3. Container Match (컨테이너 일치)
 
-```
+```cpp
 FGameplayTagContainer RequiredTags;
 RequiredTags.AddTag("Status.Buff.Haste");
 RequiredTags.AddTag("Status.Buff.Shield");
@@ -197,7 +197,7 @@ if (ASC->HasAllMatchingGameplayTags(RequiredTags))
 
 - 내부 구조
 
-```
+```cpp
 struct FGameplayTag
 {
     FName TagName;  // 해시 기반 빠른 비교
@@ -222,7 +222,7 @@ ParentTags.Add("Status.Debuff.Frozen");
 
 ##### 태그와 Ability System의 통합
 
-```
+```cpp
 class UMyAbility : public UGameplayAbility
 {
     // 이 Ability가 가진 태그들
@@ -241,7 +241,7 @@ class UMyAbility : public UGameplayAbility
 
 - 파이어볼트 스킬 설정 예시
 
-```
+```cpp
 UFireBoltAbility::UFireBoltAbility()
 {
     AbilityTags.AddTag("Ability.Fire.Bolt");
@@ -260,7 +260,7 @@ UFireBoltAbility::UFireBoltAbility()
 
 - 추천구조
 
-```
+```sh
 Ability
 ├── Ability.Active.Fire.Bolt
 ├── Ability.Passive.FireResist
@@ -297,7 +297,7 @@ Damage
 
 - 중앙 집중식 관리
 
-```
+```cpp
 ; Config/DefaultGameplayTags.ini
 [/Script/GameplayTags.GameplayTagsSettings]
 
@@ -308,7 +308,7 @@ Damage
 
 - 버전 관리와 호환성
 
-```
+```cpp
 +GameplayTagRedirects=(OldTagName="OldStatus.Burn",NewTagName="Status.Debuff.Burning")
 ```
 
@@ -319,7 +319,7 @@ Damage
 
 - 전통적 방식
 
-```
+```cpp
 void CastFireball()
 {
     // 게임플레이 로직
@@ -348,7 +348,7 @@ void CastFireball()
 
 - **"게임 플레이 로직과 연출을 완전히 분리하고, 태그로 연결하자!"**
 
-```
+```cpp
 // GAS 방식
 void CastFireball()
 {
@@ -371,7 +371,7 @@ void CastFireball()
 
 - 연출 처리 분리
 
-```
+```cpp
 class AGameplayCue_Spell_Fireball_Impact : public AGameplayCueNotify_Actor
 {
 public:
@@ -390,7 +390,7 @@ public:
 
 1. Execute Cue (실행형) - 한 방
 
-	```
+	```cpp
 	ASC->ExecuteGameplayCue("GameplayCue.Explosion.Fireball");
 	```
 
@@ -399,7 +399,7 @@ public:
 
 2. Add Cue (추가형) - 지속 시작
 
-	```
+	```cpp
 	ASC->AddGameplayCue("GameplayCue.Status.Burning");
 	```
 
@@ -408,7 +408,7 @@ public:
 
 3. Remove Cue (제거형) - 지속 종료
 
-	```
+	```cpp
 	ASC->RemoveGameplayCue("GameplayCue.Status.Burning");
 	```
 
@@ -420,15 +420,15 @@ public:
 
 - Execute Cue 생명주기
 
-```
-ExecuteGameplayCue 호출 → Cue 클래스 찾기 → OnExecute 실행 → 자동 정리
+```py
+ExecuteGameplayCue 호출 -> Cue 클래스 찾기 -> OnExecute 실행 -> 자동 정리
 ```
 
 -  Add/Remove Cue 생명주기
 
-```
-AddGameplayCue → 인스턴스 생성 → OnActive 실행 → WhileActive 반복
-→ RemoveGameplayCue → OnRemove 실행 → 정리
+```py
+AddGameplayCue -> 인스턴스 생성 -> OnActive 실행 -> WhileActive 반복
+-> RemoveGameplayCue -> OnRemove 실행 -> 정리
 ```
 
 
@@ -436,7 +436,7 @@ AddGameplayCue → 인스턴스 생성 → OnActive 실행 → WhileActive 반�
 
 - OnExecute - 한 방 효과
 
-```
+```cpp
 virtual void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters) override
 {
     // 파티클 이펙트
@@ -466,7 +466,7 @@ virtual void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters)
 
 - OnActive - 지속 효과 시작
 
-```
+```cpp
 virtual void OnActive(AActor* Target, const FGameplayCueParameters& Parameters) override
 {
     // 파티클 시스템 시작
@@ -495,7 +495,7 @@ virtual void OnActive(AActor* Target, const FGameplayCueParameters& Parameters) 
 
 - WhileActive - 진행 중 처리
 
-```
+```cpp
 virtual bool WhileActive(AActor* Target, const FGameplayCueParameters& Parameters) override
 {
     // 동적 효과 조절
@@ -518,7 +518,7 @@ virtual bool WhileActive(AActor* Target, const FGameplayCueParameters& Parameter
 
 - OnRemove - 지속 효과 종료
 
-```
+```cpp
 virtual void OnRemove(AActor* Target, const FGameplayCueParameters& Parameters) override
 {
     // 파티클 시스템 정지
@@ -545,7 +545,7 @@ virtual void OnRemove(AActor* Target, const FGameplayCueParameters& Parameters) 
 
 ##### Parameters를 통한 데이터 전달 - 동적 연출
 
-```
+```cpp
 FGameplayCueParameters CueParams;
 
 // 기본 정보
@@ -565,7 +565,7 @@ ASC->ExecuteGameplayCue("GameplayCue.Impact.Weapon", CueParams);
 
 - 연출에서 활용
 
-```
+```cpp
 void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters) override
 {
     // 데미지 크기에 따른 이펙트 조절
@@ -591,7 +591,7 @@ void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters) overrid
 
 - Local Cue (로컬 전용)
 
-	```
+	```cpp
 	ASC->ExecuteGameplayCueLocal("GameplayCue.UI.ExperienceGain");
 	ASC->ExecuteGameplayCueLocal("GameplayCue.Camera.Zoom");
 	```
@@ -602,7 +602,7 @@ void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters) overrid
 
 - Replicated Cue (네트워크 복제)
 
-	```
+	```cpp
 	ASC->ExecuteGameplayCue("GameplayCue.Spell.Fireball.Cast");
 	ASC->AddGameplayCue("GameplayCue.Status.Burning");
 	```
@@ -616,7 +616,7 @@ void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters) overrid
 
 - GameplayCueNotify_Static(가벼운 연출)
 
-	```
+	```cpp
 	class UMyGameplayCue_Simple : public UGameplayCueNotify_Static
 	{
 	public:
@@ -637,7 +637,7 @@ void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters) overrid
 
 - GameplayCueNotify_Actor (복잡한 연출)
 
-	```
+	```cpp
 	class AMyGameplayCue_Complex : public AGameplayCueNotify_Actor
 	{
 	public:
@@ -662,7 +662,7 @@ void OnExecute(AActor* Target, const FGameplayCueParameters& Parameters) overrid
 
 - PoisonEffect.h
 
-```
+```cpp
 #pragma once
 #include "CoreMinimal.h"
 #include "GameplayEffect.h"
@@ -679,7 +679,7 @@ public:
 
 - PoisonEffect.cpp
 
-```
+```cpp
 #include "PoisonEffect.h"
 
 UPoisonEffect::UPoisonEffect()
@@ -718,7 +718,7 @@ UPoisonEffect::UPoisonEffect()
 
 - GameplayCue_Status_Poisoned.h
 
-```
+```cpp
 #pragma once
 #include "CoreMinimal.h"
 #include "GameplayCueNotify_Actor.h"
@@ -786,7 +786,7 @@ private:
 
 - GameplayCue_Status_Poisoned.cpp
 
-```
+```cpp
 #include "GameplayCue_Status_Poisoned.h"
 #include "AbilitySystemComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -1008,7 +1008,7 @@ void AGameplayCue_Status_Poisoned::PlayStackMilestoneEffect(AActor* Target, int3
 
 - StatusIconWidget.h
 
-```
+```cpp
 #pragma once
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
@@ -1072,7 +1072,7 @@ private:
 
 - StatusIconWidget.cpp
 
-```
+```cpp
 #include "StatusIconWidget.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"

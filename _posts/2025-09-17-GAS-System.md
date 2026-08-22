@@ -15,7 +15,7 @@ mermaid: true
 
 - Data-Driven Design (데이터 주도 설계)
 
-```
+```cpp
 // 기존 방식: 코드에 직접 작성
 void FireballAbility::Execute() {
     float Damage = 50.0f;  // 데미지 바꾸려면 재컴파일 필요
@@ -36,7 +36,7 @@ void FireballAbility::Execute() {
 
 - Composability (조합 가능성)
 
-```
+```cpp
 // 예: 화염 폭발 스킬 = 여러 Effect의 조합
 FireExplosionAbility = {
     InitialDamageEffect,      // 즉시 데미지
@@ -54,7 +54,7 @@ FireExplosionAbility = {
 
 - AbilitySystemComponent (ASC)
 
-```
+```cpp
 // ASC의 핵심 데이터 구조 (개념 요약)
 class UAbilitySystemComponent {
     FActiveGameplayEffectsContainer ActiveEffects;        // 활성화된 Effect들
@@ -67,7 +67,7 @@ class UAbilitySystemComponent {
 - GameplayAbility (GA)
 	- 언제(조건), 어떻게(정책), 무엇을(실행)
 
-```
+```cpp
 class UGameplayAbility : public UObject {
 public:
     // 언제: 발동 조건
@@ -108,7 +108,7 @@ public:
 
 - GameplayEffect (GE)
 
-```
+```cpp
 class UGameplayEffect : public UObject {
 public:
     // 얼마나 오래: Duration
@@ -129,7 +129,7 @@ public:
 
 - AttributeSet
 
-```
+```cpp
 class UMyAttributeSet : public UAttributeSet {
 public:
     // 실제 데이터
@@ -151,7 +151,7 @@ public:
 
 - GameplayTag
 
-```
+```py
 // 태그 계층 구조
 Status
 ├── Status.Buff
@@ -171,7 +171,7 @@ Status
 
 - 캐릭터의 스킬, 스탯, 효과, 태그 - 이 모든 것을 ASC가 관리
 
-```
+```py
 // ASC는 이런 것들을 관리
 - 어떤 스킬을 가지고 있나? (Abilities)
 - 현재 스탯이 얼마나? (Attributes)
@@ -183,7 +183,7 @@ Status
 
 1. ASC 생성
 
-```
+```cpp
 // Character 클래스에서
 class AMyCharacter : public ACharacter {
     UPROPERTY()
@@ -198,7 +198,7 @@ class AMyCharacter : public ACharacter {
 
 2. ASC 초기화
 
-```
+```cpp
 void AMyCharacter::BeginPlay() {
     Super::BeginPlay();
 
@@ -214,7 +214,7 @@ void AMyCharacter::BeginPlay() {
 
 1. Character (싱글플레이어)
 
-```
+```cpp
 class AMyCharacter : public ACharacter {
     UPROPERTY()
     UAbilitySystemComponent* ASC;
@@ -226,7 +226,7 @@ class AMyCharacter : public ACharacter {
 
 2. PlayerState (멀티플레이어)
 
-```
+```cpp
 class AMyPlayerState : public APlayerState, public IAbilitySystemInterface {
     GENERATED_BODY()
 public:
@@ -252,7 +252,7 @@ void AMyCharacter::PossessedBy(AController* NewController) {
 
 3. 혼합 (추천)
 
-```
+```cpp
 void SetupASC() {
     if (IsPlayerControlled()) {
         // 플레이어는 PlayerState에
@@ -269,7 +269,7 @@ void SetupASC() {
 
 1. Ability 관리
 
-```
+```cpp
 // Ability 부여
 FGameplayAbilitySpec AbilitySpec(FireballAbilityClass, 1);
 FGameplayAbilitySpecHandle Handle = ASC->GiveAbility(AbilitySpec);
@@ -288,7 +288,7 @@ ASC->ClearAbility(Handle);
 
 2. Effect 관리 (타겟 적용 정정)
 
-```
+```cpp
 // Effect Spec 생성
 FGameplayEffectSpecHandle EffectSpec = ASC->MakeOutgoingSpec(
     DamageEffectClass,
@@ -308,7 +308,7 @@ ASC->RemoveActiveGameplayEffect(ActiveEffectHandle);
 
 3. Attribute 관리
 
-```
+```cpp
 // AttributeSet 추가
 ASC->InitStats(MyAttributeSetClass, AttributeDataTable);
 
@@ -326,7 +326,7 @@ ASC->GetGameplayAttributeValueChangeDelegate(
 
 4. Tag 관리
 
-```
+```cpp
 // Tag 추가
 ASC->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(TEXT("Status.Stunned")));
 
@@ -358,7 +358,7 @@ ASC->RegisterGameplayTagEvent(
 
 - ASC는 멀티플레이어를 위한 자동 동기화를 제공한다
 
-```
+```cpp
 // ASC 컴포넌트 자체 복제 플래그
 AbilitySystemComponent->SetIsReplicated(true);
 
@@ -383,7 +383,7 @@ AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed
 
 ##### ASC 이벤트 시스템
 
-```
+```cpp
 // 1. Ability 커밋 이벤트
 ASC->AbilityCommittedCallbacks.AddUObject(this, &ThisClass::OnAbilityCommitted);
 
@@ -414,7 +414,7 @@ FDelegateHandle TagHandle = ASC->RegisterGameplayTagEvent(
 
 ##### 실전 예제 - 전체 설정
 
-```
+```cpp
 // 1. Character 클래스
 UCLASS()
 class AMyGameCharacter : public ACharacter {
@@ -511,7 +511,7 @@ private:
 
 ##### Ability의 생명주기
 
-```
+```py
 // 스킬 사용 과정
 1. TryActivateAbility() - "스킬 쓰고 싶어!"
 2. CanActivateAbility() - "쓸 수 있나 체크"
@@ -523,7 +523,7 @@ private:
 
 ##### 각 단계 자세히 보기 (시그니처 보강)
 
-```
+```cpp
 // 1. CanActivateAbility - 사용 가능 체크
 virtual bool CanActivateAbility(
     const FGameplayAbilitySpecHandle Handle,
@@ -577,7 +577,7 @@ virtual void EndAbility(
 
 ##### Instancing Policy - 인스턴스 생성 방식
 
-```
+```cpp
 // 1. NonInstanced - 인스턴스 안 만듦
 InstancingPolicy = EGameplayAbilityInstancingPolicy::NonInstanced;
 
@@ -593,7 +593,7 @@ InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerExecution;
 
 1. InputID 사용 (여전히 유효)
 
-```
+```cpp
 // 열거형 정의
 enum EAbilityInputID {
     None = 0,
@@ -618,7 +618,7 @@ void AMyCharacter::SetupPlayerInputComponent() {
 
 2. InputTag 사용 (최신, 태그 요청 방식 정정)
 
-```
+```cpp
 // Ability에 태그 설정
 AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Input.Skill.Fireball")));
 
@@ -635,7 +635,7 @@ void OnFireballKeyPressed() {
 
 - 기본 제공 Task들
 
-```
+```cpp
 // 1. 대기
 UAbilityTask_WaitDelay* DelayTask =
     UAbilityTask_WaitDelay::WaitDelay(this, 2.0f);
@@ -660,7 +660,7 @@ MontageTask->ReadyForActivation(); // :contentReference[oaicite:1]{index=1}
 
 - 커스텀 Task 만들기
 
-```
+```cpp
 // 예: 적 찾기 Task
 class UTask_FindEnemies : public UAbilityTask {
 public:
@@ -692,7 +692,7 @@ private:
 
 - 네트워크 실행 정책
 
-```
+```cpp
 NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::LocalOnly;
 NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::LocalPredicted;
 NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::ServerOnly;
@@ -702,7 +702,7 @@ NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::ServerInitiated;
 
 ##### 실전 예제 - 화염구 스킬 (TargetData/배열 접근 정정)
 
-```
+```cpp
 #include "AbilitySystemBlueprintLibrary.h"
 
 class UGA_Fireball : public UGameplayAbility {
@@ -768,7 +768,7 @@ class UGA_Fireball : public UGameplayAbility {
 
 ##### Trigger - 자동 발동
 
-```
+```cpp
 // 피격 시 자동 발동하는 반격 스킬
 class UGA_CounterAttack : public UGameplayAbility {
     UGA_CounterAttack() {
@@ -806,7 +806,7 @@ void OnDamageReceived(AActor* Attacker, float Damage) {
 - GameplayEffect (줄여서 GE)는 **캐릭터의 스탯을 변경하는 명령서
 - 데미지 주기, 힐하기, 버프 걸기, 디버프 걸기 - 이 모든 게 GameplayEffect
 
-```
+```sh
 // 예시: 50 데미지를 주는 Effect를 Spec으로 만들어 적용
 ```
 
@@ -815,21 +815,21 @@ void OnDamageReceived(AActor* Attacker, float Damage) {
 
 1. Instant (즉시)
 
-```
+```cpp
 DurationPolicy = EGameplayEffectDurationType::Instant;
 // 한 번 적용하고 끝
 ```
 
 2. Duration (지속)
 
-```
+```cpp
 DurationPolicy     = EGameplayEffectDurationType::HasDuration;
 DurationMagnitude  = FScalableFloat(10.0f);  // (정정: SetValue 대신 ScalableFloat)
 ```
 
 3. Infinite (무한)
 
-```
+```cpp
 DurationPolicy = EGameplayEffectDurationType::Infinite;
 ```
 
@@ -838,7 +838,7 @@ DurationPolicy = EGameplayEffectDurationType::Infinite;
 
 1. Effect 준비
 
-```
+```cpp
 // "데미지 값 SetByCaller" 방식으로 준비
 FGameplayEffectSpecHandle DamageSpec = ASC->MakeOutgoingSpec(DamageEffect, 1.0f, ASC->MakeEffectContext());
 DamageSpec.Data->SetSetByCallerMagnitude(
@@ -847,14 +847,14 @@ DamageSpec.Data->SetSetByCallerMagnitude(
 
 2. 적용 가능한지 체크
 
-```
+```cpp
 if (Target->IsDead()) return;
 if (Target->IsInvulnerable()) return;
 ```
 
 3. ApplicationTagRequirement 구조
 
-```
+```cpp
 class UGE_DamageEffect : public UGameplayEffect {
     UGE_DamageEffect() {
         // 적용 조건 설정
@@ -897,7 +897,7 @@ class UGE_DamageEffect : public UGameplayEffect {
 
 - SourceTags vs TargetTags
 
-```
+```cpp
 // Source(시전자)와 Target(대상)을 구분해서 체크
 class UGE_HolyDamage : public UGameplayEffect {
     UGE_HolyDamage() {
@@ -921,7 +921,7 @@ class UGE_HolyDamage : public UGameplayEffect {
 
 - OngoingTagRequirements - 지속 중 조건
 
-```
+```cpp
 class UGE_Channeling : public UGameplayEffect {
     UGE_Channeling() {
         DurationPolicy = EGameplayEffectDurationType::HasDuration;
@@ -943,7 +943,7 @@ class UGE_Channeling : public UGameplayEffect {
 
 - RemovalTagRequirements - 제거 조건
 
-```
+```cpp
 class UGE_Curse : public UGameplayEffect {
     UGE_Curse() {
         DurationPolicy = EGameplayEffectDurationType::Infinite;
@@ -963,7 +963,7 @@ class UGE_Curse : public UGameplayEffect {
 
 ##### 실전 예시 - 복잡한 조건의 스킬
 
-```
+```cpp
 class UGE_AssassinateEffect : public UGameplayEffect {
     UGE_AssassinateEffect() {
         // 즉사 효과
@@ -999,7 +999,7 @@ class UGE_AssassinateEffect : public UGameplayEffect {
 
 - 실제 적용
 
-```
+```cpp
 ASC->ApplyGameplayEffectSpecToTarget(*DamageSpec.Data.Get(), Target->GetAbilitySystemComponent());
 // 1) Health 감소, 2) 피격 이펙트, 3) UI 업데이트, 4) 사망 체크 등
 ```
@@ -1007,14 +1007,14 @@ ASC->ApplyGameplayEffectSpecToTarget(*DamageSpec.Data.Get(), Target->GetAbilityS
 
 ##### Modifier - 어떻게 바꿀 것인가
 
-```
+```sh
 // Additive / Multiplicative / Division / Override
 ```
 
 
 ##### SetByCaller - 동적으로 값 전달하기 (표준 API 사용)
 
-```
+```cpp
 // Effect 정의 예 (개념)
 // DamageModifier.ModifierMagnitude는 SetByCaller(태그 "Data.Damage")로 설정
 
@@ -1029,7 +1029,7 @@ void DealDamage(float Amount) {
 
 ##### Period - 주기적 효과 (DoT/HoT)
 
-```
+```cpp
 // 독 효과: 10초 동안 1초마다 5 데미지
 class UGE_Poison : public UGameplayEffect {
     UGE_Poison() {
@@ -1048,7 +1048,7 @@ class UGE_Poison : public UGameplayEffect {
 
 - 첫 틱 타이밍
 
-```
+```cpp
 bExecutePeriodicEffectOnApplication = true;  // 즉시 첫 틱
 // false면 Period 후 첫 틱
 ```
@@ -1056,7 +1056,7 @@ bExecutePeriodicEffectOnApplication = true;  // 즉시 첫 틱
 
 ##### 전체 예시 - 화염 도트 데미지 (클래스/필드 정정)
 
-```
+```cpp
 class UGE_BurningEffect : public UGameplayEffect {
     UGE_BurningEffect() {
         DurationPolicy    = EGameplayEffectDurationType::HasDuration;
@@ -1087,7 +1087,7 @@ void ApplyBurn(AActor* Target) {
 
 ##### AttributeSet이란?
 
-```
+```cpp
 class UMyAttributeSet : public UAttributeSet {
     UPROPERTY(BlueprintReadOnly, Category="Attributes", ReplicatedUsing=OnRep_Health)
     FGameplayAttributeData Health;      // 체력
@@ -1111,7 +1111,7 @@ class UMyAttributeSet : public UAttributeSet {
 
 #### 매크로를 사용하는 이유
 
-```
+```cpp
 // 매크로 없이 직접 쓰면
 class UMyAttributeSet : public UAttributeSet {
     FGameplayAttributeData Health;
@@ -1147,13 +1147,13 @@ class UMyAttributeSet : public UAttributeSet {
 
 1. Effect가 적용됨
 
-```
+```cpp
 ApplyDamageEffect(50);
 ```
 
 2. PreAttributeChange 호출
 
-```
+```cpp
 void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override {
     if (Attribute == GetHealthAttribute()) {
         NewValue = FMath::Max(NewValue, 0.0f);
@@ -1163,7 +1163,7 @@ void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) ov
 
 3. PostGameplayEffectExecute 호출
 
-```
+```cpp
 void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override {
     if (Data.EvaluatedData.Attribute == GetHealthAttribute()) {
         if (GetHealth() <= 0) {
@@ -1176,7 +1176,7 @@ void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) overr
 
 ##### Meta Attribute란?
 
-```
+```cpp
 class UMyAttributeSet : public UAttributeSet {
     UPROPERTY(BlueprintReadOnly, Category="Meta")
     FGameplayAttributeData Damage;  // Meta
@@ -1202,7 +1202,7 @@ void UMyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 
 1. ASC (캐릭터)에 붙이는 태그
 
-```
+```cpp
 ASC->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(TEXT("Character.State.Alive")));
 
 if (HasAuthority()) {
@@ -1212,7 +1212,7 @@ if (HasAuthority()) {
 
 2. GameplayAbility에 붙이는 태그
 
-```
+```cpp
 class UMyAbility : public UGameplayAbility {
     UMyAbility() {
         AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Ability.Dash")));
@@ -1225,7 +1225,7 @@ class UMyAbility : public UGameplayAbility {
 
 3. GameplayEffect에 붙이는 태그
 
-```
+```cpp
 class UMyEffect : public UGameplayEffect {
     UMyEffect() {
         ApplicationTagRequirements.RequireTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("State.Alive")));
@@ -1239,7 +1239,7 @@ class UMyEffect : public UGameplayEffect {
 
 - GameplayAbility의 태그들 (9종류)
 
-```
+```cpp
 // 1. AbilityTags - 이 스킬을 식별하는 태그 (다른 시스템이 이 스킬을 찾을 때 사용)
 AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Ability.Fireball")));
 
@@ -1270,7 +1270,7 @@ BlockAbilitiesWithTag.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Ability.Move
 
 - GameplayEffect의 태그들 (7종류)
 
-```
+```cpp
 // 1. AssetTags - 이 Effect를 식별하는 태그 (디버깅/로그용)
 AssetTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Effect.Damage.Fire")));
 
@@ -1298,7 +1298,7 @@ GrantedApplicationImmunityTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Typ
 
 - ASC의 태그 관리
 
-```
+```cpp
 // 1. Loose Gameplay Tags - 수동으로 추가/제거하는 태그 (Effect/Ability와 무관)
 ASC->AddLooseGameplayTag(FGameplayTag::RequestGameplayTag(TEXT("Debug.Invincible")));
 ASC->RemoveLooseGameplayTag(FGameplayTag::RequestGameplayTag(TEXT("Debug.Invincible")));
@@ -1334,7 +1334,7 @@ CancelAbilitiesWithTag.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Ability.Cha
 
 ##### 태그 흐름 예시 - 스턴 걸리는 과정
 
-```
+```cpp
 // 1. 스턴 스킬 사용
 PlayerASC->TryActivateAbilitiesByTag(
     FGameplayTagContainer(FGameplayTag::RequestGameplayTag(TEXT("Ability.Stun"))));
@@ -1363,7 +1363,7 @@ DashAbility {
 
 - 태그 계층 구조 활용
 
-```
+```cpp
 Status
 ├── Status.Buff
 │   ├── Status.Buff.Attack
@@ -1382,7 +1382,7 @@ ASC->RemoveActiveEffectsWithGrantedTags(
 
 - 시나리오 : 화염 + 기름 = 폭발
 
-```
+```cpp
 // 1. 기름 웅덩이 밟음 → "Status.Oiled"
 
 // 2. 화염 공격 받음
@@ -1407,7 +1407,7 @@ ExplosionEffect {
 
 *GASAttributeSet.h*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -1482,7 +1482,7 @@ protected:
 
 *GASAttributeSet.cpp*
 
-```
+```cpp
 #include "GAS/GASAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
@@ -1589,7 +1589,7 @@ void UGASAttributeSet::OnRep_AttackPower(const FGameplayAttributeData& OldAttack
 
 *GASGameplayTags.h*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -1626,7 +1626,7 @@ namespace GASProjectTags
 
 *GASCharacter.h*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -1701,7 +1701,7 @@ private:
 
 *GASCharacter.cpp*
 
-```
+```cpp
 #include "Character/GASCharacter.h"
 #include "AbilitySystemComponent.h"
 #include "GAS/GASAttributeSet.h"
@@ -1886,7 +1886,7 @@ void AGASCharacter::InputBuff()
 
 *GA_MeleeAttack.h*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -1943,7 +1943,7 @@ private:
 
 *GA_MeleeAttack.cpp*
 
-```
+```cpp
 #include "Abilities/GA_MeleeAttack.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
@@ -2127,7 +2127,7 @@ void UGA_MeleeAttack::EndAbility(
 
 *GA_Dash.h*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -2171,7 +2171,7 @@ private:
 
 *GA_Dash.cpp*
 
-```
+```cpp
 #include "Abilities/GA_Dash.h"
 #include "Abilities/Tasks/AbilityTask_ApplyRootMotionConstantForce.h"
 #include "Abilities/Tasks/AbilityTask_WaitDelay.h"
@@ -2271,7 +2271,7 @@ void UGA_Dash::EndAbility(
 
 *GE_Damage.h*
 
-```
+```cpp
 #pragma once
 
 #include "CoreMinimal.h"
@@ -2291,7 +2291,7 @@ public:
 
 *GE_Damage.cpp*
 
-```
+```cpp
 #include "Effects/GE_Damage.h"
 #include "GAS/GASAttributeSet.h"
 #include "GAS/GASGameplayTags.h"
@@ -2315,7 +2315,7 @@ UGE_Damage::UGE_Damage()
 
 *GE_DashCooldown.cpp*
 
-```
+```cpp
 #include "Effects/GE_DashCooldown.h"
 #include "GAS/GASGameplayTags.h"
 

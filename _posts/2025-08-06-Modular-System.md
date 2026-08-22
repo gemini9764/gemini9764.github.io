@@ -26,7 +26,7 @@ mermaid: true
 
 - 기존 방식의 문제
 
-```
+```cpp
 class AFortniteCharacter : public ACharacter
 {
     // 전투, 수영, 춤, 운전, 건축... 모든 기능이 한 곳에!
@@ -36,7 +36,7 @@ class AFortniteCharacter : public ACharacter
 
 - Lyra의 해결책
 
-```
+```cpp
 class ALyraCharacter : public ACharacter
 {
     // 거의 텅 빈 캐릭터!
@@ -60,7 +60,7 @@ UVehicleComponent   // 차량 탑승 시
 		- 다중 역할 -> 상속 구조 붕괴
 	- 해결책 : Component 기반
 
-```
+```cpp
 class HeroBase
 {
     UHealthComponent* Health;
@@ -73,7 +73,7 @@ class HeroBase
 - GTA - 동적 차량 시스템
 	- 문제 : 수백 종류의 차량
 
-	```
+	```cpp
 	// 나쁜 예
 	class AVehicle
 	{
@@ -89,7 +89,7 @@ class HeroBase
 	```
 
 	- 해결 : 런타임 조합
-	```
+	```cpp
 	// 좋은 예
 	void ConvertToPoliceVehicle(AVehicle* Vehicle)
 	{
@@ -103,7 +103,7 @@ class HeroBase
 
 - Component란?
 	- 행동은 컴포넌트가 한다
-	```
+	```cpp
 	class AActor
 	{
 	    FTransform Transform;               // 위치
@@ -118,7 +118,7 @@ class HeroBase
 		- 공간 상 존재하지 않음
 		- 로직만 처리하는 뇌 같은 존재
 		- 체력, 인벤토리, AI 등 (로직 전용)
-		```
+		```cpp
 		UHealthComponent        // 체력 계산
 		UInventoryComponent     // 아이템 보관
 		UAIPerceptionComponent  // AI 감지
@@ -128,7 +128,7 @@ class HeroBase
 		- 다른 컴포넌트에 부착 가능
 		- 게임 월드에서 실제로 공간에 존재
 		- 카메라, 메쉬, 충돌 등 (위치 필요 기능)
-		```
+		```cpp
 		UCameraComponent        // 카메라 위치
 		UStaticMeshComponent    // 3D 모델
 		UCapsuleComponent       // 충돌 캡슐
@@ -146,7 +146,7 @@ class HeroBase
 | 성능 부담            | 낮음 (가벼움)          | 상대적 비용 있음 (Transform 계산 등)        |
 - Component 계층도 (요약)
 
-```
+```cpp
 UActorComponent (논리형)
 │   ├── UHealthComponent
 │   ├── UInventoryComponent
@@ -166,7 +166,7 @@ UActorComponent (논리형)
 
 ##### 블루프린트 에디터
 
-```
+```json
 1. 블루프린트 열기
 2. Components 탭 → "+" 클릭
 3. 원하는 Component 선택
@@ -186,7 +186,7 @@ UActorComponent (논리형)
 
 ##### C++ 생성자
 
-```
+```cpp
 AMyCharacter::AMyCharacter()
 {
     // 논리 컴포넌트
@@ -211,7 +211,7 @@ AMyCharacter::AMyCharacter()
 
 ##### 런타임 동적 생성
 
-```
+```cpp
 void AMyCharacter::AddAbility(TSubclassOf<UAbilityComponent> AbilityClass)
 {
     if (!AbilityClass) return;
@@ -240,7 +240,7 @@ void AMyCharacter::AddAbility(TSubclassOf<UAbilityComponent> AbilityClass)
 
 ###### 전통적 방식
 
-```
+```cpp
 ALyraCharacter::ALyraCharacter()
 {
     // 모든 Component를 하드코딩
@@ -254,7 +254,7 @@ ALyraCharacter::ALyraCharacter()
 
  - 단 하나의 컴포넌트
 
-```
+```cpp
 ALyraCharacter::ALyraCharacter()
 {
     // 단 하나의 Component만!
@@ -264,7 +264,7 @@ ALyraCharacter::ALyraCharacter()
 
 - PawnData: Component 조립 설계도
 
-```
+```cpp
 UCLASS()
 class ULyraPawnData : public UPrimaryDataAsset
 {
@@ -278,7 +278,7 @@ class ULyraPawnData : public UPrimaryDataAsset
 
 - 런타임 조립 과정
 
-```
+```cpp
 void ULyraPawnExtensionComponent::SetupPawn(const ULyraPawnData* PawnData)
 {
     for (TSubclassOf<UActorComponent> CompClass : PawnData->Components)
@@ -296,7 +296,7 @@ void ULyraPawnExtensionComponent::SetupPawn(const ULyraPawnData* PawnData)
 
 - 실전 예시: 직업 변경 시스템
 
-```
+```cpp
 ULyraPawnData* WarriorData = LoadObject<ULyraPawnData>("Warrior");
 ULyraPawnData* PaladinData = LoadObject<ULyraPawnData>("Paladin");
 
@@ -333,7 +333,7 @@ void TransformToPaladin(ALyraCharacter* Character)
 	- 방송국은 누가 듣는지 모름
 - 잘못된 방식 : 직접 참조
 
-```
+```cpp
 void TakeDamage(float Damage)
 {
     Health -= Damage;
@@ -357,19 +357,19 @@ void Tick(float DeltaTime)
 
 - 델리게이트 방식: 느슨한 결합
 	- 선언 예시
-	```
+	```cpp
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealth);
 
 	UPROPERTY(BlueprintAssignable)FOnHealthChanged OnHealthChanged;
 	```
 
 	- 다른 시스템에서 구독 (예 : HUD)
-	```
+	```cpp
 	HealthComp->OnHealthChanged.AddDynamic(this, &UMyHUD::UpdateHealthUI);
 	```
 
 	- 이벤트가 발생하면 방송
-	```
+	```cpp
 	void ULyraHealthComponent::SetHealth(float NewHealth)
 	{
 	    CurrentHealth = NewHealth;
@@ -393,7 +393,7 @@ void Tick(float DeltaTime)
 
 1. `DECLARE_DELEGATE`
 
-```
+```cpp
 DECLARE_DELEGATE(FOnActionDone);
 FOnActionDone OnDone;
 
@@ -418,7 +418,7 @@ void Run()
 
 2. `DECLARE_MULTICAST_DELEGATE`
 
-```
+```cpp
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnDamageTaken, float);
 
 FOnDamageTaken OnDamage;
@@ -445,7 +445,7 @@ void TakeDamage(float Amount)
 
 3. `DECLARE_DYNAMIC_MULTICAST_DELEGATE`
 
-```
+```cpp
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, Killer);
 
 UCLASS()
@@ -467,7 +467,7 @@ public:
 
 4. `DECLARE_EVENT`
 
-```
+```cpp
 DECLARE_EVENT(UGameStateSubsystem, FOnMatchStarted)
 
 class UMyGameState : public UGameStateSubsystem

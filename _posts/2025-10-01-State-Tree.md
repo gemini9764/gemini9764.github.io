@@ -140,7 +140,7 @@ mermaid: true
 
 - 예시
 
-```
+```py
 Combat (부모: 타겟 유지/버프 관리)
 ├─ Chase (자식: 추적)
 ├─ Attack (자식: 공격)

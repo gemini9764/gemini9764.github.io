@@ -17,7 +17,7 @@ mermaid: true
 
 - 나쁜 예시
 
-```
+```cpp
 // 이름만 보고는 이게 뭔지 알 수가 없다 
 void DoIt(int x); 
 
@@ -28,7 +28,7 @@ int WTF;
 
 - 좋은 예시
 
-```
+```cpp
 // '무엇을 하기 위한 함수인지'가 분명하다 
 void AttackEnemy(int DamageAmount); 
 
@@ -47,7 +47,7 @@ int EnemyCount;
 
 - 나쁜 예시
 
-```
+```cpp
 // 데미지 처리
 
 void TakeDamage(float Amount)
@@ -73,7 +73,7 @@ void BossTakeDamage(float Amount)
 
 - 좋은 예시
 
-```
+```cpp
 // 공통 부모 클래스에서 데미지 로직을 통일
 class AMonsterBase : public AActor
 {
@@ -123,7 +123,7 @@ protected:
 
 - 나쁜 예시
 
-```
+```cpp
 void AMyCharacter::Tick(float DeltaTime)
 {
     // 1. 이동 처리
@@ -140,7 +140,7 @@ void AMyCharacter::Tick(float DeltaTime)
 
 - 좋은 예시
 
-```
+```cpp
 void AMyCharacter::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -175,7 +175,7 @@ void AMyCharacter::HandleAttack()
 
 - 나쁜 예시
 
-```
+```cpp
 void InitWeapon(FString Name, float Damage, float FireRate, int32 AmmoCount, float ReloadTime, USkeletalMesh* Mesh, USoundBase* Sound)
 {
     // 와, 많다 ...
@@ -186,7 +186,7 @@ InitWeapon("AK47", 42.0f, 0.25f, 30, 2.5f, MeshAsset, FireSound);
 
 - 좋은 예시
 
-```
+```cpp
 // 구조체로 묶자
 struct FWeaponData
 {
@@ -224,7 +224,7 @@ InitWeapon(WeaponInfo, Assets);
 
 - 나쁜 예시
 
-```
+```cpp
 // 글로벌 관리자
 UGameManager* GGameManager; // 전역 변수!
 
@@ -237,7 +237,7 @@ void IncreaseScore()
 
 - 좋은 예시
 
-```
+```cpp
 // 언리얼 Subsystem을 이용한 예
 UCLASS()
 class UScoreSystem : public UGameInstanceSubsystem
@@ -280,7 +280,7 @@ void AEnemy::OnDefeated()
 
 - 나쁜 예시
 
-```
+```cpp
 class APlayerCharacter : public ACharacter
 {
 public:
@@ -299,7 +299,7 @@ void SomeRandomFunc(APlayerCharacter* Player)
 
 - 좋은 예시
 
-```
+```cpp
 class APlayerCharacter : public ACharacter
 {
 private:
@@ -334,7 +334,7 @@ public:
 
 - 나쁜 예시
 
-```
+```cpp
 class AGameManager : public AActor
 {
 public:
@@ -357,7 +357,7 @@ private:
 
 - 좋은 예시
 
-```
+```cpp
 // (1) 데이터 전용 클래스
 class UPlayerDataManager : public UGameInstanceSubsystem
 {
@@ -386,7 +386,7 @@ public:
 
 - 나쁜 예시
 
-```
+```cpp
 class APlayerCharacter : public ACharacter
 {
 public:
@@ -418,7 +418,7 @@ public:
 
 - 좋은 예시
 
-```
+```cpp
 class UDamageSystem : public UObject
 {
 public:
@@ -438,7 +438,7 @@ public:
 
 - 나쁜 예시
 
-```
+```cpp
 class UDamageCalculator : public UObject
 {
 public:
@@ -455,7 +455,7 @@ public:
 
 - 좋은 예시
 
-```
+```cpp
 class AMyCharacter : public ACharacter
 {
 public:
@@ -488,7 +488,7 @@ public:
 
 - 나쁜 예시
 
-```
+```cpp
 void FireWeapon(float Damage, float Range, float Accuracy);
 void ShowWeaponStats(float Damage, float Range, float Accuracy);
 void UpgradeWeapon(float& Damage, float& Range, float& Accuracy);
@@ -496,7 +496,7 @@ void UpgradeWeapon(float& Damage, float& Range, float& Accuracy);
 
 - 좋은 예시
 
-```
+```cpp
 // 무기 스탯 구조체
 USTRUCT(BlueprintType)
 struct FWeaponStats
@@ -527,7 +527,7 @@ void UpgradeWeapon(FWeaponStats& Stats);
 
 - 나쁜 예시
 
-```
+```cpp
 float Health;
 float MaxHealth;
 
@@ -536,7 +536,7 @@ FString PhoneNumber; // 형식 검증이 전혀 없음
 
 - 좋은 예시
 
-```
+```cpp
 // 체력을 표현하는 클래스
 class FHealth
 {
@@ -590,7 +590,7 @@ private:
 
 - 나쁜 예시
 
-```
+```cpp
 switch (WeaponType)
 {
     case EWeaponType::Sword:
@@ -604,7 +604,7 @@ switch (WeaponType)
 
 - 좋은 예시
 
-```
+```cpp
 // 다형성 활용...!
 // 무기 베이스
 class AWeapon : public AActor
@@ -627,7 +627,7 @@ public:
 };
 ```
 
-```
+```cpp
 // 그리고 캐릭터 쪽에서는 더 이상 switch 안 씀.
 void AMyCharacter::UseWeapon()
 {
@@ -647,7 +647,7 @@ void AMyCharacter::UseWeapon()
 
 - 나쁜 예시
 
-```
+```cpp
 // 인벤토리에서 무거운 아이템을 찾아서 무게를 계산하는 과정
 void ProcessHeavyItems()
 {
@@ -680,7 +680,7 @@ void ProcessHeavyItems()
 
 - 좋은 예시
 
-```
+```cpp
 void ProcessHeavyItems()
 {
     // 모든 아이템 가져오기
@@ -743,7 +743,7 @@ bool IsTooHeavy(float Weight)
 
 - 나쁜 예시
 
-```
+```cpp
 // 과도하게 중간함수만 존재
 class AProjectile : public AActor
 {
@@ -765,7 +765,7 @@ private:
 
 - 좋은 예시
 
-```
+```cpp
 class AProjectile : public AActor
 {
 public:
@@ -788,7 +788,7 @@ private:
 
 - 나쁜 예시
 
-```
+```cpp
 // 엄청나게 확장 가능한 무기 클래스... 그런데 전혀 안 씀
 class AWeapon : public AActor
 {
@@ -830,7 +830,7 @@ USoundBase* AWeapon::GetAttackSound()
 
 - 좋은 예시
 
-```
+```cpp
 class AWeapon : public AActor
 {
 public:
@@ -858,7 +858,7 @@ class AMagicWeapon : public AWeapon
 
 - 나쁜 예시
 
-```
+```cpp
 class AEnemy : public ACharacter
 {
 public:
@@ -877,7 +877,7 @@ public:
 
 - 좋은 예시
 
-```
+```cpp
 // "컴포넌트"로 분리
 class URangedAttackComponent : public UActorComponent
 {
@@ -909,7 +909,7 @@ class AEnemy : public ACharacter
 
 - 나쁜 예시
 
-```
+```cpp
 // 길~~게 이어진 참조
 void APlayer::PlayWeaponSound()
 {
@@ -925,7 +925,7 @@ void APlayer::PlayWeaponSound()
 
 - 좋은 예시
 
-```
+```cpp
 void APlayer::PlayWeaponSound()
 {
     USoundBase* AttackSound = GetEquippedWeaponSound();
@@ -965,7 +965,7 @@ USoundBase* AWeapon::GetAttackSound()
 
 - 나쁜 예시
 
-```
+```cpp
 class AMyPlayerController : public APlayerController
 {
 public:
@@ -983,7 +983,7 @@ private:
 
 - 좋은 예시
 
-```
+```cpp
 // 직접 캐릭터에 입력 바인딩
 void AMyPlayerController::SetupInputComponent()
 {
@@ -1015,7 +1015,7 @@ void AMyCharacter::SetupPlayerInput(UInputComponent* PlayerInputComponent)
 
 - 나쁜 예시
 
-```
+```cpp
 // AEnemy가 APlayerCharacter의 내부 변수까지 막 참조
 void AEnemy::Attack(APlayerCharacter* Player)
 {
@@ -1032,7 +1032,7 @@ void AEnemy::Attack(APlayerCharacter* Player)
 
 - 좋은 예시
 
-```
+```cpp
 void AEnemy::Attack(APlayerCharacter* Player)
 {
     if (Player && Player->CanBeAttacked())
@@ -1075,7 +1075,7 @@ void APlayerCharacter::UpdateHUD()
 
 - 나쁜 예시
 
-```
+```cpp
 class AGameCharacter : public ACharacter
 {
 public:
@@ -1104,7 +1104,7 @@ public:
 
 - 좋은 예시
 
-```
+```cpp
 class AGameCharacter : public ACharacter
 {
 public:
@@ -1136,7 +1136,7 @@ private:
 
 -  나쁜 예시
 
-```
+```cpp
 class ARangedWeapon
 {
 public:
@@ -1163,7 +1163,7 @@ void APlayerCharacter::Attack()
 
 - 좋은 예시
 
-```
+```cpp
 class AWeapon : public AActor
 {
 public:
@@ -1204,7 +1204,7 @@ void APlayerCharacter::Attack()
 
 - 나쁜 예시
 
-```
+```cpp
 class FPlayerStats
 {
 public:
@@ -1226,7 +1226,7 @@ void APlayerCharacter::TakeDamage(float Damage)
 
 - 좋은 예시
 
-```
+```cpp
 class FPlayerStats
 {
 public:
@@ -1245,7 +1245,7 @@ private:
 };
 ```
 
-```
+```cpp
 // 플레이어
 void APlayerCharacter::TakeDamage(float Damage)
 {
@@ -1266,7 +1266,7 @@ void APlayerCharacter::TakeDamage(float Damage)
 
 - 나쁜 예시
 
-```
+```cpp
 class AWeapon
 {
 public:
@@ -1286,7 +1286,7 @@ public:
 
 - 좋은 예시
 
-```
+```cpp
 class ABaseWeapon : public AActor
 {
 public:
@@ -1317,7 +1317,7 @@ public:
 
 - 나쁜 예시
 
-```
+```cpp
 void AEnemy::UpdateBehavior()
 {
     // 1. 플레이어 위치 가져오기
@@ -1332,7 +1332,7 @@ void AEnemy::UpdateBehavior()
 
 - 좋은 예시
 
-```
+```cpp
 void AEnemy::UpdateBehavior()
 {
     if (CanSeePlayer())

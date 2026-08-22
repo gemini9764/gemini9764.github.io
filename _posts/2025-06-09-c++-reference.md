@@ -14,7 +14,7 @@ mermaid: true
 > 자료형& 변수명
 {: .prompt-tip}
 
-```
+```cpp
 #include <iostream>
     using namespace std;
     

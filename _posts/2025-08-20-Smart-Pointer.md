@@ -13,7 +13,7 @@ mermaid: true
 
 - Raw Pointer의 위험성
 
-```
+```cpp
 // 메모리 누수 예시
 InventoryItem* sword = new InventoryItem("철검");
 // delete를 잊으면 메모리 누수 발생!
@@ -29,7 +29,7 @@ cout << sword->getName(); // 크래시!
 
 - 스마트 포인터?
 
-```
+```cpp
 // 스마트 포인터 사용
 TSharedPtr<InventoryItem> sword = MakeShared<InventoryItem>("철검");
 
@@ -45,7 +45,7 @@ cout << sword->getName(); // 안전하게 접근 가능
 
 - 공유 소유권 이해
 
-```
+```cpp
 // 철검을 만들었음. 현재 사용자: 1명
 TSharedPtr<InventoryItem> player1Sword = MakeShared<InventoryItem>("철검");
 
@@ -62,7 +62,7 @@ player2Sword = nullptr;
 
 - 간단한 사용법
 
-```
+```cpp
 // 1. 생성 - MakeShared 사용
 TSharedPtr<InventoryItem> sword = MakeShared<InventoryItem>("철검");
 
@@ -86,7 +86,7 @@ anotherSword = nullptr; // 이 순간 객체 자동 삭제
 
 - 참조 카운팅 시스템의 내부 구조
 
-```
+```cpp
 template<typename T>
 class TSharedPtr 
 {
@@ -100,7 +100,7 @@ private:
 	- `SharedRefCount` : 강한 참조 (TSharedPtr)가 몇 개인지
 	- `WeakRefCount` : 약한 참조 (TWeakPtr)가 몇 개인지
 
-```
+```cpp
 // 객체 생성
 TSharedPtr<InventoryItem> sword1 = MakeShared<InventoryItem>("철검");
 TSharedPtr<InventoryItem> sword2 = sword1;
@@ -113,7 +113,7 @@ sword3 = nullptr;  // SharedRefCount = 0
 
 - 실제 게임에서 쓰임새
 
-```
+```cpp
 class GameManager
 {
 private:
@@ -137,20 +137,20 @@ public:
 - MakeShared vs MakeShareable
 	- MakeShared - 권장하는 방법
 
-	```
+	```cpp
 	TSharedPtr<Quest> quest = MakeShared<Quest>("드래곤 토벌");
 	```
 
 	- MakeShareable - 예전 방법
 
-	```
+	```cpp
 	Quest* rawQuest = new Quest("드래곤 토벌");
 	TSharedPtr<Quest> quest = MakeShareable(rawQuest);
 	```
 
 - TSharedRef vs TSharedPtr
 
-```
+```cpp
 // TSharedPtr - 비어있을 수도 있다
 TSharedPtr<Quest> maybeQuest = nullptr;
 if (maybeQuest.IsValid()) // null 체크 필요
@@ -168,7 +168,7 @@ definiteQuest->StartQuest(); // 바로 사용 가능, null 체크 불필요
 
 - 순환 참조 문제
 
-```
+```cpp
 class Parent
 {
 public:
@@ -193,7 +193,7 @@ void CreateCircularReference()
 
 - TWeakPtr이 어떻게 문제를 해결할까
 
-```
+```cpp
 class Parent
 {
 public:
@@ -209,7 +209,7 @@ public:
 
 - Pin() 메서드 사용
 
-```
+```cpp
 if (TSharedPtr<Parent> p = MyParent.Pin())
 {
     // 살아있는 동안만 안전하게 사용 가능
@@ -224,7 +224,7 @@ else
 
 - Pin() 메서드 (단순화된 내부 구현)
 
-```
+```cpp
 // TWeakPtr::Pin() 내부 동작 (단순화)
 TSharedPtr<T> TWeakPtr<T>::Pin() const
 {
@@ -239,7 +239,7 @@ TSharedPtr<T> TWeakPtr<T>::Pin() const
 
 - 안전한 사용 패턴
 
-```
+```cpp
 class Child
 {
 private:
@@ -291,7 +291,7 @@ public:
 
 - 실전 예제 : 이벤트 리스너
 
-```
+```cpp
 class EventManager
 {
 private:
@@ -324,7 +324,7 @@ public:
 
 - 문제 상황 : 모두 강한 참조일 때
 
-```
+```cpp
 class UIWidget
 {
 private:
@@ -343,7 +343,7 @@ public:
 
 - 해결책 : 자식 -> 부모를 TWeakPtr로 변경
 
-```
+```cpp
 class UIWidget
 {
 private:
@@ -383,7 +383,7 @@ public:
 
 - 독점 소유권이 뭘까
 
-```
+```cpp
 // 생성
 TUniquePtr<Weapon> myWeapon = MakeUnique<Weapon>("레이저 소드");
 
@@ -402,7 +402,7 @@ TUniquePtr<Weapon> newOwner = MoveTemp(myWeapon); // 소유권 이전
 
 - RAII 패턴
 
-```
+```cpp
 void SaveGameFunction()
 {
     // 파일 자동 관리
@@ -418,7 +418,7 @@ void SaveGameFunction()
 
 - Move 의미론
 
-```
+```cpp
 // 무기를 만듬
 TUniquePtr<Weapon> sword = MakeUnique<Weapon>("엑스칼리버");
 
@@ -435,7 +435,7 @@ TUniquePtr<Weapon> movedSword = MoveTemp(sword); // 이건 돼요!
 
 - 실제 활용 패턴
 
-```
+```cpp
 // 팩토리 패턴에서의 활용
 TUniquePtr<Enemy> CreateEnemy(EnemyType Type)
 {
@@ -459,7 +459,7 @@ Enemies.Add(CreateEnemy(EnemyType::Orc)); // Move로 효율적으로 저장
 
 1. 이게 UObject 인가?
 
-```
+```cpp
 // UObject 계열 - 엔진이 관리
 UPROPERTY()
 class AMyActor* GameActor;
@@ -474,7 +474,7 @@ class NetworkSession {}; // UObject 상속 안 함
 
 2. 혼자서만 사용하나? (소유권 패턴 파악)
 
-```
+```cpp
 // 독점 소유가 명확한 경우 - TUniquePtr 적합
 class AudioManager
 {
@@ -510,7 +510,7 @@ public:
 
 3. 여러 곳에서 공유해야 하나? (접근 패턴 분석)
 
-```
+```cpp
 // 진짜 공유가 필요한 경우 - 여러 시스템이 생명주기를 함께 책임
 class Quest
 {
@@ -550,7 +550,7 @@ class Renderer
 
 4. null이 될 수 있나? 
 
-```
+```cpp
 // null 가능 - TSharedPtr
 TSharedPtr<NetworkConnection> Connection;
 void SendData()
@@ -576,7 +576,7 @@ void ProcessInput()
 
 5. 순환 참조 위험이 있나? (관계 구조 분석)
 
-```
+```cpp
 // 순환 참조 위험 있음 - TWeakPtr 필요
 class UIPanel
 {
@@ -616,7 +616,7 @@ class GameObject
 1. 임시로 쓰다가 나중에 바뀔 수 있는 경우
 	- 해결 접근법 : 일단 더 안전한 선택부터 시작
 
-```
+```cpp
 // 처음에는 이렇게 안전하게 시작
 class InventoryManager
 {
@@ -642,7 +642,7 @@ public:
 	- **크리티컬한 시스템** : 안전성 우선 -> TSharedPtr + 철저한 테스트
 	- **프로토타입 단계** : 개발 속도 우선 -> TSharedPtr로 빠르게 개발
 
-```
+```cpp
 // 매 프레임 실행 - 성능 중요
 class Renderer
 {
@@ -659,7 +659,7 @@ class EventSystem
 3. 팀원들의 숙련도가 다른 경우
 	- 팀에 C++ 초보자가 있다면, 기술적으로 최적이 아니더라도 *이해하기 쉬운 선택*이 더 나을 수 있음
 
-```
+```cpp
 // 숙련도가 높은 팀 - 최적화된 설계
 class ResourceManager
 {
@@ -680,7 +680,7 @@ public:
 4. 레거시 코드와 섞어야 하는 경우
 	- 기존 프로젝트에 스마트 포인터를 도입할 때는 점진적으로 적용
 
-```
+```cpp
 // 1단계: 새로운 모듈부터 스마트 포인터 적용
 class NewFeatureManager
 {
