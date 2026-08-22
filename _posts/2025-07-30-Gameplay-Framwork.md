@@ -163,7 +163,7 @@ FLinearColor AMyGameState::GetTimeColor() const
 
 - 올바른 접근 방법
 
-```cpp
+```
 잘못된 접근
     - ❌ AMyPlayerState* PS = GetWorld()->GetGameState()->PlayerArrya[0];
 올바른 접근
@@ -376,7 +376,7 @@ void UMyGameInstance::LoadNextLevel()
 
 - 생명주기 함수 안전성
 
-```py
+```
 //위험도 순서(높음 -> 낮음)
 생성자          // 의존성 객체 없음
 PostInitComp   // 일부 객체 준비됨

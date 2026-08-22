@@ -222,7 +222,7 @@ EBTNodeResult::Type UBTTask_FindRandomLocation::ExecuteTask(UBehaviorTreeCompone
 
 - 최종 Behavior Tree 모습
 
-```py
+```
 Main Decision (Selector)
 ├─ Chase Player (Sequence)          ← 1순위: 플레이어 보이면 추격
 │   ├─ Can See Player? (Decorator)

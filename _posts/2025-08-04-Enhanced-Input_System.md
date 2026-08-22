@@ -59,7 +59,7 @@ TMap<EGameplayContext, UInputMappingContext*> ContextMappings;
 
 - Context Stack - 우선순위 관리
 
-```py
+```
 [Context Stack 구조]
 ┌────────────────────┐ ← Top (최우선)
 │ WindowCleaning     │
@@ -96,7 +96,7 @@ TMap<EGameplayContext, UInputMappingContext*> ContextMappings;
 
 - Montage 재생 흐름
 
-```cpp
+```
 PlayAnimMontage() 호출
          ↓
 Duration 반환 (실제 재생 시간)
@@ -111,7 +111,7 @@ State Machine에 시간 전달
 
 - 상태 (State)의 필요성
 
-```py
+```
 문제 상황
 - 청소 중 → 또 청소 시작?
 - 청소 중 → 이동/점프?
@@ -137,7 +137,7 @@ enum class ECleaningState
 
 - 상태 전환 흐름
 
-```py
+```
 [Idle] --E키 입력--> [Cleaning] --시간 경과--> [Idle]
    ↑                                             ↓
    └───────────── 이동/점프 시 중단 ──────────────┘
@@ -162,7 +162,7 @@ void UCleaningStateMachine::TickComponent(...)
 {
     if (CurrentState == ECleaningState::Cleaning)
     {
-        if (시간 지남)
+        if (timeout)
         {
             ForceSetState(Idle);
         }
@@ -175,7 +175,7 @@ void UCleaningStateMachine::TickComponent(...)
 
 - 전체 처리 흐름
 
-```py
+```
 플레이어 입력 (E키)
       ↓
 InputAction 생성 (InteractAction)

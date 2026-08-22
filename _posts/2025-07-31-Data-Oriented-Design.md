@@ -117,7 +117,7 @@ void GameLoop() {
 - 메모리 계측구조와 접근 비용
 	- 계층적으로 구성된 현대 컴퓨터의 메모리
 
-```json
+```
 CPU Register:    0 cycles    (4 bytes)
 L1 Cache:        1 cycle     (32KB)
 L2 Cache:        3 cycles    (256KB)

@@ -144,9 +144,10 @@ class HeroBase
 | RootComponent 가능 | 안 됨               | 가능 (Actor 위치 기준)                  |
 | 렌더링/충돌 처리        | 불가                | 하위 타입만 가능 (`UPrimitiveComponent`) |
 | 성능 부담            | 낮음 (가벼움)          | 상대적 비용 있음 (Transform 계산 등)        |
+
 - Component 계층도 (요약)
 
-```cpp
+```
 UActorComponent (논리형)
 │   ├── UHealthComponent
 │   ├── UInventoryComponent
@@ -166,7 +167,7 @@ UActorComponent (논리형)
 
 ##### 블루프린트 에디터
 
-```json
+```
 1. 블루프린트 열기
 2. Components 탭 → "+" 클릭
 3. 원하는 Component 선택

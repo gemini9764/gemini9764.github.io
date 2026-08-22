@@ -29,7 +29,8 @@ class AMyCharacter : public ACharacter
 
 - 동작 방식
 
-```graph LR
+```mermaid
+graph LR
     A[MyCharacter 로드] --> B[CharacterMesh 자동 로드<br/>50MB]
     A --> C[CharacterIcon 자동 로드<br/>4MB]
     A --> D[연결된 모든 에셋 로드]
@@ -889,7 +890,7 @@ graph LR
 - Lyra 방식
 - DataTable 수정 과정
 
-```json
+```
 // WeaponStats.csv 수정
 Name,Damage,FireRate,Range,PelletCount,SpreadAngle
 Pistol,25,0.3,800,1,0
