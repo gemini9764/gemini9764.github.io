@@ -52,22 +52,22 @@ int EnemyCount;
 
 void TakeDamage(float Amount)
 {
-    Health -= Amount;
-    if (Health <= 0)
-    {
-        Die();
-    }
+    Health -= Amount;
+    if (Health <= 0)
+    {
+        Die();
+    }
 }
 
 // 보스 데미지 처리
 void BossTakeDamage(float Amount)
 {
-    Health -= Amount;
-    if (Health <= 0)
-    {
-        SummonMinions(); // 보스라서 특별히 미니언을 소환
-        Die();
-    }
+    Health -= Amount;
+    if (Health <= 0)
+    {
+        SummonMinions(); // 보스라서 특별히 미니언을 소환
+        Die();
+    }
 }
 ```
 
@@ -78,38 +78,38 @@ void BossTakeDamage(float Amount)
 class AMonsterBase : public AActor
 {
 protected:
-    virtual void OnDeath() { /* 비워두거나, 기본 처리 */ }
+    virtual void OnDeath() { /* 비워두거나, 기본 처리 */ }
 
 public:
-    void TakeDamage(float Amount)
-    {
-        Health -= Amount;
-        if (Health <= 0)
-        {
-            OnDeath();
-        }
-    }
+    void TakeDamage(float Amount)
+    {
+        Health -= Amount;
+        if (Health <= 0)
+        {
+            OnDeath();
+        }
+    }
 };
 
 // 몬스터
 class AFieldMonster : public AMonsterBase
 {
 protected:
-    virtual void OnDeath() override
-    {
-        // 필드 몬스터 전용 사망 처리
-    }
+    virtual void OnDeath() override
+    {
+        // 필드 몬스터 전용 사망 처리
+    }
 };
 
 // 보스
 class ABoss : public AMonsterBase
 {
 protected:
-    virtual void OnDeath() override
-    {
-        SummonMinions();
-        // 보스 전용 사망 처리
-    }
+    virtual void OnDeath() override
+    {
+        SummonMinions();
+        // 보스 전용 사망 처리
+    }
 };
 ```
 
@@ -126,15 +126,15 @@ protected:
 ```cpp
 void AMyCharacter::Tick(float DeltaTime)
 {
-    // 1. 이동 처리
-    // 2. 점프 처리
-    // 3. 공격 처리
-    // 4. 버프/디버프 처리
-    // 5. 체력 체크
-    // 6. 애니메이션 업데이트
-    // ...
-    // ...
-    // (500줄이 넘어가요!)
+    // 1. 이동 처리
+    // 2. 점프 처리
+    // 3. 공격 처리
+    // 4. 버프/디버프 처리
+    // 5. 체력 체크
+    // 6. 애니메이션 업데이트
+    // ...
+    // ...
+    // (500줄이 넘어가요!)
 }
 ```
 
@@ -143,26 +143,26 @@ void AMyCharacter::Tick(float DeltaTime)
 ```cpp
 void AMyCharacter::Tick(float DeltaTime)
 {
-    Super::Tick(DeltaTime);
-    HandleMovement(DeltaTime);
-    HandleJump();
-    HandleAttack();
-    UpdateAnimation();
+    Super::Tick(DeltaTime);
+    HandleMovement(DeltaTime);
+    HandleJump();
+    HandleAttack();
+    UpdateAnimation();
 }
 
 void AMyCharacter::HandleMovement(float DeltaTime)
 {
-    // 이동 관련 로직만 심플하게!
+    // 이동 관련 로직만 심플하게!
 }
 
 void AMyCharacter::HandleJump()
 {
-    // 점프 관련 로직만 모아둠
+    // 점프 관련 로직만 모아둠
 }
 
 void AMyCharacter::HandleAttack()
 {
-    // 공격 로직
+    // 공격 로직
 }
 ```
 
@@ -178,7 +178,7 @@ void AMyCharacter::HandleAttack()
 ```cpp
 void InitWeapon(FString Name, float Damage, float FireRate, int32 AmmoCount, float ReloadTime, USkeletalMesh* Mesh, USoundBase* Sound)
 {
-    // 와, 많다 ...
+    // 와, 많다 ...
 }
 
 InitWeapon("AK47", 42.0f, 0.25f, 30, 2.5f, MeshAsset, FireSound);
@@ -190,22 +190,22 @@ InitWeapon("AK47", 42.0f, 0.25f, 30, 2.5f, MeshAsset, FireSound);
 // 구조체로 묶자
 struct FWeaponData
 {
-    FString Name;
-    float Damage;
-    float FireRate;
-    int32 AmmoCount;
+    FString Name;
+    float Damage;
+    float FireRate;
+    int32 AmmoCount;
 };
 
 // 구조체로 또 묶자
 struct FWeaponAssets
 {
-    USkeletalMesh* Mesh;
-    USoundBase* Sound;
+    USkeletalMesh* Mesh;
+    USoundBase* Sound;
 };
 
 void InitWeapon(const FWeaponData& InData, const FWeaponAssets& InAssets)
 {
-    // 훨씬 깔끔!
+    // 훨씬 깔끔!
 }
 
 // 이제 이렇게 호출해서 쓰면 됨
@@ -231,7 +231,7 @@ UGameManager* GGameManager; // 전역 변수!
 // 아무 함수에서나 직접 접근해 값 변경
 void IncreaseScore()
 {
-    GGameManager->Score += 10;
+    GGameManager->Score += 10;
 }
 ```
 
@@ -242,32 +242,32 @@ void IncreaseScore()
 UCLASS()
 class UScoreSystem : public UGameInstanceSubsystem
 {
-    GENERATED_BODY()
+    GENERATED_BODY()
 
 private:
-    int32 Score;
+    int32 Score;
 
 public:
-    void AddScore(int32 Amount)
-    {
-        Score += Amount;
-        // 점수가 변경됐음을 알리는 로직
-    }
+    void AddScore(int32 Amount)
+    {
+        Score += Amount;
+        // 점수가 변경됐음을 알리는 로직
+    }
 
-    int32 GetScore() const { return Score; }
+    int32 GetScore() const { return Score; }
 };
 
 // 사용은 이렇게 함.
 void AEnemy::OnDefeated()
 {
-    if (UGameInstance* GI = GetGameInstance())
-    {
-        // GetSubsystem<UScoreSystem>() 쓰는 곳만 접근 가능
-        if (UScoreSystem* ScoreSys = GI->GetSubsystem<UScoreSystem>())
-        {
-            ScoreSys->AddScore(50);
-        }
-    }
+    if (UGameInstance* GI = GetGameInstance())
+    {
+        // GetSubsystem<UScoreSystem>() 쓰는 곳만 접근 가능
+        if (UScoreSystem* ScoreSys = GI->GetSubsystem<UScoreSystem>())
+        {
+            ScoreSys->AddScore(50);
+        }
+    }
 }
 ```
 
@@ -284,16 +284,16 @@ void AEnemy::OnDefeated()
 class APlayerCharacter : public ACharacter
 {
 public:
-    // 마음대로 바꿀 수 있는 공공재(!)
-    float Health;
-    int32 Level;
+    // 마음대로 바꿀 수 있는 공공재(!)
+    float Health;
+    int32 Level;
 };
 
 void SomeRandomFunc(APlayerCharacter* Player)
 {
-    Player->Health = 99999.f;
-    Player->Level = 999;
-    // 이걸 발견하면, 팀원들 열받음.
+    Player->Health = 99999.f;
+    Player->Level = 999;
+    // 이걸 발견하면, 팀원들 열받음.
 }
 ```
 
@@ -303,25 +303,24 @@ void SomeRandomFunc(APlayerCharacter* Player)
 class APlayerCharacter : public ACharacter
 {
 private:
-        UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Stats") // 언리얼 예시
-    float Health;
-    int32 Level;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Stats") // 언리얼 예시
+    float Health;
+    int32 Level;
 
 public:
-    float GetHealth() const { return Health; }
-    int32 GetLevel() const { return Level; }
+    float GetHealth() const { return Health; }
+    int32 GetLevel() const { return Level; }
 
-    void TakeDamage(float Amount)
-    {
-        Health = FMath::Max(0.0f, Health - Amount);
-        // 데미지 받은 로직은 여기에만!
-    }
-
-    void LevelUp()
-    {
-        Level++;
-        Health = 100.f * Level;
-    }
+    void TakeDamage(float Amount)
+    {
+        Health = FMath::Max(0.0f, Health - Amount);
+        // 데미지 받은 로직은 여기에만!
+    }   
+    void LevelUp()
+    {
+        Level++;
+        Health = 100.f * Level;
+    }
 };
 ```
 
@@ -338,20 +337,20 @@ public:
 class AGameManager : public AActor
 {
 public:
-    // (1) 데이터 관련
-    void LoadPlayerData();
-    void SavePlayerData();
+    // (1) 데이터 관련
+    void LoadPlayerData();
+    void SavePlayerData();
 
-    // (2) 게임플레이 관련
-    void StartNewGame();
-    void SpawnEnemies();
+    // (2) 게임플레이 관련
+    void StartNewGame();
+    void SpawnEnemies();
 
 private:
-    // (1) 데이터 관련 필드
-    FString SaveFilePath;
+    // (1) 데이터 관련 필드
+    FString SaveFilePath;
 
-    // (2) 게임플레이 관련 필드
-    TArray<AEnemy*> ActiveEnemies;
+    // (2) 게임플레이 관련 필드
+    TArray<AEnemy*> ActiveEnemies;
 };
 ```
 
@@ -362,18 +361,18 @@ private:
 class UPlayerDataManager : public UGameInstanceSubsystem
 {
 public:
-    void LoadPlayerData();
-    void SavePlayerData();
-    // ...
+    void LoadPlayerData();
+    void SavePlayerData();
+    // ...
 };
 
 // (2) 게임플레이 전용 클래스
 class UGameplayManager : public UGameInstanceSubsystem
 {
 public:
-    void StartNewGame();
-    void SpawnEnemies();
-    // ...
+    void StartNewGame();
+    void SpawnEnemies();
+    // ...
 };
 ```
 
@@ -390,29 +389,29 @@ public:
 class APlayerCharacter : public ACharacter
 {
 public:
-    void TakeDamage(float Amount)
-    {
-        // 데미지 로직 1
-    }
+    void TakeDamage(float Amount)
+    {
+        // 데미지 로직 1
+    }
 };
 
 class AWeapon : public AActor
 {
 public:
-    float CalculateDamage()
-    {
-        // 데미지 로직 2
-        return 0.0f;
-    }
+    float CalculateDamage()
+    {
+        // 데미지 로직 2
+        return 0.0f;
+    }
 };
 
 class AMyGameMode : public AGameModeBase
 {
 public:
-    void UpdateDamageLeaderboard()
-    {
-        // 데미지 로직 3
-    }
+    void UpdateDamageLeaderboard()
+    {
+        // 데미지 로직 3
+    }
 };
 ```
 
@@ -422,10 +421,10 @@ public:
 class UDamageSystem : public UObject
 {
 public:
-    // 데미지 계산 로직을 한 군데 모음!
-    float CalculateDamage(AWeapon* Weapon, ACharacter* Target);
-    void ApplyDamage(AWeapon* Weapon, ACharacter* Target);
-    void UpdateDamageLeaderboard(ACharacter* Damager, ACharacter* Target, float Amount);
+    // 데미지 계산 로직을 한 군데 모음!
+    float CalculateDamage(AWeapon* Weapon, ACharacter* Target);
+    void ApplyDamage(AWeapon* Weapon, ACharacter* Target);
+    void UpdateDamageLeaderboard(ACharacter* Damager, ACharacter* Target, float Amount);
 };
 ```
 
@@ -442,14 +441,14 @@ public:
 class UDamageCalculator : public UObject
 {
 public:
-    float CalculateDamageReduction(AMyCharacter* Character, float Damage)
-    {
-        // Character의 정보를 훨씬 더 많이 사용!
-        float HealthPercent = Character->GetHealth() / Character->GetMaxHealth();
-        float ArmorFactor   = Character->GetArmor() * 0.1f;
-        // ...
-        return Damage * (1.0f - ArmorFactor * HealthPercent);
-    }
+    float CalculateDamageReduction(AMyCharacter* Character, float Damage)
+    {
+        // Character의 정보를 훨씬 더 많이 사용!
+        float HealthPercent = Character->GetHealth() / Character->GetMaxHealth();
+        float ArmorFactor   = Character->GetArmor() * 0.1f;
+        // ...
+        return Damage * (1.0f - ArmorFactor * HealthPercent);
+    }
 };
 ```
 
@@ -459,23 +458,23 @@ public:
 class AMyCharacter : public ACharacter
 {
 public:
-    float CalculateDamageReduction(float Damage) const
-    {
-        float HealthPercent = Health / MaxHealth;
-        float ArmorFactor   = Armor * 0.1f;
-        // ...
-        return Damage * (1.0f - ArmorFactor * HealthPercent);
-    }
+    float CalculateDamageReduction(float Damage) const
+    {
+        float HealthPercent = Health / MaxHealth;
+        float ArmorFactor   = Armor * 0.1f;
+        // ...
+        return Damage * (1.0f - ArmorFactor * HealthPercent);
+    }
 };
 
 class UDamageCalculator : public UObject
 {
 public:
-    float CalculateDamageReduction(AMyCharacter* Character, float Damage)
-    {
-        // 캐릭터가 스스로 계산하게끔 위임!
-        return Character->CalculateDamageReduction(Damage);
-    }
+    float CalculateDamageReduction(AMyCharacter* Character, float Damage)
+    {
+        // 캐릭터가 스스로 계산하게끔 위임!
+        return Character->CalculateDamageReduction(Damage);
+    }
 };
 ```
 
@@ -501,16 +500,16 @@ void UpgradeWeapon(float& Damage, float& Range, float& Accuracy);
 USTRUCT(BlueprintType)
 struct FWeaponStats
 {
-    GENERATED_BODY()
+    GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float Damage;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float Damage;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float Range;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float Range;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float Accuracy;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float Accuracy;
 };
 
 void FireWeapon(const FWeaponStats& Stats);
@@ -541,43 +540,43 @@ FString PhoneNumber; // 형식 검증이 전혀 없음
 class FHealth
 {
 public:
-    FHealth(float InCurrent, float InMax)
-        : Current(FMath::Clamp(InCurrent, 0.f, InMax)), Max(InMax) {}
+    FHealth(float InCurrent, float InMax)
+        : Current(FMath::Clamp(InCurrent, 0.f, InMax)), Max(InMax) {}
 
-    void ApplyDamage(float Amount)
-    {
-        Current = FMath::Max(0.f, Current - Amount);
-    }
+    void ApplyDamage(float Amount)
+    {
+        Current = FMath::Max(0.f, Current - Amount);
+    }
 
-    float Get() const { return Current; }
+    float Get() const { return Current; }
 
 private:
-    float Current;
-    float Max;
+    float Current;
+    float Max;
 };
 
 // FHealth를 사용해보자
 class AMyCharacter : public ACharacter
 {
 public:
-    // 이렇게 FHealth를 씀.
-    FHealth Health = FHealth(100.f, 100.f);
+    // 이렇게 FHealth를 씀.
+    FHealth Health = FHealth(100.f, 100.f);
 
-    void TakeHit(float Damage)
-    {
-        Health.ApplyDamage(Damage);
+    void TakeHit(float Damage)
+    {
+        Health.ApplyDamage(Damage);
 
-        if (Health.Get() <= 0.f)
-        {
-            Die();
-        }
-    }
+        if (Health.Get() <= 0.f)
+        {
+            Die();
+        }
+    }
 
 private:
-    void Die()
-    {
-        // 사망 처리 로직
-    }
+    void Die()
+    {
+        // 사망 처리 로직
+    }
 };
 ```
 
@@ -593,12 +592,12 @@ private:
 ```cpp
 switch (WeaponType)
 {
-    case EWeaponType::Sword:
-        return DoSwordAttack();
-    case EWeaponType::Bow:
-        return DoBowAttack();
-    case EWeaponType::Gun:
-        return PewPew();
+    case EWeaponType::Sword:
+        return DoSwordAttack();
+    case EWeaponType::Bow:
+        return DoBowAttack();
+    case EWeaponType::Gun:
+        return PewPew();
 }
 ```
 
@@ -610,20 +609,20 @@ switch (WeaponType)
 class AWeapon : public AActor
 {
 public:
-    virtual void Attack();
+    virtual void Attack();
 };
 
 // 무기별 클래스
 class ASword : public AWeapon
 {
 public:
-    virtual void Attack() override { /* 칼 공격 로직 */ }
+    virtual void Attack() override { /* 칼 공격 로직 */ }
 };
 
 class ABow : public AWeapon
 {
 public:
-    virtual void Attack() override { /* 활 공격 로직 */ }
+    virtual void Attack() override { /* 활 공격 로직 */ }
 };
 ```
 
@@ -631,10 +630,10 @@ public:
 // 그리고 캐릭터 쪽에서는 더 이상 switch 안 씀.
 void AMyCharacter::UseWeapon()
 {
-    if (EquippedWeapon)
-    {
-        EquippedWeapon->Attack(); // 알아서 잘함
-    }
+    if (EquippedWeapon)
+    {
+        EquippedWeapon->Attack(); // 알아서 잘함
+    }
 }
 ```
 
@@ -651,30 +650,30 @@ void AMyCharacter::UseWeapon()
 // 인벤토리에서 무거운 아이템을 찾아서 무게를 계산하는 과정
 void ProcessHeavyItems()
 {
-    TArray<UItem*> Items = GetAllItems();
-    TArray<UItem*> HeavyItems;
+    TArray<UItem*> Items = GetAllItems();
+    TArray<UItem*> HeavyItems;
 
-    // (1) 무거운 아이템 골라내기
-    for (int32 i = 0; i < Items.Num(); i++)
-    {
-        if (Items[i]->Weight > 10.f)
-        {
-            HeavyItems.Add(Items[i]);
-        }
-    }
+    // (1) 무거운 아이템 골라내기
+    for (int32 i = 0; i < Items.Num(); i++)
+    {
+        if (Items[i]->Weight > 10.f)
+        {
+            HeavyItems.Add(Items[i]);
+        }
+    }
 
-    // (2) 무게 총합 계산
-    float TotalWeight = 0.f;
-    for (int32 j = 0; j < HeavyItems.Num(); j++)
-    {
-        TotalWeight += HeavyItems[j]->Weight;
-    }
+    // (2) 무게 총합 계산
+    float TotalWeight = 0.f;
+    for (int32 j = 0; j < HeavyItems.Num(); j++)
+    {
+        TotalWeight += HeavyItems[j]->Weight;
+    }
 
-    // (3) 너무 무거우면 효과 적용
-    if (TotalWeight > 50.f)
-    {
-        ApplySlowEffect();
-    }
+    // (3) 너무 무거우면 효과 적용
+    if (TotalWeight > 50.f)
+    {
+        ApplySlowEffect();
+    }
 }
 ```
 
@@ -683,54 +682,54 @@ void ProcessHeavyItems()
 ```cpp
 void ProcessHeavyItems()
 {
-    // 모든 아이템 가져오기
-    TArray<UItem*> Items = GetAllItems();
+    // 모든 아이템 가져오기
+    TArray<UItem*> Items = GetAllItems();
 
-    // 무게 10 이상인 아이템만 필터링
-    TArray<UItem*> HeavyItems = GetHeavyItems(Items);
+    // 무게 10 이상인 아이템만 필터링
+    TArray<UItem*> HeavyItems = GetHeavyItems(Items);
 
-    // 필터링된 아이템의 총 무게 계산
-    float TotalWeight = GetTotalWeight(HeavyItems);
+    // 필터링된 아이템의 총 무게 계산
+    float TotalWeight = GetTotalWeight(HeavyItems);
 
-    // 총 무게가 기준치를 초과하면 느려지는 효과 적용
-    if (IsTooHeavy(TotalWeight))
-    {
-        ApplySlowEffect();
-    }
+    // 총 무게가 기준치를 초과하면 느려지는 효과 적용
+    if (IsTooHeavy(TotalWeight))
+    {
+        ApplySlowEffect();
+    }
 }
 
 // 무거운 아이템만 골라내는 함수
 TArray<UItem*> GetHeavyItems(const TArray<UItem*>& Items)
 {
-    TArray<UItem*> Result;
-    for (UItem* Item : Items)
-    {
-        if (Item && Item->Weight > 10.f)
-        {
-            Result.Add(Item);
-        }
-    }
-    return Result;
+    TArray<UItem*> Result;
+    for (UItem* Item : Items)
+    {
+        if (Item && Item->Weight > 10.f)
+        {
+            Result.Add(Item);
+        }
+    }
+    return Result;
 }
 
 // 아이템 배열의 총 무게를 계산하는 함수
 float GetTotalWeight(const TArray<UItem*>& Items)
 {
-    float Total = 0.f;
-    for (UItem* Item : Items)
-    {
-        if (Item)
-        {
-            Total += Item->Weight;
-        }
-    }
-    return Total;
+    float Total = 0.f;
+    for (UItem* Item : Items)
+    {
+        if (Item)
+        {
+            Total += Item->Weight;
+        }
+    }
+    return Total;
 }
 
 // 너무 무거운지 판단하는 기준 함수
 bool IsTooHeavy(float Weight)
 {
-    return Weight > 50.f;
+    return Weight > 50.f;
 }
 ```
 
@@ -748,18 +747,18 @@ bool IsTooHeavy(float Weight)
 class AProjectile : public AActor
 {
 public:
-    void Launch(const FVector& Dir, float Speed)
-    {
-        // 여기서 다시 다른 함수를 호출만 함
-        LaunchProjectile(Dir, Speed);
-    }
+    void Launch(const FVector& Dir, float Speed)
+    {
+        // 여기서 다시 다른 함수를 호출만 함
+        LaunchProjectile(Dir, Speed);
+    }
 
 private:
-    void LaunchProjectile(const FVector& Dir, float Speed)
-    {
-        // 실제 로직
-        ProjectileMovement->Velocity = Dir * Speed;
-    }
+    void LaunchProjectile(const FVector& Dir, float Speed)
+    {
+        // 실제 로직
+        ProjectileMovement->Velocity = Dir * Speed;
+    }
 };
 ```
 
@@ -769,13 +768,13 @@ private:
 class AProjectile : public AActor
 {
 public:
-    void Launch(const FVector& Dir, float Speed)
-    {
-        ProjectileMovement->Velocity = Dir * Speed;
-    }
+    void Launch(const FVector& Dir, float Speed)
+    {
+        ProjectileMovement->Velocity = Dir * Speed;
+    }
 
 private:
-    UProjectileMovementComponent* ProjectileMovement;
+    UProjectileMovementComponent* ProjectileMovement;
 };
 ```
 
@@ -793,38 +792,38 @@ private:
 class AWeapon : public AActor
 {
 public:
-    virtual void APlayer::PlayWeaponSound()
+    virtual void APlayer::PlayWeaponSound()
 {
-    USoundBase* AttackSound = GetEquippedWeaponSound();
-    if (AttackSound)
-    {
-        UGameplayStatics::PlaySound2D(this, AttackSound);
-    }
+    USoundBase* AttackSound = GetEquippedWeaponSound();
+    if (AttackSound)
+    {
+        UGameplayStatics::PlaySound2D(this, AttackSound);
+    }
 }
 
 USoundBase* APlayer::GetEquippedWeaponSound()
 {
-    // 아래 호출부에서 직접 소리를 반환
-    return Inventory ? Inventory->GetAttackSound() : nullptr;
+    // 아래 호출부에서 직접 소리를 반환
+    return Inventory ? Inventory->GetAttackSound() : nullptr;
 }
 
 USoundBase* UInventoryComponent::GetAttackSound()
 {
-    if (!EquippedWeapon) return nullptr;
-    return EquippedWeapon->GetAttackSound();
+    if (!EquippedWeapon) return nullptr;
+    return EquippedWeapon->GetAttackSound();
 }
 
 USoundBase* AWeapon::GetAttackSound()
 {
-    return SoundData ? SoundData->AttackSound : nullptr;
+    return SoundData ? SoundData->AttackSound : nullptr;
 }ttack();
-    virtual void SpecialAttack();   // 안 씀
-    virtual void UltimateAttack();  // 안 씀
-    virtual void ElementalAttack(); // 안 씀
-    // ...
+    virtual void SpecialAttack();   // 안 씀
+    virtual void UltimateAttack();  // 안 씀
+    virtual void ElementalAttack(); // 안 씀
+    // ...
 
-    void SetDamage(float BaseDamage, float Crit, float Splash, float Chain, float Summon);
-    // TODO: 추후에 쓸 수도?
+    void SetDamage(float BaseDamage, float Crit, float Splash, float Chain, float Summon);
+    // TODO: 추후에 쓸 수도?
 };
 ```
 
@@ -834,18 +833,18 @@ USoundBase* AWeapon::GetAttackSound()
 class AWeapon : public AActor
 {
 public:
-    // 필요한 기능만
-    void Attack();
-    void SetDamage(float InDamage);
+    // 필요한 기능만
+    void Attack();
+    void SetDamage(float InDamage);
 
 private:
-    float Damage;
+    float Damage;
 };
 
 // 필요할 때 다른 무기 타입을 '상속'해서 만듦
 class AMagicWeapon : public AWeapon
 {
-    void ElementalAttack();
+    void ElementalAttack();
 };
 ```
 
@@ -862,16 +861,16 @@ class AMagicWeapon : public AWeapon
 class AEnemy : public ACharacter
 {
 public:
-    // 일반 공격
-    float Health;
+    // 일반 공격
+    float Health;
 
-    // 원거리 공격 전용 (근접 적은 안 씀)
-    float ProjectileSpeed;
-    UParticleSystem* ProjectileEffect;
+    // 원거리 공격 전용 (근접 적은 안 씀)
+    float ProjectileSpeed;
+    UParticleSystem* ProjectileEffect;
 
-    // 텔레포트 전용 (다른 적은 안 씀)
-    float TeleportCooldown;
-    float LastTeleportTime;
+    // 텔레포트 전용 (다른 적은 안 씀)
+    float TeleportCooldown;
+    float LastTeleportTime;
 };
 ```
 
@@ -881,22 +880,22 @@ public:
 // "컴포넌트"로 분리
 class URangedAttackComponent : public UActorComponent
 {
-    float ProjectileSpeed;
-    void ExecuteAttack();
+    float ProjectileSpeed;
+    void ExecuteAttack();
 };
 
 class UTeleportComponent : public UActorComponent
 {
-    float TeleportCooldown;
-    void ExecuteTeleport();
+    float TeleportCooldown;
+    void ExecuteTeleport();
 };
 
 // 적 캐릭터
 class AEnemy : public ACharacter
 {
-    float Health;
-    URangedAttackComponent* RangedComp;   // 원거리 적만 붙임
-    UTeleportComponent* TeleportComp;     // 텔레포트 적만 붙임
+    float Health;
+    URangedAttackComponent* RangedComp;     // 원거리 적만 붙임
+    UTeleportComponent* TeleportComp;       // 텔레포트 적만 붙임
 };
 ```
 
@@ -913,13 +912,13 @@ class AEnemy : public ACharacter
 // 길~~게 이어진 참조
 void APlayer::PlayWeaponSound()
 {
-    if (Inventory
-        && Inventory->EquippedWeapon
-        && Inventory->EquippedWeapon->SoundData
-        && Inventory->EquippedWeapon->SoundData->AttackSound)
-    {
-        UGameplayStatics::PlaySound2D(this, Inventory->EquippedWeapon->SoundData->AttackSound);
-    }
+    if (Inventory
+        && Inventory->EquippedWeapon
+        && Inventory->EquippedWeapon->SoundData
+        && Inventory->EquippedWeapon->SoundData->AttackSound)
+    {
+        UGameplayStatics::PlaySound2D(this, Inventory->EquippedWeapon->SoundData->AttackSound);
+    }
 }
 ```
 
@@ -928,31 +927,31 @@ void APlayer::PlayWeaponSound()
 ```cpp
 void APlayer::PlayWeaponSound()
 {
-    USoundBase* AttackSound = GetEquippedWeaponSound();
-    if (AttackSound)
-    {
-        UGameplayStatics::PlaySound2D(this, AttackSound);
-    }
+    USoundBase* AttackSound = GetEquippedWeaponSound();
+    if (AttackSound)
+    {
+        UGameplayStatics::PlaySound2D(this, AttackSound);
+    }
 }
 
 // 플레이어는 인벤토리한테만 물어봄
 USoundBase* APlayer::GetEquippedWeaponSound()
 {
-    // 아래 호출부에서 직접 소리를 반환
-    return Inventory ? Inventory->GetAttackSound() : nullptr;
+    // 아래 호출부에서 직접 소리를 반환
+    return Inventory ? Inventory->GetAttackSound() : nullptr;
 }
 
 // 인벤토리는 무기한테만 물어봄
 USoundBase* UInventoryComponent::GetAttackSound()
 {
-    if (!EquippedWeapon) return nullptr;
-    return EquippedWeapon->GetAttackSound();
+    if (!EquippedWeapon) return nullptr;
+    return EquippedWeapon->GetAttackSound();
 }
 
 // 무기는 사운드만 알고 있음
 USoundBase* AWeapon::GetAttackSound()
 {
-    return SoundData ? SoundData->AttackSound : nullptr;
+    return SoundData ? SoundData->AttackSound : nullptr;
 }
 ```
 
@@ -969,15 +968,15 @@ USoundBase* AWeapon::GetAttackSound()
 class AMyPlayerController : public APlayerController
 {
 public:
-    void MoveForward(float Value)  { Character->MoveForward(Value); }
-    void MoveRight(float Value)    { Character->MoveRight(Value); }
-    void Jump()                    { Character->Jump(); }
-    void StartFire()               { Character->StartFire(); }
-    void StopFire()                { Character->StopFire(); }
-    // ...
+    void MoveForward(float Value)   { Character->MoveForward(Value); }
+    void MoveRight(float Value)     { Character->MoveRight(Value); }
+    void Jump()                     { Character->Jump(); }
+    void StartFire()                { Character->StartFire(); }
+    void StopFire()                 { Character->StopFire(); }
+    // ...
 
 private:
-    AMyCharacter* Character;
+    AMyCharacter* Character;
 };
 ```
 
@@ -987,22 +986,22 @@ private:
 // 직접 캐릭터에 입력 바인딩
 void AMyPlayerController::SetupInputComponent()
 {
-    Super::SetupInputComponent();
+    Super::SetupInputComponent();
 
-    // 현재 캐릭터 가져오기
-    AMyCharacter* MyChar = Cast<AMyCharacter>(GetCharacter());
-    if (MyChar && InputComponent)
-    {
-        // 캐릭터가 필요한 입력을 직접 바인딩
-        MyChar->SetupPlayerInput(InputComponent);
-    }
+    // 현재 캐릭터 가져오기
+    AMyCharacter* MyChar = Cast<AMyCharacter>(GetCharacter());
+    if (MyChar && InputComponent)
+    {
+        // 캐릭터가 필요한 입력을 직접 바인딩
+        MyChar->SetupPlayerInput(InputComponent);
+    }
 }
 
 void AMyCharacter::SetupPlayerInput(UInputComponent* PlayerInputComponent)
 {
-    PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacter::MoveForward);
-    PlayerInputComponent->BindAxis("MoveRight", this, &AMyCharacter::MoveRight);
-    // ...
+    PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacter::MoveForward);
+    PlayerInputComponent->BindAxis("MoveRight", this, &AMyCharacter::MoveRight);
+    // ...
 }
 ```
 
@@ -1019,14 +1018,14 @@ void AMyCharacter::SetupPlayerInput(UInputComponent* PlayerInputComponent)
 // AEnemy가 APlayerCharacter의 내부 변수까지 막 참조
 void AEnemy::Attack(APlayerCharacter* Player)
 {
-    if (!Player->bIsInvulnerable)
-    {
-        float Damage = AttackDamage - Player->EquippedArmor->DamageReduction;
-        Player->CurrentHealth -= Damage;
+    if (!Player->bIsInvulnerable)
+    {
+        float Damage = AttackDamage - Player->EquippedArmor->DamageReduction;
+        Player->CurrentHealth -= Damage;
 
-        // UI도 직접 갱신?!
-        Player->PlayerHUD->UpdateHealthBar(Player->CurrentHealth, Player->MaxHealth);
-    }
+        // UI도 직접 갱신?!
+        Player->PlayerHUD->UpdateHealthBar(Player->CurrentHealth, Player->MaxHealth);
+    }
 }
 ```
 
@@ -1035,34 +1034,34 @@ void AEnemy::Attack(APlayerCharacter* Player)
 ```cpp
 void AEnemy::Attack(APlayerCharacter* Player)
 {
-    if (Player && Player->CanBeAttacked())
-    {
-        Player->ReceiveDamage(AttackDamage);
-    }
+    if (Player && Player->CanBeAttacked())
+    {
+        Player->ReceiveDamage(AttackDamage);
+    }
 }
 
 // Player 쪽 내부 함수들 1
 bool APlayerCharacter::CanBeAttacked() const
 {
-    return !bIsInvulnerable;
+    return !bIsInvulnerable;
 }
 
 // Player 쪽 내부 함수들 2
 void APlayerCharacter::ReceiveDamage(float IncomingDamage)
 {
-    float FinalDamage = EquippedArmor ? EquippedArmor->ApplyReduction(IncomingDamage) : IncomingDamage;
-    CurrentHealth = FMath::Clamp(CurrentHealth - FinalDamage, 0.f, MaxHealth);
+    float FinalDamage = EquippedArmor ? EquippedArmor->ApplyReduction(IncomingDamage) : IncomingDamage;
+    CurrentHealth = FMath::Clamp(CurrentHealth - FinalDamage, 0.f, MaxHealth);
 
-    UpdateHUD();
+    UpdateHUD();
 }
 
 // Player 쪽 내부 함수들 3
 void APlayerCharacter::UpdateHUD()
 {
-    if (PlayerHUD)
-    {
-        PlayerHUD->UpdateHealthBar(CurrentHealth, MaxHealth);
-    }
+    if (PlayerHUD)
+    {
+        PlayerHUD->UpdateHealthBar(CurrentHealth, MaxHealth);
+    }
 }
 ```
 
@@ -1079,26 +1078,26 @@ void APlayerCharacter::UpdateHUD()
 class AGameCharacter : public ACharacter
 {
 public:
-    // 이동 처리
-    void MoveForward(float Value);
-    void MoveRight(float Value);
+    // 이동 처리
+    void MoveForward(float Value);
+    void MoveRight(float Value);
 
-    // 전투 처리
-    void Attack();
-    void Reload();
+    // 전투 처리
+    void Attack();
+    void Reload();
 
-    // 인벤토리 처리
-    void AddItem(UItem* Item);
-    void RemoveItem(UItem* Item);
+    // 인벤토리 처리
+    void AddItem(UItem* Item);
+    void RemoveItem(UItem* Item);
 
-    // 퀘스트 처리
-    void AcceptQuest(UQuest* Quest);
-    void CompleteQuest(UQuest* Quest);
+    // 퀘스트 처리
+    void AcceptQuest(UQuest* Quest);
+    void CompleteQuest(UQuest* Quest);
 
-    // 대화 처리
-    void StartDialogue();
-    void EndDialogue();
-    // ... 500줄 넘게 계속 ...
+    // 대화 처리
+    void StartDialogue();
+    void EndDialogue();
+    // ... 500줄 넘게 계속 ...
 };
 ```
 
@@ -1108,22 +1107,22 @@ public:
 class AGameCharacter : public ACharacter
 {
 public:
-    AGameCharacter();
-    // 핵심 동작만 유지, 나머지는 컴포넌트에 맡김
+    AGameCharacter();
+    // 핵심 동작만 유지, 나머지는 컴포넌트에 맡김
 
 private:
-    UPROPERTY()
-    UMovementComponent* MovementComp;
+    UPROPERTY()
+    UMovementComponent* MovementComp;
 
-    UPROPERTY()
-    UCombatComponent* CombatComp;
+    UPROPERTY()
+    UCombatComponent* CombatComp;
 
-    UPROPERTY()
-    UInventoryComponent* InventoryComp;
+    UPROPERTY()
+    UInventoryComponent* InventoryComp;
 
-    UPROPERTY()
-    UQuestComponent* QuestComp;
-    // ...
+    UPROPERTY()
+    UQuestComponent* QuestComp;
+    // ...
 };
 ```
 
@@ -1140,24 +1139,24 @@ private:
 class ARangedWeapon
 {
 public:
-    void FireProjectile();
-    void Reload();
+    void FireProjectile();
+    void Reload();
 };
 
 class AMeleeWeapon
 {
 public:
-    void PerformAttack();
-    void SharpenBlade();
+    void PerformAttack();
+    void SharpenBlade();
 };
 
 // 플레이어 캐릭터
 void APlayerCharacter::Attack()
 {
-    if (CurrentRangedWeapon)
-        CurrentRangedWeapon->FireProjectile();
-    else if (CurrentMeleeWeapon)
-        CurrentMeleeWeapon->PerformAttack();
+    if (CurrentRangedWeapon)
+        CurrentRangedWeapon->FireProjectile();
+    else if (CurrentMeleeWeapon)
+        CurrentMeleeWeapon->PerformAttack();
 }
 ```
 
@@ -1167,31 +1166,31 @@ void APlayerCharacter::Attack()
 class AWeapon : public AActor
 {
 public:
-    virtual void Attack() = 0;  // 추상 메서드
-    virtual void Reload() {}    // 기본 구현(근접 무기는 비워둘 수도)
+    virtual void Attack() = 0;  // 추상 메서드
+    virtual void Reload() {}    // 기본 구현(근접 무기는 비워둘 수도)
 };
 
 class ARangedWeapon : public AWeapon
 {
 public:
-    virtual void Attack() override { /* 원거리 공격 */ }
-    virtual void Reload() override { /* 탄약 보충 */ }
+    virtual void Attack() override { /* 원거리 공격 */ }
+    virtual void Reload() override { /* 탄약 보충 */ }
 };
 
 class AMeleeWeapon : public AWeapon
 {
 public:
-    virtual void Attack() override { /* 근접 공격 */ }
-    // Reload()는 오버라이드 안 해도 됨(불필요)
+    virtual void Attack() override { /* 근접 공격 */ }
+    // Reload()는 오버라이드 안 해도 됨(불필요)
 };
 
 // 캐릭터는 이제 딱 한 줄로 호출
 void APlayerCharacter::Attack()
 {
-    if (CurrentWeapon)
-    {
-        CurrentWeapon->Attack(); // 무기 종류 관계없이 한 번에 호출
-    }
+    if (CurrentWeapon)
+    {
+        CurrentWeapon->Attack(); // 무기 종류 관계없이 한 번에 호출
+    }
 }
 ```
 
@@ -1208,19 +1207,19 @@ void APlayerCharacter::Attack()
 class FPlayerStats
 {
 public:
-    float GetHealth() const { return Health; }
-    void SetHealth(float H) { Health = H; }
+    float GetHealth() const { return Health; }
+    void SetHealth(float H) { Health = H; }
 
 private:
-    float Health;
-    float MaxHealth;
+    float Health;
+    float MaxHealth;
 };
 
 // 플레이어가 데미지를 주면서 stats를 수동 조작
 void APlayerCharacter::TakeDamage(float Damage)
 {
-    float NewHealth = PlayerStats.GetHealth() - Damage;
-    PlayerStats.SetHealth(FMath::Max(0.f, NewHealth));
+    float NewHealth = PlayerStats.GetHealth() - Damage;
+    PlayerStats.SetHealth(FMath::Max(0.f, NewHealth));
 }
 ```
 
@@ -1230,18 +1229,18 @@ void APlayerCharacter::TakeDamage(float Damage)
 class FPlayerStats
 {
 public:
-    // 함수 안에서 로직 처리
-    void ApplyDamage(float Damage)
-    {
-        float ActualDamage = Damage * (1.0f - Defense / 100.f);
-        Health = FMath::Max(0.f, Health - ActualDamage);
-    }
+    // 함수 안에서 로직 처리
+    void ApplyDamage(float Damage)
+    {
+        float ActualDamage = Damage * (1.0f - Defense / 100.f);
+        Health = FMath::Max(0.f, Health - ActualDamage);
+    }
 
-    bool IsDead() const { return Health <= 0.f; }
+    bool IsDead() const { return Health <= 0.f; }
 
 private:
-    float Health;
-    float Defense;
+    float Health;
+    float Defense;
 };
 ```
 
@@ -1249,11 +1248,11 @@ private:
 // 플레이어
 void APlayerCharacter::TakeDamage(float Damage)
 {
-    PlayerStats.ApplyDamage(Damage);
-    if (PlayerStats.IsDead())
-    {
-        Die();
-    }
+    PlayerStats.ApplyDamage(Damage);
+    if (PlayerStats.IsDead())
+    {
+        Die();
+    }
 }
 ```
 
@@ -1270,17 +1269,17 @@ void APlayerCharacter::TakeDamage(float Damage)
 class AWeapon
 {
 public:
-    virtual void Attack();
-    virtual void Reload(); // 근접 무기는 재장전 필요 X
+    virtual void Attack();
+    virtual void Reload(); // 근접 무기는 재장전 필요 X
 };
 
 class AMeleeWeapon : public AWeapon
 {
 public:
-    virtual void Reload() override
-    {
-        // 근접 무기에선 의미가 없으니 비워둠
-    }
+    virtual void Reload() override
+    {
+        // 근접 무기에선 의미가 없으니 비워둠
+    }
 };
 ```
 
@@ -1290,21 +1289,21 @@ public:
 class ABaseWeapon : public AActor
 {
 public:
-    virtual void Attack() = 0; // 모든 무기는 공격 기능
+    virtual void Attack() = 0; // 모든 무기는 공격 기능
 };
 
 class ARangedWeapon : public ABaseWeapon
 {
 public:
-    virtual void Attack() override { /* 발사 로직 */ }
-    void Reload() { /* 탄약 보충 */ }
+    virtual void Attack() override { /* 발사 로직 */ }
+    void Reload() { /* 탄약 보충 */ }
 };
 
 class AMeleeWeapon : public ABaseWeapon
 {
 public:
-    virtual void Attack() override { /* 근접 공격 로직 */ }
-    // Reload() 자체가 없음!
+    virtual void Attack() override { /* 근접 공격 로직 */ }
+    // Reload() 자체가 없음!
 };
 ```
 
@@ -1320,13 +1319,13 @@ public:
 ```cpp
 void AEnemy::UpdateBehavior()
 {
-    // 1. 플레이어 위치 가져오기
-    // 2. 시야 범위 확인
-    // 3. 시야 각도 계산
-    // 4. 라인 트레이스 해서 장애물 있는지
-    // 5. 없으면 공격, 있으면 패트롤
-    // 50줄짜리 함수에 각 단계별 설명이 잔뜩 → 너무 복잡.
-    ...
+    // 1. 플레이어 위치 가져오기
+    // 2. 시야 범위 확인
+    // 3. 시야 각도 계산
+    // 4. 라인 트레이스 해서 장애물 있는지
+    // 5. 없으면 공격, 있으면 패트롤
+    // 50줄짜리 함수에 각 단계별 설명이 잔뜩 → 너무 복잡.
+    ...
 }
 ```
 
@@ -1335,18 +1334,18 @@ void AEnemy::UpdateBehavior()
 ```cpp
 void AEnemy::UpdateBehavior()
 {
-    if (CanSeePlayer())
-    {
-        EngagePlayer();
-    }
-    else
-    {
-        PatrolArea();
-    }
+    if (CanSeePlayer())
+    {
+        EngagePlayer();
+    }
+    else
+    {
+        PatrolArea();
+    }
 }
 
 bool AEnemy::CanSeePlayer()
 {
-    return IsWithinSightRange() && IsInFieldOfView() && HasLineOfSight();
+    return IsWithinSightRange() && IsInFieldOfView() && HasLineOfSight();
 }
 ```
